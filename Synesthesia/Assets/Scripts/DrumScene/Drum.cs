@@ -43,9 +43,24 @@ public class Drum : MonoBehaviour
         {
             //Debug.Log("this y: " + transform.position.y);
             //Debug.Log("drumstick y: " + drumstick.transform.position.y);
-            // make sure drumstick hitting from above only
             
-            if ((other.transform.position.y > this.transform.position.y))
+            if(drumType == drumTypes.Kick)
+            {
+                // MUSIC 
+                ActivateSound(other.GetComponent<DrumStick>().GetSpeed());
+
+                // VISUAL 
+                ScaleDrum();
+                RequestVisualChange();
+
+
+                // VIBRATION 
+                // normalize between 0 and 1 assuming max un-normalized value is 25 
+                float vibrationIntensity = other.GetComponent<DrumStick>().GetSpeed() / 25;
+                drumstick.SendHapticImpulse(vibrationIntensity, .25f);
+            }
+            // make sure drumstick hitting from above only for all drums besides kick
+            else if ((other.transform.position.y > this.transform.position.y))
             {
                 // MUSIC 
                 ActivateSound(other.GetComponent<DrumStick>().GetSpeed());

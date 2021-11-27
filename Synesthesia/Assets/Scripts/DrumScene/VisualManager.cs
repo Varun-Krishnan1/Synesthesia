@@ -12,7 +12,8 @@ public class VisualManager : MonoBehaviour
     // -- storing order here for now but probably need to change it to other object 
     // -- or csv file in future 
     public float refractoryTime = 5f;
-    private float lastHitTime; 
+    private float lastHitTime;
+    private float lastKickHit; 
 
     public Transform[] drumObjectParticleFiringPoints; 
     public GameObject particleSystem;
@@ -32,7 +33,7 @@ public class VisualManager : MonoBehaviour
     public Material materialToTransition; 
 
     private Dictionary<Drum.drumTypes, Gradient> drumTypeToColorDict = new Dictionary<Drum.drumTypes, Gradient>();
-    private int orderCounter = 0; 
+    
 
     private void Awake()
     {
@@ -78,6 +79,10 @@ public class VisualManager : MonoBehaviour
 
     public void RequestElementChange(Drum.drumTypes drumType, GameObject DrumCollider)
     {        
+        if(drumType == Drum.drumTypes.Kick)
+        {
+            lastKickHit = .01f; 
+        }
         // -- prevent other drums from firing 
         lastHitTime = refractoryTime;
 
@@ -114,10 +119,24 @@ public class VisualManager : MonoBehaviour
     // -- change so its not in update but sends new active to next drum after RequestElementChange
     public bool GetIsActive(Drum.drumTypes drumType)
     {
+
         // Stage 0 drums always active 
         if(GameManager.Instance.GetGameStage() == 0)
         {
-            return true; 
+            // kick always needs a slight delay 
+            if (drumType == Drum.drumTypes.Kick)
+            {
+                if(lastKickHit <= 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;   
+                }
+            }
+            return true;
+
         }
 
         if (lastHitTime <= 0)
