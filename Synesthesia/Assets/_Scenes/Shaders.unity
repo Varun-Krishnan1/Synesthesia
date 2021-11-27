@@ -2499,6 +2499,10 @@ PrefabInstance:
       value: 10.466003
       objectReference: {fileID: 0}
     - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
+      propertyPath: drumType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: scaleSpeed
       value: 10
       objectReference: {fileID: 0}
@@ -2675,7 +2679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 324144259}
   m_Layer: 0
-  m_Name: LowTom
+  m_Name: MidTom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4098,7 +4102,7 @@ MonoBehaviour:
   - {fileID: 599391490}
   - {fileID: 1830574650}
   - {fileID: 956939991}
-  drumOrder: 0000000001000000010000000200000001000000010000000100000001000000020000000200000002000000020000000200000002000000
+  drumOrder: 0100000002000000020000000000000002000000020000000200000002000000000000000000000000000000000000000000000000000000
   refractoryTime: 5
   drumObjectParticleFiringPoints:
   - {fileID: 0}
@@ -7114,7 +7118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: drumType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: scaleSpeed
@@ -8173,7 +8177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: drumType
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: scaleSpeed
@@ -9027,7 +9031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: drumType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: scaleSpeed
@@ -9095,7 +9099,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2067812545747177574, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: m_Name
-      value: LowTom Drum Collider
+      value: MidTom Drum Collider
       objectReference: {fileID: 0}
     - target: {fileID: 2331863580861070934, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: m_RootOrder
@@ -9155,7 +9159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: drumType
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: scaleSpeed
@@ -14411,6 +14415,10 @@ PrefabInstance:
     - target: {fileID: 2331863580861070934, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 175.358
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
+      propertyPath: drumType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: scaleSpeed

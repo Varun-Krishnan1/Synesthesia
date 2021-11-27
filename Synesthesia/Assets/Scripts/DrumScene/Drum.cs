@@ -6,7 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class Drum : MonoBehaviour
 {
-    public drumTypes drumType = drumTypes.Blue;
+    public drumTypes drumType;
     public bool playOnButtonPress = false;
     public ActionBasedController left_controller; 
     public ActionBasedController right_controller; 
@@ -75,7 +75,7 @@ public class Drum : MonoBehaviour
     {
         if (drumIsActive)
         {
-            //VisualManager.Instance.RequestElementChange(drumType, this.gameObject);
+            VisualManager.Instance.RequestElementChange(drumType, this.gameObject);
         }
     }
 
@@ -102,10 +102,13 @@ public class Drum : MonoBehaviour
 
     public enum drumTypes
     {
-        Blue,
-        Green,
-        Brown,
-        Red
+        Snare, 
+        HiHat, 
+        FloorTom, 
+        Kick, 
+        HighTom,
+        MidTom
+
     }
 
     private void ActivateSound(float volume)

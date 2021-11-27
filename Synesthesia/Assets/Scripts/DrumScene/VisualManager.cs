@@ -11,8 +11,6 @@ public class VisualManager : MonoBehaviour
 
     // -- storing order here for now but probably need to change it to other object 
     // -- or csv file in future 
-    public GameObject[] objectShowOrder;
-    public Drum.drumTypes[] drumOrder;
     public float refractoryTime = 5f;
     private float lastHitTime; 
 
@@ -20,15 +18,19 @@ public class VisualManager : MonoBehaviour
     public GameObject particleSystem;
     public GameObject testObject;
 
-    [Header("Particle Gradients")]
+    [Header("Drum Colors")]
     public Gradient blue;      
     public Gradient green;
     public Gradient brown;
-    public Gradient red; 
+    public Gradient red;
+
+    [Header("Stage 0")]
+    public Transform testTransform; 
+    public GameObject colorSplash; 
 
     public Material materialToTransition; 
 
-    private Dictionary<Drum.drumTypes, Gradient> drumTypeToColor = new Dictionary<Drum.drumTypes, Gradient>();
+    private Dictionary<Drum.drumTypes, Gradient> drumTypeToColorDict = new Dictionary<Drum.drumTypes, Gradient>();
     private int orderCounter = 0; 
 
     private void Awake()
@@ -64,61 +66,54 @@ public class VisualManager : MonoBehaviour
         ground.GetComponent<MusicAnimations>().swayableItem = false;
 
 
-
-        foreach (GameObject g in objectShowOrder)
-        {
-            foreach(Transform child in g.GetComponentsInChildren<Transform>())
-            {
-                child.gameObject.SetActive(false); 
-            }
-            g.SetActive(false);
-        }
-
-        drumTypeToColor.Add(Drum.drumTypes.Blue, blue); 
-        drumTypeToColor.Add(Drum.drumTypes.Green, green); 
-        drumTypeToColor.Add(Drum.drumTypes.Brown, brown); 
-        drumTypeToColor.Add(Drum.drumTypes.Red, red);
+        drumTypeToColorDict.Add(Drum.drumTypes.Snare, brown);
+        drumTypeToColorDict.Add(Drum.drumTypes.FloorTom, green);
+        drumTypeToColorDict.Add(Drum.drumTypes.MidTom, red);
+        drumTypeToColorDict.Add(Drum.drumTypes.HighTom, blue);
 
         lastHitTime = 0f; 
     }
 
 
     public void RequestElementChange(Drum.drumTypes drumType, GameObject DrumCollider)
-    {
-        //if(drumType == Drum.drumTypes.Brown)
+    {        
+        // -- prevent other drums from firing 
+        lastHitTime = refractoryTime;
+
+        int gameStage = GameManager.Instance.GetGameStage(); 
+        if(gameStage == 0)
+        {
+            DrawColorSplash(drumTypeToLocation(drumType), drumTypeToColor(drumType)); 
+        }
+        //foreach (Transform child in objectShowOrder[orderCounter].transform)
         //{
-        //    Debug.Log("Brown");
-        //    GameObject mountain = MapManager.Instance.GetRandomDormantMountain();
-        //    mountain.SetActive(true); 
+        //    GameObject ps = Instantiate(particleSystem, DrumCollider.transform.position, DrumCollider.transform.rotation);
+        //    ps.AddComponent<ParticleSystemMovement>();
+        //    ps.GetComponent<ParticleSystemMovement>().targetObject = child.gameObject;
+
+        //    //var colLifetime m  = particleSystemMovement.gameObject.GetComponent<ParticleSystem>().colorOverLifetime;
+        //    //colLifetime.color = drumTypeToColor[drumType];
+        //    //particleSystemMovement.moveSpeed = 50f;
+
+        //    //ps.GetComponent<particleAttractorLinear>().target = child.gameObject.transform; 
         //}
         
-        if(drumType == drumOrder[orderCounter])
-        {
-            // -- prevent other drums from firing 
-            lastHitTime = refractoryTime; 
-
-            Debug.Log(drumOrder[orderCounter]);
-            objectShowOrder[orderCounter].SetActive(true);
-            foreach (Transform child in objectShowOrder[orderCounter].transform)
-            {
-                GameObject ps = Instantiate(particleSystem, DrumCollider.transform.position, DrumCollider.transform.rotation);
-                ps.AddComponent<ParticleSystemMovement>();
-                ps.GetComponent<ParticleSystemMovement>().targetObject = child.gameObject;
-
-                //var colLifetime = particleSystemMovement.gameObject.GetComponent<ParticleSystem>().colorOverLifetime;
-                //colLifetime.color = drumTypeToColor[drumType];
-                //particleSystemMovement.moveSpeed = 50f;
-
-                //ps.GetComponent<particleAttractorLinear>().target = child.gameObject.transform; 
-            }
-            orderCounter = orderCounter + 1; 
-        }
+    }
+    
+    private Transform drumTypeToLocation(Drum.drumTypes drumType)
+    {
+        return testTransform; 
     }
 
+    private Gradient drumTypeToColor(Drum.drumTypes drumType)
+    {
+        return drumTypeToColorDict[drumType]; 
+    }
+    
     // -- change so its not in update but sends new active to next drum after RequestElementChange
     public bool GetIsActive(Drum.drumTypes drumType)
     {
-        if (drumType == drumOrder[orderCounter] && lastHitTime <= 0)
+        if (lastHitTime <= 0)
         {
             return true; 
         }
@@ -128,5 +123,11 @@ public class VisualManager : MonoBehaviour
     void Update()
     {
         lastHitTime -= Time.deltaTime; 
+    }
+
+    void DrawColorSplash(Transform location, Gradient color)
+    {
+        Instantiate(colorSplash, location.position, location.rotation);
+        colorSplash.GetComponent<ColorSplash>().color = color; 
     }
 }
