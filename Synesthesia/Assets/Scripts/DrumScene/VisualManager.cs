@@ -26,7 +26,8 @@ public class VisualManager : MonoBehaviour
 
     [Header("Stage 0")]
     public Transform testTransform; 
-    public GameObject colorSplash; 
+    public GameObject colorSplash;
+    public GameObject colorBurst; 
 
     public Material materialToTransition; 
 
@@ -61,12 +62,12 @@ public class VisualManager : MonoBehaviour
 
         }
 
-        GameObject ground = GameObject.FindWithTag("Ground");
-        ground.AddComponent<MusicAnimations>();
-        ground.GetComponent<MusicAnimations>().swayableItem = false;
+        //GameObject ground = GameObject.FindWithTag("Ground");
+        //ground.AddComponent<MusicAnimations>();
+        //ground.GetComponent<MusicAnimations>().swayableItem = false;
 
 
-        drumTypeToColorDict.Add(Drum.drumTypes.Snare, brown);
+        drumTypeToColorDict.Add(Drum.drumTypes.Snare, green);
         drumTypeToColorDict.Add(Drum.drumTypes.FloorTom, green);
         drumTypeToColorDict.Add(Drum.drumTypes.MidTom, red);
         drumTypeToColorDict.Add(Drum.drumTypes.HighTom, blue);
@@ -113,6 +114,12 @@ public class VisualManager : MonoBehaviour
     // -- change so its not in update but sends new active to next drum after RequestElementChange
     public bool GetIsActive(Drum.drumTypes drumType)
     {
+        // Stage 0 drums always active 
+        if(GameManager.Instance.GetGameStage() == 0)
+        {
+            return true; 
+        }
+
         if (lastHitTime <= 0)
         {
             return true; 
@@ -125,9 +132,16 @@ public class VisualManager : MonoBehaviour
         lastHitTime -= Time.deltaTime; 
     }
 
-    void DrawColorSplash(Transform location, Gradient color)
+    void DrawColorSplash(Transform location, Gradient gradientColor)
     {
-        Instantiate(colorSplash, location.position, location.rotation);
-        colorSplash.GetComponent<ColorSplash>().color = color; 
+        GameObject ps = Instantiate(colorBurst, location.position, location.rotation);
+        ParticleSystem particleSystem = ps.transform.GetChild(0).GetComponent<ParticleSystem>(); 
+        var main = particleSystem.main;
+        main.startColor = gradientColor.colorKeys[0].color;  
+
+        var trails = particleSystem.trails;
+        trails.colorOverTrail = gradientColor;
+        trails.colorOverLifetime = gradientColor; 
+        //colorSplash.GetComponent<ColorSplash>().color = color; 
     }
 }

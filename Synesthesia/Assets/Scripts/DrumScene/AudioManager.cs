@@ -50,7 +50,7 @@ public class AudioManager : MonoBehaviour
         if((Time.time - startTime > delayTillMainTheme) && themeStartTime == 0)
         {
             AudioSource mainTheme = GetComponent<AudioSource>();
-            mainTheme.Play();
+            //mainTheme.Play();
             themeStartTime = Time.time;
         }
         // Debug.Log(Time.time - themeStartTime); 
