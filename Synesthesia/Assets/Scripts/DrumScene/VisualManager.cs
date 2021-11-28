@@ -23,21 +23,30 @@ public class VisualManager : MonoBehaviour
     [Header("Drum Colors")]
     public Gradient blue;      
     public Gradient green;
-    public Gradient brown;
+    public Gradient orange;
     public Gradient red;
     public Gradient pink;
     public Gradient yellow;
 
-    [Header("Stage 0")]
-    public Transform testTransform; 
+    [Header("Stage 0 Objects")]
     public GameObject colorSplash;
     public GameObject colorBurst;
     public GameObject colorBurstVFX;
 
+    [Header("Stage 0 Locations")]
+    public Transform blueLocation; 
+    public Transform greenLocation; 
+    public Transform orangeLocation; 
+    public Transform redLocation; 
+    public Transform pinkLocation; 
+    public Transform yellowLocation; 
+
+
     public Material materialToTransition; 
 
     private Dictionary<Drum.drumTypes, Gradient> drumTypeToColorDict = new Dictionary<Drum.drumTypes, Gradient>();
-    
+    private Dictionary<Drum.drumTypes, Transform> drumTypeToLocationDict = new Dictionary<Drum.drumTypes, Transform>();
+
 
     private void Awake()
     {
@@ -72,12 +81,19 @@ public class VisualManager : MonoBehaviour
         //ground.GetComponent<MusicAnimations>().swayableItem = false;
 
 
-        drumTypeToColorDict.Add(Drum.drumTypes.Snare, brown);
-        drumTypeToColorDict.Add(Drum.drumTypes.FloorTom, green);
-        drumTypeToColorDict.Add(Drum.drumTypes.MidTom, red);
+        drumTypeToColorDict.Add(Drum.drumTypes.Snare, green);
+        drumTypeToColorDict.Add(Drum.drumTypes.FloorTom, orange);
+        drumTypeToColorDict.Add(Drum.drumTypes.MidTom, pink);
         drumTypeToColorDict.Add(Drum.drumTypes.HighTom, blue);
-        drumTypeToColorDict.Add(Drum.drumTypes.Kick, pink);
+        drumTypeToColorDict.Add(Drum.drumTypes.Kick, red);
         drumTypeToColorDict.Add(Drum.drumTypes.HiHat, yellow);
+
+        drumTypeToLocationDict.Add(Drum.drumTypes.Snare, greenLocation);
+        drumTypeToLocationDict.Add(Drum.drumTypes.FloorTom, orangeLocation);
+        drumTypeToLocationDict.Add(Drum.drumTypes.MidTom, pinkLocation);
+        drumTypeToLocationDict.Add(Drum.drumTypes.HighTom, blueLocation);
+        drumTypeToLocationDict.Add(Drum.drumTypes.Kick, redLocation);
+        drumTypeToLocationDict.Add(Drum.drumTypes.HiHat, yellowLocation);
 
         lastHitTime = 0f; 
     }
@@ -114,7 +130,7 @@ public class VisualManager : MonoBehaviour
     
     private Transform drumTypeToLocation(Drum.drumTypes drumType)
     {
-        return testTransform; 
+        return drumTypeToLocationDict[drumType]; 
     }
 
     private Gradient drumTypeToColor(Drum.drumTypes drumType)
