@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class VisualManager : MonoBehaviour
 {
@@ -24,11 +25,14 @@ public class VisualManager : MonoBehaviour
     public Gradient green;
     public Gradient brown;
     public Gradient red;
+    public Gradient pink;
+    public Gradient yellow;
 
     [Header("Stage 0")]
     public Transform testTransform; 
     public GameObject colorSplash;
-    public GameObject colorBurst; 
+    public GameObject colorBurst;
+    public GameObject colorBurstVFX;
 
     public Material materialToTransition; 
 
@@ -68,10 +72,12 @@ public class VisualManager : MonoBehaviour
         //ground.GetComponent<MusicAnimations>().swayableItem = false;
 
 
-        drumTypeToColorDict.Add(Drum.drumTypes.Snare, green);
+        drumTypeToColorDict.Add(Drum.drumTypes.Snare, brown);
         drumTypeToColorDict.Add(Drum.drumTypes.FloorTom, green);
         drumTypeToColorDict.Add(Drum.drumTypes.MidTom, red);
         drumTypeToColorDict.Add(Drum.drumTypes.HighTom, blue);
+        drumTypeToColorDict.Add(Drum.drumTypes.Kick, pink);
+        drumTypeToColorDict.Add(Drum.drumTypes.HiHat, yellow);
 
         lastHitTime = 0f; 
     }
@@ -148,19 +154,23 @@ public class VisualManager : MonoBehaviour
 
     void Update()
     {
-        lastHitTime -= Time.deltaTime; 
+        lastHitTime -= Time.deltaTime;
+        lastKickHit -= Time.deltaTime; 
     }
 
     void DrawColorSplash(Transform location, Gradient gradientColor)
     {
-        GameObject ps = Instantiate(colorBurst, location.position, location.rotation);
-        ParticleSystem particleSystem = ps.transform.GetChild(0).GetComponent<ParticleSystem>(); 
-        var main = particleSystem.main;
-        main.startColor = gradientColor.colorKeys[0].color;  
+        GameObject vfx = Instantiate(colorBurstVFX, location.position, location.rotation);
+        VisualEffect vfx_effects = vfx.GetComponent<VisualEffect>();
+        vfx_effects.SetVector4("Color", gradientColor.colorKeys[0].color); 
+        //GameObject ps = Instantiate(colorBurst, location.position, location.rotation);
+        //ParticleSystem particleSystem = ps.transform.GetChild(0).GetComponent<ParticleSystem>(); 
+        //var main = particleSystem.main;
+        //main.startColor = gradientColor.colorKeys[0].color;  
 
-        var trails = particleSystem.trails;
-        trails.colorOverTrail = gradientColor;
-        trails.colorOverLifetime = gradientColor; 
+        //var trails = particleSystem.trails;
+        //trails.colorOverTrail = gradientColor;
+        //trails.colorOverLifetime = gradientColor; 
         //colorSplash.GetComponent<ColorSplash>().color = color; 
     }
 }

@@ -1072,8 +1072,8 @@ MonoBehaviour:
   testObject: {fileID: 0}
   blue:
     serializedVersion: 2
-    key0: {r: 0.18039216, g: 0.4901961, b: 0.60784316, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0, g: 0.10002518, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 0.654902}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1089,7 +1089,7 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
+    atime1: 46838
     atime2: 0
     atime3: 0
     atime4: 0
@@ -1101,7 +1101,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   green:
     serializedVersion: 2
-    key0: {r: 0.39135543, g: 0.95283014, b: 0.22022954, a: 1}
+    key0: {r: 0.15850833, g: 0.6132076, b: 0.18567026, a: 1}
     key1: {r: 0.39135543, g: 0.95283014, b: 0.22022954, a: 0.78431374}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -1130,8 +1130,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 3
   brown:
     serializedVersion: 2
-    key0: {r: 0.5058824, g: 0.37254903, b: 0.27450982, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.5058824, g: 0.21435691, b: 0, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 0.7921569}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1147,8 +1147,37 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
-    atime2: 0
+    atime1: 40092
+    atime2: 65535
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 3
+  red:
+    serializedVersion: 2
+    key0: {r: 1, g: 0.07060718, b: 0, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 0.7058824}
+    key2: {r: 0, g: 0, b: 0, a: 1}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 38357
+    atime2: 65535
     atime3: 0
     atime4: 0
     atime5: 0
@@ -1157,10 +1186,10 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  red:
+  pink:
     serializedVersion: 2
-    key0: {r: 0.6862745, g: 0.16470589, b: 0.13333334, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.9047998, g: 0.13300002, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 0.78039217}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1176,7 +1205,36 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
+    atime1: 39899
+    atime2: 65535
+    atime3: 65535
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 3
+  yellow:
+    serializedVersion: 2
+    key0: {r: 0.8991613, g: 1, b: 0.24000001, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 0.654902}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 46067
     atime2: 0
     atime3: 0
     atime4: 0
@@ -1189,6 +1247,7 @@ MonoBehaviour:
   testTransform: {fileID: 581886404}
   colorSplash: {fileID: 0}
   colorBurst: {fileID: 1916718200049870981, guid: 6db17e0f8ec51db42b3fc2d249f10914, type: 3}
+  colorBurstVFX: {fileID: 6850144797843372284, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
   materialToTransition: {fileID: 2100000, guid: 58d53420af384224ea4cfee8973d18cb, type: 2}
 --- !u!4 &417000462
 Transform:
@@ -2761,15 +2820,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1253948450188198874, guid: d8fca7b6879120e4f90a1352972fad1c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 79.715
+      value: 78.217
       objectReference: {fileID: 0}
     - target: {fileID: 1253948450188198874, guid: d8fca7b6879120e4f90a1352972fad1c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 29.95
+      value: 29.473
       objectReference: {fileID: 0}
     - target: {fileID: 1253948450188198874, guid: d8fca7b6879120e4f90a1352972fad1c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 26.846
+      value: 27.291
       objectReference: {fileID: 0}
     - target: {fileID: 1253948450188198874, guid: d8fca7b6879120e4f90a1352972fad1c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4126,67 +4185,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1001 &6850144796124138517
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6850144797843372281, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_RootOrder
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372281, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 76.0894
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372281, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 30.78
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372281, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 32.29
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372281, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372281, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372281, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372281, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372281, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372281, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372281, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372284, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_Name
-      value: ColorCloud
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850144797843372287, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 74da5d453e1e52b4ca49a6cf956ca556, type: 3}
 --- !u!33 &6979657321868594068
 MeshFilter:
   m_ObjectHideFlags: 0
