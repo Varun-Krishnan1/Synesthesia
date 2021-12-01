@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    private int gameStage = 0; 
+    public int gameStage = -1; 
 
     private static GameManager _instance;
 

@@ -28,24 +28,13 @@ public class VisualManager : MonoBehaviour
     public Gradient pink;
     public Gradient yellow;
 
-    [Header("Stage 0 Objects")]
-    public GameObject colorSplash;
-    public GameObject colorBurst;
     public GameObject colorBurstVFX;
 
-    [Header("Stage 0 Locations")]
-    public Transform blueLocation; 
-    public Transform greenLocation; 
-    public Transform orangeLocation; 
-    public Transform redLocation; 
-    public Transform pinkLocation; 
-    public Transform yellowLocation; 
-
-
-    public Material materialToTransition; 
-
+    [Header("Stages")]
+    public StageZero stageZero; 
+    
+    
     private Dictionary<Drum.drumTypes, Gradient> drumTypeToColorDict = new Dictionary<Drum.drumTypes, Gradient>();
-    private Dictionary<Drum.drumTypes, Transform> drumTypeToLocationDict = new Dictionary<Drum.drumTypes, Transform>();
 
 
     private void Awake()
@@ -59,41 +48,12 @@ public class VisualManager : MonoBehaviour
             _instance = this;
         }
 
-        // -- add transition to material script to all spawnable objects 
-        foreach(GameObject g in GameObject.FindGameObjectsWithTag("SpawnableObjectMesh")) {
-
-            // Material transition animation 
-            g.AddComponent<MaterialTransition>();
-            g.GetComponent<MaterialTransition>().SetMaterial(materialToTransition);
-
-            // Audio 
-            g.AddComponent<MusicAnimations>();
-
-            if (g.name.Contains("hill"))
-            {
-                g.GetComponent<MusicAnimations>().swayableItem = false;
-            }
-
-        }
-
-        //GameObject ground = GameObject.FindWithTag("Ground");
-        //ground.AddComponent<MusicAnimations>();
-        //ground.GetComponent<MusicAnimations>().swayableItem = false;
-
-
         drumTypeToColorDict.Add(Drum.drumTypes.Snare, green);
         drumTypeToColorDict.Add(Drum.drumTypes.FloorTom, orange);
         drumTypeToColorDict.Add(Drum.drumTypes.MidTom, pink);
         drumTypeToColorDict.Add(Drum.drumTypes.HighTom, blue);
         drumTypeToColorDict.Add(Drum.drumTypes.Kick, red);
         drumTypeToColorDict.Add(Drum.drumTypes.HiHat, yellow);
-
-        drumTypeToLocationDict.Add(Drum.drumTypes.Snare, greenLocation);
-        drumTypeToLocationDict.Add(Drum.drumTypes.FloorTom, orangeLocation);
-        drumTypeToLocationDict.Add(Drum.drumTypes.MidTom, pinkLocation);
-        drumTypeToLocationDict.Add(Drum.drumTypes.HighTom, blueLocation);
-        drumTypeToLocationDict.Add(Drum.drumTypes.Kick, redLocation);
-        drumTypeToLocationDict.Add(Drum.drumTypes.HiHat, yellowLocation);
 
         lastHitTime = 0f; 
     }
@@ -111,29 +71,11 @@ public class VisualManager : MonoBehaviour
         int gameStage = GameManager.Instance.GetGameStage(); 
         if(gameStage == 0)
         {
-            DrawColorSplash(drumTypeToLocation(drumType), drumTypeToColor(drumType)); 
-        }
-        //foreach (Transform child in objectShowOrder[orderCounter].transform)
-        //{
-        //    GameObject ps = Instantiate(particleSystem, DrumCollider.transform.position, DrumCollider.transform.rotation);
-        //    ps.AddComponent<ParticleSystemMovement>();
-        //    ps.GetComponent<ParticleSystemMovement>().targetObject = child.gameObject;
-
-        //    //var colLifetime m  = particleSystemMovement.gameObject.GetComponent<ParticleSystem>().colorOverLifetime;
-        //    //colLifetime.color = drumTypeToColor[drumType];
-        //    //particleSystemMovement.moveSpeed = 50f;
-
-        //    //ps.GetComponent<particleAttractorLinear>().target = child.gameObject.transform; 
-        //}
-        
-    }
-    
-    private Transform drumTypeToLocation(Drum.drumTypes drumType)
-    {
-        return drumTypeToLocationDict[drumType]; 
+            DrawColorSplash(StageZero.drumTypeToLocation(drumType), drumTypeToColor(drumType)); 
+        }        
     }
 
-    private Gradient drumTypeToColor(Drum.drumTypes drumType)
+    public Gradient drumTypeToColor(Drum.drumTypes drumType)
     {
         return drumTypeToColorDict[drumType]; 
     }
@@ -141,7 +83,11 @@ public class VisualManager : MonoBehaviour
     // -- change so its not in update but sends new active to next drum after RequestElementChange
     public bool GetIsActive(Drum.drumTypes drumType)
     {
-
+        // Stage -1 is always instructions...should not be able to play 
+        if(GameManager.Instance.GetGameStage() == -1)
+        {
+            return false; 
+        }
         // Stage 0 drums always active 
         if(GameManager.Instance.GetGameStage() == 0)
         {
@@ -179,14 +125,5 @@ public class VisualManager : MonoBehaviour
         GameObject vfx = Instantiate(colorBurstVFX, location.position, location.rotation);
         VisualEffect vfx_effects = vfx.GetComponent<VisualEffect>();
         vfx_effects.SetVector4("Color", gradientColor.colorKeys[0].color); 
-        //GameObject ps = Instantiate(colorBurst, location.position, location.rotation);
-        //ParticleSystem particleSystem = ps.transform.GetChild(0).GetComponent<ParticleSystem>(); 
-        //var main = particleSystem.main;
-        //main.startColor = gradientColor.colorKeys[0].color;  
-
-        //var trails = particleSystem.trails;
-        //trails.colorOverTrail = gradientColor;
-        //trails.colorOverLifetime = gradientColor; 
-        //colorSplash.GetComponent<ColorSplash>().color = color; 
     }
 }
