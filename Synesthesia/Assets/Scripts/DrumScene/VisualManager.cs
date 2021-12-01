@@ -29,9 +29,6 @@ public class VisualManager : MonoBehaviour
     public Gradient yellow;
 
     public GameObject colorBurstVFX;
-
-    [Header("Stages")]
-    public StageZero stageZero; 
     
     
     private Dictionary<Drum.drumTypes, Gradient> drumTypeToColorDict = new Dictionary<Drum.drumTypes, Gradient>();
@@ -71,7 +68,9 @@ public class VisualManager : MonoBehaviour
         int gameStage = GameManager.Instance.GetGameStage(); 
         if(gameStage == 0)
         {
-            DrawColorSplash(StageZero.drumTypeToLocation(drumType), drumTypeToColor(drumType)); 
+            Gradient drumColor = drumTypeToColor(drumType); 
+            StageZero.Instance.ProgressLevel(drumColor); 
+            DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumColor); 
         }        
     }
 

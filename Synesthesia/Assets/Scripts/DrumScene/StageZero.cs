@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class StageZero : MonoBehaviour
 {
+    private static StageZero _instance;
+
+    public static StageZero Instance { get { return _instance; } }
 
     [Header("Stage 0 Locations")]
     public Transform blueLocation;
@@ -13,15 +16,33 @@ public class StageZero : MonoBehaviour
     public Transform pinkLocation;
     public Transform yellowLocation;
 
-    private static Dictionary<Drum.drumTypes, Transform> drumTypeToLocationDict = new Dictionary<Drum.drumTypes, Transform>();
+    public int[] levelProgressions; 
+    
+    private int curLevelProgression = 0; 
+  
+    private Dictionary<Drum.drumTypes, Transform> drumTypeToLocationDict = new Dictionary<Drum.drumTypes, Transform>();
 
-    public static Transform drumTypeToLocation(Drum.drumTypes drumType)
+    private int level = 0; // which portion of the stage you are on 
+
+    public Transform drumTypeToLocation(Drum.drumTypes drumType)
     {
         return drumTypeToLocationDict[drumType];
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
+        // Start is called before the first frame update
+        void Start()
     {
         drumTypeToLocationDict.Add(Drum.drumTypes.Snare, greenLocation);
         drumTypeToLocationDict.Add(Drum.drumTypes.FloorTom, orangeLocation);
@@ -31,4 +52,24 @@ public class StageZero : MonoBehaviour
         drumTypeToLocationDict.Add(Drum.drumTypes.HiHat, yellowLocation);
     }
 
+    public int GetLevel()
+    {
+        return level; 
+    }
+
+    public void IncrementLevel()
+    {
+        level += 1; 
+    }
+
+    public void ProgressLevel(Gradient drumColor)
+    {
+        curLevelProgression += 1;
+        Debug.Log(curLevelProgression); 
+        if(curLevelProgression == levelProgressions[GetLevel()])
+        {
+            Debug.Log("Progressed!");
+            TextManager.Instance.Activate(); 
+        }
+    }
 }

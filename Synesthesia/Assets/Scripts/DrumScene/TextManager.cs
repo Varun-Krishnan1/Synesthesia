@@ -5,16 +5,34 @@ using TMPro;
 
 public class TextManager : MonoBehaviour
 {
+
+    private static TextManager _instance;
+
+    public static TextManager Instance { get { return _instance; } }
+
     public string[] sentences;
     public float[] timingBetweenSentences;
-    public int[] numSentencesPerActivation; 
+    public int[] sentenceElementToStopActivation; 
     public TextMeshProUGUI textDisplay;
     public Camera mainCamera; 
 
     private int curIndex;
     private int curActivationIndex; 
     private float curTime;
-    private bool activated; 
+    private bool activated;
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +40,12 @@ public class TextManager : MonoBehaviour
         curIndex = 0; 
         textDisplay.text = sentences[curIndex];
         curTime = timingBetweenSentences[curIndex]; 
+
+        // Variable Checks 
+        if(timingBetweenSentences.Length != sentences.Length - 1)
+        {
+            Debug.LogError("Mismatch between length of timingBetweenSentences[] and sentences[]");
+        }
     }
 
     // Update is called once per frame
@@ -31,14 +55,16 @@ public class TextManager : MonoBehaviour
         if(curTime <= 0 && activated)
         {
             // reached end of sentences 
-            if(curIndex+1 == numSentencesPerActivation[curActivationIndex])
+            if(curIndex+1 == sentenceElementToStopActivation[curActivationIndex])
             {
+                Debug.Log("End of Activation!");
                 textDisplay.text = ""; 
                 activated = false;
                 curActivationIndex += 1; 
             }
             else
             {
+                Debug.Log(curIndex); 
                 curIndex += 1;
                 textDisplay.text = sentences[curIndex];
                 curTime = timingBetweenSentences[curIndex-1];
@@ -64,6 +90,5 @@ public class TextManager : MonoBehaviour
     public void Activate()
     {
         activated = true;
-        curIndex += 1; 
     }
 }
