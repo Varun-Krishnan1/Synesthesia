@@ -57,14 +57,10 @@ public class TextManager : MonoBehaviour
             // reached end of sentences 
             if(curIndex+1 == sentenceElementToStopActivation[curActivationIndex])
             {
-                Debug.Log("End of Activation!");
-                textDisplay.text = ""; 
-                activated = false;
-                curActivationIndex += 1; 
+                DeActivate(); 
             }
             else
             {
-                Debug.Log(curIndex); 
                 curIndex += 1;
                 textDisplay.text = sentences[curIndex];
                 curTime = timingBetweenSentences[curIndex-1];
@@ -85,6 +81,19 @@ public class TextManager : MonoBehaviour
         //        Debug.Log("Looking at!");
         //    }
         //}
+    }
+
+    void DeActivate()
+    {
+        Debug.Log("End of Activation!");
+        textDisplay.text = "";
+        activated = false;
+        curActivationIndex += 1;
+
+        if(GameManager.Instance.GetGameStage() == 0)
+        {
+            StageZero.Instance.NextLevel(); 
+        }
     }
 
     public void Activate()

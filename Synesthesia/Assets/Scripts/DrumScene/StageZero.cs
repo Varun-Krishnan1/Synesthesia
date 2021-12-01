@@ -17,12 +17,11 @@ public class StageZero : MonoBehaviour
     public Transform yellowLocation;
 
     public int[] levelProgressions; 
-    
-    private int curLevelProgression = 0; 
   
     private Dictionary<Drum.drumTypes, Transform> drumTypeToLocationDict = new Dictionary<Drum.drumTypes, Transform>();
 
-    private int level = 0; // which portion of the stage you are on 
+    private int level = -1; // which portion of the stage you are on (make sure to start at -1) 
+    private int curLevelProgression; 
 
     public Transform drumTypeToLocation(Drum.drumTypes drumType)
     {
@@ -57,19 +56,28 @@ public class StageZero : MonoBehaviour
         return level; 
     }
 
-    public void IncrementLevel()
+    public void NextLevel()
     {
-        level += 1; 
+        level += 1;
+        curLevelProgression = 0;
+
+        if (level == levelProgressions.Length)
+        {
+            GameManager.Instance.NextStage();
+            return;
+        }
     }
 
     public void ProgressLevel(Gradient drumColor)
     {
         curLevelProgression += 1;
-        Debug.Log(curLevelProgression); 
+        Debug.Log(curLevelProgression);
+
         if(curLevelProgression == levelProgressions[GetLevel()])
         {
             Debug.Log("Progressed!");
-            TextManager.Instance.Activate(); 
+            TextManager.Instance.Activate();
         }
     }
+
 }

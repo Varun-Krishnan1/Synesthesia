@@ -38,4 +38,10 @@ public class GameManager : MonoBehaviour
     {
         return gameStage; 
     }
+
+    public void NextStage()
+    {
+        gameStage += 1; 
+        Debug.Log("Next Stage!"); 
+    }
 }
