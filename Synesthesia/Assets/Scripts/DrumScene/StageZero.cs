@@ -82,13 +82,6 @@ public class StageZero : MonoBehaviour
             progressBar.transform.parent.gameObject.SetActive(true);
             drumsticks.SetActive(true);
         }
-        else if (level == levelProgressions.Length)
-        {
-            progressBar.transform.parent.gameObject.SetActive(false); 
-            endOfStage = true; 
-            GameManager.Instance.NextStage();
-            return;
-        }
         else
         {
             curLevelProgression = 0;
@@ -110,7 +103,19 @@ public class StageZero : MonoBehaviour
         if(curLevelProgression == levelProgressions[GetLevel()])
         {
             Debug.Log("Progressed!");
-            TextManager.Instance.Activate();
+            // End of stage hit begin next stage 
+            if(level+1 == levelProgressions.Length)
+            {
+                progressBar.transform.parent.gameObject.SetActive(false);
+                endOfStage = true;
+                GameManager.Instance.NextStage();
+                return;
+            }
+            // Continue stage with text manager   
+            else
+            {
+                TextManager.Instance.Activate();
+            }
         }
     }
 
