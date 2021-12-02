@@ -10,7 +10,8 @@ public class Drum : MonoBehaviour
     public bool playOnButtonPress = false;
     public ActionBasedController left_controller; 
     public ActionBasedController right_controller; 
-    private float previousTriggerValue; 
+    private float previousRightTriggerValue; 
+    private float previousLeftTriggerValue; 
 
     private float scaleSpeed = 10f;
     private float scaleHeight = .01f;
@@ -136,8 +137,9 @@ public class Drum : MonoBehaviour
     void CheckButtonPress()
     {
         float right_trigger_value = right_controller.activateAction.action.ReadValue<float>(); 
-
-        if(previousTriggerValue < 0.5f && right_trigger_value > 0.5f)
+        float left_trigger_value = left_controller.activateAction.action.ReadValue<float>(); 
+        
+        if((previousRightTriggerValue < 0.5f && right_trigger_value > 0.5f) || (previousLeftTriggerValue < 0.5f && left_trigger_value > 0.5f))
         {
             ActivateSound(right_trigger_value);
             ScaleDrum();
@@ -148,6 +150,7 @@ public class Drum : MonoBehaviour
             right_controller.SendHapticImpulse(.1f, .25f);
         }
 
-        previousTriggerValue = right_trigger_value;
+        previousRightTriggerValue = right_trigger_value;
+        previousLeftTriggerValue = left_trigger_value;
     }
 }

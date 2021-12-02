@@ -10,7 +10,7 @@ public class DrumStick : MonoBehaviour
     private bool attaching = false;
     private float waitFor = 0f; 
 
-    private ActionBasedController controller; 
+    public ActionBasedController controller; // set by HandController on drumstick pickup
     // Start is called before the first frame update
     void Start()
     {
@@ -27,15 +27,6 @@ public class DrumStick : MonoBehaviour
 
     void Update()
     {
-        if(!controller)
-        {
-            ActionBasedController parentController = GetComponentInParent<ActionBasedController>();
-            if(parentController)
-            {
-                controller = parentController; 
-            }
-        }
-
         if (attaching)
         {
             Debug.Log(waitFor);
@@ -43,7 +34,7 @@ public class DrumStick : MonoBehaviour
             if (waitFor <= 0f)
             {
                 Debug.Log("Attached!");
-                this.transform.parent = controller.transform;
+                this.transform.parent.parent = controller.transform;
                 attaching = false;
             }
         }
@@ -65,5 +56,11 @@ public class DrumStick : MonoBehaviour
         Debug.Log("AttachToParent()");
         waitFor = 0.01f;
         attaching = true;
+
+        Destroy(this.transform.parent.gameObject.GetComponent<XRGrabInteractable>());
+        // Lose stuff added to it by Interactor in SelectEntered
+        Destroy(this.transform.parent.gameObject.GetComponent<Rigidbody>());
+        Destroy(this.transform.parent.gameObject.GetComponent<BoxCollider>());
+
     }
 }

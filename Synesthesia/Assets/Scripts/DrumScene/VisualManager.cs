@@ -14,7 +14,8 @@ public class VisualManager : MonoBehaviour
     // -- or csv file in future 
     public float refractoryTime = 5f;
     private float lastHitTime;
-    private float lastKickHit; 
+    private float lastKickHit;
+    private bool haltPlaying = false; 
 
     public Transform[] drumObjectParticleFiringPoints; 
     public GameObject particleSystem;
@@ -79,11 +80,15 @@ public class VisualManager : MonoBehaviour
         return drumTypeToColorDict[drumType]; 
     }
     
+    public void HaltPlaying()
+    {
+        this.haltPlaying = true; 
+    }
     // -- change so its not in update but sends new active to next drum after RequestElementChange
     public bool GetIsActive(Drum.drumTypes drumType)
     {
-        // Stage -1 is always instructions...should not be able to play 
-        if(GameManager.Instance.GetGameStage() == -1)
+        // Stage -1 is set when you shouldn't be able to play 
+        if(haltPlaying)
         {
             return false; 
         }

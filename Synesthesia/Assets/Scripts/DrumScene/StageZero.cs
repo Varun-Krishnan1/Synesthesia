@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class StageZero : MonoBehaviour
 {
@@ -19,8 +21,11 @@ public class StageZero : MonoBehaviour
     public int[] levelProgressions;
 
     [Header("Stage 0 Objects")]
-    public GameObject drumsticks; 
-  
+    public GameObject drumsticks;
+    public Slider progressBar;
+
+    public int numDrumsticksPickedUp;
+
     private Dictionary<Drum.drumTypes, Transform> drumTypeToLocationDict = new Dictionary<Drum.drumTypes, Transform>();
 
     private int level = -1; // which portion of the stage you are on (make sure to start at -1) 
@@ -53,6 +58,12 @@ public class StageZero : MonoBehaviour
         drumTypeToLocationDict.Add(Drum.drumTypes.HighTom, blueLocation);
         drumTypeToLocationDict.Add(Drum.drumTypes.Kick, redLocation);
         drumTypeToLocationDict.Add(Drum.drumTypes.HiHat, yellowLocation);
+
+        progressBar.maxValue = levelProgressions[0];
+
+        // -- ensure objects are hidden 
+        progressBar.transform.parent.gameObject.SetActive(false);
+        drumsticks.SetActive(false); 
     }
 
     public int GetLevel()
@@ -63,18 +74,26 @@ public class StageZero : MonoBehaviour
     public void NextLevel()
     {
         level += 1;
-        curLevelProgression = 0;
 
-        if(level == 0)
+        // this level of the stage you grab the drumsticks 
+        if (level == 0)
         {
-            // this level of the stage you grab the drumsticks 
+            TextManager.Instance.WriteText("Grab the drumsticks in front of you to try it out!");
+            progressBar.transform.parent.gameObject.SetActive(true);
             drumsticks.SetActive(true);
         }
-        if (level == levelProgressions.Length)
+        else if (level == levelProgressions.Length)
         {
+            progressBar.transform.parent.gameObject.SetActive(false); 
             endOfStage = true; 
             GameManager.Instance.NextStage();
             return;
+        }
+        else
+        {
+            curLevelProgression = 0;
+            progressBar.value = 0;
+            progressBar.maxValue = levelProgressions[level]; 
         }
     }
 
@@ -85,6 +104,7 @@ public class StageZero : MonoBehaviour
             return; 
         }
         curLevelProgression += 1;
+        progressBar.value = curLevelProgression; 
         Debug.Log(curLevelProgression);
 
         if(curLevelProgression == levelProgressions[GetLevel()])

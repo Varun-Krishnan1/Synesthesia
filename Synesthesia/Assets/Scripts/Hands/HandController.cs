@@ -7,7 +7,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 [RequireComponent(typeof(ActionBasedController))]
 public class HandController : MonoBehaviour
 {
-    public Hand hand; 
+    public Hand hand;
+    public Drum kick; 
 
     ActionBasedController controller;
     // Start is called before the first frame update
@@ -25,10 +26,21 @@ public class HandController : MonoBehaviour
 
     public void AttachDrumstick()
     {
-        Destroy(hand.gameObject);
+        StageZero.Instance.numDrumsticksPickedUp += 1; 
 
         GameObject drumstick = this.GetComponent<XRDirectInteractor>().selectTarget.gameObject;
-        drumstick.transform.parent = this.transform; 
+        drumstick.GetComponentInChildren<DrumStick>().controller = controller;
+
+        // ensure both drumsticks are picked up
+        if (StageZero.Instance.numDrumsticksPickedUp == 2)
+        {
+            kick.playOnButtonPress = true;
+            // -- reset text back to normal after they grab 
+            TextManager.Instance.ClearText();
+        }
+        
+        Destroy(hand.gameObject);
+
     }
 
 

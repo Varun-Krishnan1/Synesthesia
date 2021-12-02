@@ -100,4 +100,14 @@ public class TextManager : MonoBehaviour
     {
         activated = true;
     }
+
+    public void ClearText()
+    {
+        textDisplay.text = ""; 
+    }
+
+    public void WriteText(string text)
+    {
+        textDisplay.text = text;
+    }
 }
