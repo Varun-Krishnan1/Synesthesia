@@ -137,16 +137,26 @@ public class Drum : MonoBehaviour
     void CheckButtonPress()
     {
         float right_trigger_value = right_controller.activateAction.action.ReadValue<float>(); 
-        float left_trigger_value = left_controller.activateAction.action.ReadValue<float>(); 
-        
-        if((previousRightTriggerValue < 0.5f && right_trigger_value > 0.5f) || (previousLeftTriggerValue < 0.5f && left_trigger_value > 0.5f))
+        float left_trigger_value = left_controller.activateAction.action.ReadValue<float>();
+
+        bool buttonPressed = false; 
+        if(previousRightTriggerValue < 0.5f && right_trigger_value > 0.5f)
         {
             ActivateSound(right_trigger_value);
+            buttonPressed = true; 
+        }
+        else if(previousLeftTriggerValue < 0.5f && left_trigger_value > 0.5f)
+        {
+            ActivateSound(left_trigger_value);
+            buttonPressed = true;
+        }
+        if(buttonPressed)
+        {
             ScaleDrum();
             RequestVisualChange();
 
             // keep vibration intensity low 
-            left_controller.SendHapticImpulse(.1f, .25f); 
+            left_controller.SendHapticImpulse(.1f, .25f);
             right_controller.SendHapticImpulse(.1f, .25f);
         }
 

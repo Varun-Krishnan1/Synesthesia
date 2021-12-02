@@ -1172,9 +1172,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 406436684}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 71.89317, y: 22.138577, z: 54.622684}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0.6404298, z: 0, w: 0.7680168}
+  m_LocalPosition: {x: 77.786, y: 29.182, z: 27.314}
+  m_LocalScale: {x: 0.6999684, y: 0.6999684, z: 0.6999684}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 12
@@ -1191,7 +1191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba093ef111ff0fc4aa7a117917bc1353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayTillMainTheme: 30
+  delay: 0
 --- !u!1 &417000460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1424,6 +1424,49 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2331863580861070934, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
   m_PrefabInstance: {fileID: 827201979}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &485737118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 485737119}
+  - component: {fileID: 485737120}
+  m_Layer: 0
+  m_Name: StageOneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &485737119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485737118}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 78.80676, y: 30.093864, z: 30.916927}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &485737120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485737118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945a1c5ce8e64ee4485a4590468e8e53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519764726
 GameObject:
   m_ObjectHideFlags: 0
@@ -2655,6 +2698,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameStage: 0
+  StageZero: {fileID: 71300414}
+  StageOne: {fileID: 485737118}
 --- !u!4 &1311296119
 Transform:
   m_ObjectHideFlags: 0

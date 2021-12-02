@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get { return _instance; } }
 
+    public GameObject StageZero; 
+    public GameObject StageOne; 
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -21,11 +23,12 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
         }
+
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+        StageOne.SetActive(false);
     }
 
     // Update is called once per frame
@@ -42,6 +45,7 @@ public class GameManager : MonoBehaviour
     public void NextStage()
     {
         gameStage += 1; 
-        Debug.Log("Next Stage!"); 
+        Debug.Log("Next Stage!");
+        StageOne.SetActive(true); 
     }
 }
