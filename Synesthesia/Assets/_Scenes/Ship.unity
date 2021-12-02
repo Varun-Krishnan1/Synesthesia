@@ -183,6 +183,7 @@ MonoBehaviour:
   levelProgressions: 3200000019000000
   drumsticks: {fileID: 1160042613}
   progressBar: {fileID: 348118557}
+  numDrumsticksPickedUp: 0
 --- !u!1 &164719399
 GameObject:
   m_ObjectHideFlags: 0
@@ -3132,6 +3133,17 @@ Transform:
   m_Father: {fileID: 1416987909}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1440667206 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
+  m_PrefabInstance: {fileID: 1912167132}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d6faf8e0ce5f1408ff50c7d4a683f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1548212238
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3424,7 +3436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6232202409082245530, guid: fa81dd7b8aecc634291117848e1e02e7, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6232202409082245530, guid: fa81dd7b8aecc634291117848e1e02e7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3466,6 +3478,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6232202409082245535, guid: fa81dd7b8aecc634291117848e1e02e7, type: 3}
+      propertyPath: kick
+      value: 
+      objectReference: {fileID: 1440667206}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa81dd7b8aecc634291117848e1e02e7, type: 3}
 --- !u!1 &1729821898
@@ -3504,7 +3520,6 @@ MonoBehaviour:
     experience of a sense triggered by another. '
   - 'Out of many forms, prevalent manifestations associate colors and shapes with
     letters, numbers, or sounds. '
-  - Grab the drumsticks in front of you and try it out!
   - 'People with Synesthesia percieve the world in unique ways. <br><br> On one hand,
     busy environments can become emotional battle fields of sensory overload for
     Synesthetes.<br><br>On the other hand, their extraordinary perception grants
@@ -3513,14 +3528,13 @@ MonoBehaviour:
   - Should Not Show 1!
   - Should Not Show 2!
   timingBetweenSentences:
-  - 10
-  - 10
-  - 10
   - 5
-  - 20
-  - 10
-  - 10
-  sentenceElementToStopActivation: 040000000500000006000000
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  sentenceElementToStopActivation: 030000000400000005000000
   textDisplay: {fileID: 260096240}
   mainCamera: {fileID: 1863428602}
 --- !u!4 &1729821900
@@ -3823,7 +3837,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5805610740137415313, guid: baa02aafcffc02f44b3f4faff5e040c9, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5805610740137415313, guid: baa02aafcffc02f44b3f4faff5e040c9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3865,6 +3879,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5805610740137415315, guid: baa02aafcffc02f44b3f4faff5e040c9, type: 3}
+      propertyPath: m_InteractionManager
+      value: 
+      objectReference: {fileID: 1426515389}
     - target: {fileID: 5805610740137415315, guid: baa02aafcffc02f44b3f4faff5e040c9, type: 3}
       propertyPath: m_HapticSelectEnterDuration
       value: 0.25
@@ -3921,6 +3939,10 @@ PrefabInstance:
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 5805610740137415316, guid: baa02aafcffc02f44b3f4faff5e040c9, type: 3}
+      propertyPath: kick
+      value: 
+      objectReference: {fileID: 1440667206}
     - target: {fileID: 5805610740137415326, guid: baa02aafcffc02f44b3f4faff5e040c9, type: 3}
       propertyPath: m_Name
       value: LeftHand Controller (1)
@@ -4024,7 +4046,7 @@ PrefabInstance:
       objectReference: {fileID: 684536967}
     - target: {fileID: 5475643702654304323, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
       propertyPath: playOnButtonPress
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfd24a947455e9145815bb7cdf9fcb9c, type: 3}
@@ -4277,7 +4299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.46570143, g: 0, b: 0.8666667, a: 1}
+  m_Color: {r: 0.31505868, g: 0.5824209, b: 0.9433962, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
