@@ -60,7 +60,7 @@ Transform:
   m_GameObject: {fileID: 1253948450187845626}
   m_LocalRotation: {x: 0.241344, y: -0.056246664, z: -0.06657665, w: 0.966518}
   m_LocalPosition: {x: -0.178, y: 0.294, z: 0.093}
-  m_LocalScale: {x: 1.2500001, y: 1.2500001, z: 1.2500001}
+  m_LocalScale: {x: 1.2500002, y: 1.2500002, z: 1.2500001}
   m_Children:
   - {fileID: 1965938615583683448}
   - {fileID: 1756670675}
@@ -181,7 +181,19 @@ MonoBehaviour:
       m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8255581129124960021}
+        m_TargetAssemblyTypeName: DrumStick, Assembly-CSharp
+        m_MethodName: AttachToParent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_Activated:
     m_PersistentCalls:
       m_Calls: []
@@ -230,7 +242,7 @@ MonoBehaviour:
   m_SmoothRotation: 0
   m_SmoothRotationAmount: 5
   m_TightenRotation: 0.5
-  m_ThrowOnDetach: 1
+  m_ThrowOnDetach: 0
   m_ThrowSmoothingDuration: 0.25
   m_ThrowSmoothingCurve:
     serializedVersion: 2
@@ -250,7 +262,7 @@ MonoBehaviour:
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
   m_ForceGravityOnDetach: 0
-  m_RetainTransformParent: 1
+  m_RetainTransformParent: 0
   m_AttachPointCompatibilityMode: 0
 --- !u!1 &4985443360527039398
 GameObject:

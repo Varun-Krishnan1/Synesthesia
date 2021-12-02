@@ -16,12 +16,16 @@ public class StageZero : MonoBehaviour
     public Transform pinkLocation;
     public Transform yellowLocation;
 
-    public int[] levelProgressions; 
+    public int[] levelProgressions;
+
+    [Header("Stage 0 Objects")]
+    public GameObject drumsticks; 
   
     private Dictionary<Drum.drumTypes, Transform> drumTypeToLocationDict = new Dictionary<Drum.drumTypes, Transform>();
 
     private int level = -1; // which portion of the stage you are on (make sure to start at -1) 
-    private int curLevelProgression; 
+    private int curLevelProgression;
+    private bool endOfStage = false; 
 
     public Transform drumTypeToLocation(Drum.drumTypes drumType)
     {
@@ -61,8 +65,14 @@ public class StageZero : MonoBehaviour
         level += 1;
         curLevelProgression = 0;
 
+        if(level == 0)
+        {
+            // this level of the stage you grab the drumsticks 
+            drumsticks.SetActive(true);
+        }
         if (level == levelProgressions.Length)
         {
+            endOfStage = true; 
             GameManager.Instance.NextStage();
             return;
         }
@@ -70,6 +80,10 @@ public class StageZero : MonoBehaviour
 
     public void ProgressLevel(Gradient drumColor)
     {
+        if(endOfStage)
+        {
+            return; 
+        }
         curLevelProgression += 1;
         Debug.Log(curLevelProgression);
 

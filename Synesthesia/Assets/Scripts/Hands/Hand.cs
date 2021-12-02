@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 [RequireComponent(typeof(Animator))]
 public class Hand : MonoBehaviour
@@ -62,9 +63,5 @@ public class Hand : MonoBehaviour
         mesh.enabled = !mesh.enabled; 
     }
 
-    public void DestroyHand()
-    {
-        Destroy(this.transform.parent.gameObject.GetComponent<HandController>());
-        Destroy(this.gameObject); 
-    }
+
 }

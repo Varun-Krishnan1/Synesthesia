@@ -22,4 +22,19 @@ public class HandController : MonoBehaviour
         hand.SetGrip(controller.selectAction.action.ReadValue<float>());
         hand.SetTrigger(controller.activateAction.action.ReadValue<float>());
     }
+
+    public void AttachDrumstick()
+    {
+        Destroy(hand.gameObject);
+
+        GameObject drumstick = this.GetComponent<XRDirectInteractor>().selectTarget.gameObject;
+        drumstick.transform.parent = this.transform; 
+    }
+
+
+    public void DestroyInteractor()
+    {
+        Destroy(this.GetComponent<XRDirectInteractor>());
+        Destroy(this);
+    }
 }
