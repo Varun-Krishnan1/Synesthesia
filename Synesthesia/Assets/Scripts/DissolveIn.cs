@@ -7,7 +7,7 @@ public class DissolveIn : MonoBehaviour
     public float lerpDuration;
     public bool sharedMaterial; 
 
-    private float startValue = .4f;
+    private float startValue = .83f;
     private float endValue = 0f;
     private float valueToLerp;
 
