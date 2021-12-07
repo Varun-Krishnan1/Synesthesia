@@ -23,7 +23,7 @@ Material:
   m_Name: Particle
   m_Shader: {fileID: -6465566751694194690, guid: 50f892a1ad3dcd84eba2cc89326f08a4, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 0
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -94,6 +94,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - AlphaClip: 0
     - Scroll_Speed: 0
     - _AlphaClip: 0
     - _Blend: 0
@@ -139,6 +140,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Base_Color: {r: 0, g: 1, b: 0.59772396, a: 0}
+    - Fresnel_Color: {r: 0, g: 0.5735392, b: 1.720618, a: 0}
     - Hologram_Tiling: {r: 1, g: 3, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}

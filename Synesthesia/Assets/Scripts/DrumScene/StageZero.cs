@@ -23,6 +23,7 @@ public class StageZero : MonoBehaviour
     [Header("Stage 0 Objects")]
     public GameObject drumsticks;
     public Slider progressBar;
+    public GameObject turnAroundObjects; 
 
     public int numDrumsticksPickedUp;
 
@@ -61,7 +62,9 @@ public class StageZero : MonoBehaviour
 
         progressBar.maxValue = levelProgressions[0];
 
-        // -- ensure objects are hidden 
+        // -- ensure correct objects are shown 
+        turnAroundObjects.SetActive(true); 
+        // -- ensure other objects are hidden 
         progressBar.transform.parent.gameObject.SetActive(false);
         drumsticks.SetActive(false); 
     }
@@ -81,6 +84,7 @@ public class StageZero : MonoBehaviour
             TextManager.Instance.WriteText("Grab the drumsticks in front of you to try it out!");
             progressBar.transform.parent.gameObject.SetActive(true);
             drumsticks.SetActive(true);
+            Destroy(turnAroundObjects); 
         }
         else
         {

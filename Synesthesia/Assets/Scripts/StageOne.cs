@@ -8,6 +8,9 @@ public class StageOne : MonoBehaviour
 
     public static StageOne Instance { get { return _instance; } }
 
+    public GameObject ship;
+    public float spawnDelay; 
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -24,6 +27,14 @@ public class StageOne : MonoBehaviour
     void Start()
     {
         Debug.Log("Stage One Started!");
-        AudioManager.Instance.StartTheme(); 
+        AudioManager.Instance.StartTheme();
+        StartCoroutine(SpawnShip()); 
+    }
+
+    IEnumerator SpawnShip()
+    {
+        yield return new WaitForSeconds(spawnDelay);
+        ship.SetActive(true);
+
     }
 }
