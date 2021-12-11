@@ -8,7 +8,7 @@ public class StageOne : MonoBehaviour
 
     public static StageOne Instance { get { return _instance; } }
 
-    public GameObject ship;
+    public GameObject[] shipParts; 
     public float spawnDelay; 
 
     private void Awake()
@@ -34,7 +34,12 @@ public class StageOne : MonoBehaviour
     IEnumerator SpawnShip()
     {
         yield return new WaitForSeconds(spawnDelay);
-        ship.SetActive(true);
+
+        foreach (GameObject s in shipParts)
+        {
+            s.SetActive(true);
+            yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration); 
+        }
 
     }
 }
