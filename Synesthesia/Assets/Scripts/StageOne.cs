@@ -9,7 +9,8 @@ public class StageOne : MonoBehaviour
     public static StageOne Instance { get { return _instance; } }
 
     public GameObject[] shipParts; 
-    public float spawnDelay; 
+    public float spawnDelay;
+    public bool colorCloudsOnHit = false; 
 
     private void Awake()
     {
@@ -34,6 +35,10 @@ public class StageOne : MonoBehaviour
     IEnumerator SpawnShip()
     {
         yield return new WaitForSeconds(spawnDelay);
+
+        // -- for testing let them do color clouds
+        colorCloudsOnHit = true; 
+        // ---------------------------------------
 
         foreach (GameObject s in shipParts)
         {

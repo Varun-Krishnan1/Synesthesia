@@ -72,7 +72,12 @@ public class VisualManager : MonoBehaviour
             Gradient drumColor = drumTypeToColor(drumType); 
             StageZero.Instance.ProgressLevel(drumColor); 
             DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumColor); 
-        }        
+        }  
+        if(gameStage == 1 && StageOne.Instance.colorCloudsOnHit)
+        {
+            Gradient drumColor = drumTypeToColor(drumType);
+            DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumColor);
+        }
     }
 
     public Gradient drumTypeToColor(Drum.drumTypes drumType)
