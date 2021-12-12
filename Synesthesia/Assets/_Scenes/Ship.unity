@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &54762730 stripped
 GameObject:
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &71300414
 GameObject:
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &161003318
 GameObject:
@@ -419,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &240965307
 GameObject:
@@ -719,7 +719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &306123673
 GameObject:
@@ -981,7 +981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &348118555
 GameObject:
@@ -1368,7 +1368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &394128376
 GameObject:
@@ -2043,7 +2043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &444953270 stripped
 GameObject:
@@ -2062,7 +2062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!4 &485344359 stripped
 Transform:
@@ -2085,7 +2085,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &485737119
 Transform:
   m_ObjectHideFlags: 0
@@ -2116,12 +2116,9 @@ MonoBehaviour:
   - {fileID: 1164529270}
   - {fileID: 1402375575}
   - {fileID: 51212596}
-  - {fileID: 511046450}
   - {fileID: 1425244967}
   - {fileID: 1379907324}
-  - {fileID: 1056091649}
   - {fileID: 54762730}
-  - {fileID: 1925559911}
   - {fileID: 333683602}
   - {fileID: 689481836}
   - {fileID: 733672753}
@@ -2129,7 +2126,9 @@ MonoBehaviour:
   - {fileID: 379647121}
   - {fileID: 40864597}
   - {fileID: 1622943672}
-  spawnDelay: 10
+  water: {fileID: 0}
+  spawnDelay: 0
+  colorCloudsOnHit: 0
 --- !u!1 &511046450 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1376076986145340, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
@@ -2147,7 +2146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &519764726
 GameObject:
@@ -2384,11 +2383,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1029134204537772, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1075500197751244, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1183078024404704, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_Name
@@ -2396,99 +2395,99 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1183078024404704, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1224082868934436, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1226303195488224, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1328128355093892, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1346978396343698, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1363098170661926, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1376076986145340, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1409839719317490, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1428207958016152, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1451175807268658, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1551614355426462, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1624307299337350, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1645990879755820, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1709530641511206, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1803209840133342, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1837607040091934, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1863247331403890, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1865282879651334, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1918457906731728, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1949519049537764, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1953280560008574, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1971350607171292, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1986887541273854, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1987139991942378, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4529878967516176, guid: 1b78331b52629c7479714da987b1a28b, type: 3}
       propertyPath: m_RootOrder
@@ -2681,7 +2680,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &612474970
 GameObject:
@@ -2995,7 +2994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1001 &745287080
 PrefabInstance:
@@ -3771,7 +3770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!4 &1090883824 stripped
 Transform:
@@ -3795,7 +3794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &1160042613
 GameObject:
@@ -4200,7 +4199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &1233746816
 GameObject:
@@ -4624,7 +4623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &1402375575 stripped
 GameObject:
@@ -4643,7 +4642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &1412940914
 GameObject:
@@ -4828,7 +4827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &1426515388
 GameObject:
@@ -5009,7 +5008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1001 &1548212238
 PrefabInstance:
@@ -5439,7 +5438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1001 &1726785598
 PrefabInstance:
@@ -5621,10 +5620,10 @@ MonoBehaviour:
   - Should Not Show 1!
   - Should Not Show 2!
   timingBetweenSentences:
-  - 10
   - 5
   - 5
-  - 10
+  - 5
+  - 5
   - 5
   sentenceElementToStopActivation: 030000000400000005000000
   textDisplay: {fileID: 260096240}
@@ -6467,7 +6466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!114 &1935952233 stripped
 MonoBehaviour:
@@ -6582,7 +6581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!1 &2098828876
 GameObject:
@@ -6927,7 +6926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac18bd520b041bd4382ce964d25761ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpDuration: 10
+  lerpDuration: 5
   sharedMaterial: 0
 --- !u!4 &222404860554505351
 Transform:

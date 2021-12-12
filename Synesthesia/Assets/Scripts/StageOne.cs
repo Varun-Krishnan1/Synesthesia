@@ -8,7 +8,11 @@ public class StageOne : MonoBehaviour
 
     public static StageOne Instance { get { return _instance; } }
 
-    public GameObject[] shipParts; 
+    [Header("Objects")]
+    public GameObject[] shipParts;
+    public GameObject water;
+    
+    [Header("Variables")]
     public float spawnDelay;
     public bool colorCloudsOnHit = false; 
 
@@ -34,10 +38,14 @@ public class StageOne : MonoBehaviour
 
     IEnumerator SpawnShip()
     {
+        Debug.Log("HERE");
+
+        // -- set parent ship container to active 
+        shipParts[0].transform.parent.gameObject.SetActive(true); 
         yield return new WaitForSeconds(spawnDelay);
 
         // -- for testing let them do color clouds
-        colorCloudsOnHit = true; 
+        colorCloudsOnHit = true;
         // ---------------------------------------
 
         foreach (GameObject s in shipParts)

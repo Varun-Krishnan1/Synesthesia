@@ -39,7 +39,7 @@ public class AudioManager : MonoBehaviour
     public void StartTheme()
     {
         AudioSource mainTheme = GetComponent<AudioSource>();
-        mainTheme.Play();
+        // mainTheme.Play();
         themeStartTime = Time.time;
     }
 }
