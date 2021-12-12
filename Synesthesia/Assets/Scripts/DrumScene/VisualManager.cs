@@ -13,7 +13,6 @@ public class VisualManager : MonoBehaviour
     // -- storing order here for now but probably need to change it to other object 
     // -- or csv file in future 
     public float refractoryTime = 5f;
-    private float lastHitTime;
     private float lastKickHit;
     private bool haltPlaying = false; 
 
@@ -53,7 +52,6 @@ public class VisualManager : MonoBehaviour
         drumTypeToColorDict.Add(Drum.drumTypes.Kick, red);
         drumTypeToColorDict.Add(Drum.drumTypes.HiHat, yellow);
 
-        lastHitTime = 0f; 
     }
 
 
@@ -63,8 +61,6 @@ public class VisualManager : MonoBehaviour
         {
             lastKickHit = .01f; 
         }
-        // -- prevent other drums from firing 
-        lastHitTime = refractoryTime;
 
         int gameStage = GameManager.Instance.GetGameStage(); 
         if(gameStage == 0)
@@ -73,7 +69,7 @@ public class VisualManager : MonoBehaviour
             StageZero.Instance.ProgressLevel(drumColor); 
             DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumColor); 
         }  
-        if(gameStage == 1 && StageOne.Instance.colorCloudsOnHit)
+        if(gameStage == 1)
         {
             Gradient drumColor = drumTypeToColor(drumType);
             DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumColor);
@@ -89,6 +85,24 @@ public class VisualManager : MonoBehaviour
     {
         this.haltPlaying = true; 
     }
+
+    private bool SetDrumActive(Drum.drumTypes drumType)
+    {
+        // kick always needs a slight delay 
+        if (drumType == Drum.drumTypes.Kick)
+        {
+            if (lastKickHit <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        // if not kick then let them hit however many times they want 
+        return true;
+    }
     // -- change so its not in update but sends new active to next drum after RequestElementChange
     public bool GetIsActive(Drum.drumTypes drumType)
     {
@@ -100,32 +114,20 @@ public class VisualManager : MonoBehaviour
         // Stage 0 drums always active 
         if(GameManager.Instance.GetGameStage() == 0)
         {
-            // kick always needs a slight delay 
-            if (drumType == Drum.drumTypes.Kick)
-            {
-                if(lastKickHit <= 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;   
-                }
-            }
-            return true;
-
+            return SetDrumActive(drumType); 
         }
-
-        if (lastHitTime <= 0)
+        // Stage 1 drums only active when I say so 
+        if(GameManager.Instance.GetGameStage() == 1 && StageOne.Instance.colorCloudsOnHit)
         {
-            return true; 
+            return SetDrumActive(drumType);
         }
+
         return false; 
+
     }
 
     void Update()
     {
-        lastHitTime -= Time.deltaTime;
         lastKickHit -= Time.deltaTime; 
     }
 

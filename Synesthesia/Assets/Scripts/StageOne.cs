@@ -11,7 +11,8 @@ public class StageOne : MonoBehaviour
     [Header("Objects")]
     public GameObject[] shipParts;
     public GameObject water;
-    
+    public GameObject terrain; 
+
     [Header("Variables")]
     public float spawnDelay;
     public bool colorCloudsOnHit = false; 
@@ -54,11 +55,12 @@ public class StageOne : MonoBehaviour
             yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration); 
         }
 
-        SpawnWater(); 
+        SpawnWaterAndTerrain(); 
     }
 
-    void SpawnWater()
+    void SpawnWaterAndTerrain()
     {
-        water.SetActive(true); 
+        water.SetActive(true);
+        terrain.SetActive(true); 
     }
 }
