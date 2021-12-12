@@ -33,10 +33,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - GradientNoise: 0.01
+    - GradientNoise: 0.001
     - RippleDensity: 20
     - RippleSlimness: 5
     - RippleSpeed: 1
+    - WaveHeight: 0.5
     - WaveSpeed: 0.1
     m_Colors:
     - BaseColor: {r: 0.14509803, g: 0.6920815, b: 1, a: 0}

@@ -54,5 +54,11 @@ public class StageOne : MonoBehaviour
             yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration); 
         }
 
+        SpawnWater(); 
+    }
+
+    void SpawnWater()
+    {
+        water.SetActive(true); 
     }
 }
