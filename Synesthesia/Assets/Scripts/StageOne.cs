@@ -15,7 +15,9 @@ public class StageOne : MonoBehaviour
 
     [Header("Variables")]
     public float spawnDelay;
-    public bool colorCloudsOnHit = false; 
+    public bool colorCloudsOnHit = false;
+    private bool moveTerrain = false;
+    private float terrainMoveSpeed = 0f; 
 
     private void Awake()
     {
@@ -33,6 +35,7 @@ public class StageOne : MonoBehaviour
     void Start()
     {
         Debug.Log("Stage One Started!");
+        MoveTerrain(10f); 
         AudioManager.Instance.StartTheme();
         StartCoroutine(SpawnShip()); 
     }
@@ -62,5 +65,19 @@ public class StageOne : MonoBehaviour
     {
         water.SetActive(true);
         terrain.SetActive(true); 
+    }
+
+    void MoveTerrain(float speed)
+    {
+        terrainMoveSpeed = speed;
+        moveTerrain = true; 
+    }
+
+    void Update()
+    {
+        if(moveTerrain)
+        {
+            terrain.transform.position -= new Vector3(0, 0, Time.deltaTime * terrainMoveSpeed);
+        }
     }
 }
