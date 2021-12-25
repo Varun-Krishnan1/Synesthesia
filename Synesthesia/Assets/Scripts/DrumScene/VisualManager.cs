@@ -55,7 +55,7 @@ public class VisualManager : MonoBehaviour
     }
 
 
-    public void RequestElementChange(Drum.drumTypes drumType, GameObject DrumCollider)
+    public void RequestElementChange(Drum.drumTypes drumType)
     {        
         if(drumType == Drum.drumTypes.Kick)
         {
@@ -65,14 +65,13 @@ public class VisualManager : MonoBehaviour
         int gameStage = GameManager.Instance.GetGameStage(); 
         if(gameStage == 0)
         {
-            Gradient drumColor = drumTypeToColor(drumType); 
-            StageZero.Instance.ProgressLevel(drumColor); 
-            DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumColor); 
+            StageZero.Instance.ProgressLevel(drumTypeToColor(drumType)); 
+            DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumType); 
         }  
         if(gameStage == 1)
         {
-            Gradient drumColor = drumTypeToColor(drumType);
-            DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumColor);
+            StageOne.Instance.DrumShipMovement(drumType);
+            // DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumType);
         }
     }
 
@@ -117,9 +116,12 @@ public class VisualManager : MonoBehaviour
             return SetDrumActive(drumType); 
         }
         // Stage 1 drums only active when I say so 
-        if(GameManager.Instance.GetGameStage() == 1 && StageOne.Instance.colorCloudsOnHit)
+        else if(GameManager.Instance.GetGameStage() == 1)
         {
-            return SetDrumActive(drumType);
+            if (StageOne.Instance.colorCloudsOnHit)
+            {
+                return SetDrumActive(drumType);
+            }
         }
 
         return false; 
@@ -130,11 +132,28 @@ public class VisualManager : MonoBehaviour
     {
         lastKickHit -= Time.deltaTime; 
     }
-
-    void DrawColorSplash(Transform location, Gradient gradientColor)
+ 
+    
+    public GameObject DrawColorSplash(Vector3 position, Quaternion rotation, Drum.drumTypes drumType)
     {
-        GameObject vfx = Instantiate(colorBurstVFX, location.position, location.rotation);
+        GameObject vfx = Instantiate(colorBurstVFX, position, rotation);
         VisualEffect vfx_effects = vfx.GetComponent<VisualEffect>();
-        vfx_effects.SetVector4("Color", gradientColor.colorKeys[0].color); 
+        vfx_effects.SetVector4("Color", drumTypeToColor(drumType).colorKeys[0].color);
+
+        return vfx; 
     }
+
+    public GameObject DrawColorSplash(Transform location, Drum.drumTypes drumType)
+    {
+        return DrawColorSplash(location.position, location.rotation, drumType);
+    }
+
+    public GameObject DrawColorSplash(Vector3 position, Quaternion rotation, Vector3 scale, Drum.drumTypes drumType)
+    {
+        GameObject vfx = DrawColorSplash(position, rotation, drumType);
+        vfx.transform.localScale = scale;
+
+        return vfx; 
+    }
+
 }

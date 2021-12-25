@@ -9,10 +9,9 @@ public class AudioManager : MonoBehaviour
     private static AudioManager _instance;
     public static AudioManager Instance { get { return _instance; } }
 
-    public float delay; 
+    public float delay;
 
-    private float startTime; 
-    private float themeStartTime = 0f; 
+    private AudioSource mainTheme; 
 
     void Awake()
     {
@@ -26,21 +25,16 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public float getCurrentTimePoint()
+    public float getCurrentPoint()
     {
-        if(themeStartTime == 0f)
-        {
-            return 0f; 
-        }
-        return Time.time - themeStartTime; 
+        return mainTheme.time; 
     }
 
 
     public void StartTheme()
     {
-        AudioSource mainTheme = GetComponent<AudioSource>();
-        mainTheme.Play();
-        themeStartTime = Time.time;
+        mainTheme = GetComponent<AudioSource>();
+        //mainTheme.Play();
     }
 }
 

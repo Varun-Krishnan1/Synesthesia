@@ -91,7 +91,7 @@ public class Drum : MonoBehaviour
     {
         if (drumIsActive)
         {
-            VisualManager.Instance.RequestElementChange(drumType, this.gameObject);
+            VisualManager.Instance.RequestElementChange(drumType);
         }
     }
 
