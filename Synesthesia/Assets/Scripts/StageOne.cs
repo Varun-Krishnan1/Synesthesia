@@ -49,7 +49,7 @@ public class StageOne : MonoBehaviour
     IEnumerator SpawnShip()
     {
         Debug.Log("HERE");
-
+        MoveShip(10f); 
         // -- set parent ship container to active 
         shipParts[0].transform.parent.gameObject.SetActive(true); 
         yield return new WaitForSeconds(spawnDelay);
@@ -108,7 +108,7 @@ public class StageOne : MonoBehaviour
 
     void MoveShip(float speed)
     {
-        moveSpeed = Mathf.Clamp(speed, 0f, 50f);
+        moveSpeed = Mathf.Clamp(speed, 0f, 25f);
         moveShip = true;
 
         Debug.Log("Move Speed set to: " + moveSpeed);
@@ -124,7 +124,7 @@ public class StageOne : MonoBehaviour
             moveSpeed -= Time.deltaTime * speedDecayTime;
             moveSpeed = Mathf.Clamp(moveSpeed, 0f, 50f);
 
-            Debug.Log(moveSpeed); 
+            //Debug.Log(moveSpeed); 
 
             waterMaterial.SetFloat("Vector1_244B0600", moveSpeed);
             terrain.transform.position -= new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
@@ -161,5 +161,11 @@ public class StageOne : MonoBehaviour
 
             iTween.ScaleFrom(drum, new Vector3(localScale.x + scaleFactor, localScale.y + scaleFactor, localScale.z + scaleFactor), .15f);
         }
+    }
+
+    // called by ShipCheckpoint class 
+    public void CheckpointHit()
+    {
+        MoveShip(0f); 
     }
 }
