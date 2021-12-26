@@ -23,7 +23,8 @@ public class StageOne : MonoBehaviour
     public float speedDecayTime; 
     private bool moveShip = false;
     private float moveSpeed = 0f;
-    private bool firstDrum = false; 
+    private bool firstDrum = false;
+    private bool beatVisualizer = false; 
 
     private void Awake()
     {
@@ -48,13 +49,11 @@ public class StageOne : MonoBehaviour
 
     IEnumerator SpawnShip()
     {
-        Debug.Log("HERE");
-        MoveShip(10f); 
+
         // -- set parent ship container to active 
         shipParts[0].transform.parent.gameObject.SetActive(true); 
         yield return new WaitForSeconds(spawnDelay);
 
-        TextManager.Instance.Activate(); 
         // -- for testing let them do color clouds
         colorCloudsOnHit = true;
         // ---------------------------------------
@@ -65,7 +64,17 @@ public class StageOne : MonoBehaviour
             yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration); 
         }
 
-        SpawnWaterAndTerrain(); 
+        SpawnWaterAndTerrain();
+
+        yield return new WaitForSeconds(5f);
+
+        TextManager.Instance.Activate();
+
+        blueDrum.SetActive(true);
+        pinkDrum.SetActive(true);
+        beatVisualizer = true; 
+
+
     }
 
     void SpawnWaterAndTerrain()
@@ -133,39 +142,45 @@ public class StageOne : MonoBehaviour
     }
 
     void FixedUpdate()
-    {        
-        // -- scale drum at interval of 1 second (100f) 
-        float timeOff = Mathf.RoundToInt(Time.time * 100f) % 100f;
-
-        // -- but change drum at interval a little before for leeway 
-        if(timeOff == 85)
+    {
+        if (beatVisualizer)
         {
-            firstDrum = !firstDrum; 
-        }
+            // -- scale drum at interval of 1 second (100f) 
+            float timeOff = Mathf.RoundToInt(Time.time * 100f) % 100f;
 
-
-        if (timeOff == 0)
-        {
-            Vector3 localScale = blueDrum.transform.localScale;
-            float scaleFactor = .04f;
-
-            GameObject drum; 
-            if(firstDrum)
+            // -- but change drum at interval a little before for leeway 
+            if (timeOff == 85)
             {
-                drum = blueDrum; 
-            }
-            else
-            {
-                drum = pinkDrum;
+                firstDrum = !firstDrum;
             }
 
-            iTween.ScaleFrom(drum, new Vector3(localScale.x + scaleFactor, localScale.y + scaleFactor, localScale.z + scaleFactor), .15f);
+
+            if (timeOff == 0)
+            {
+                Vector3 localScale = blueDrum.transform.localScale;
+                float scaleFactor = .04f;
+
+                GameObject drum;
+                if (firstDrum)
+                {
+                    drum = blueDrum;
+                }
+                else
+                {
+                    drum = pinkDrum;
+                }
+
+                iTween.ScaleFrom(drum, new Vector3(localScale.x + scaleFactor, localScale.y + scaleFactor, localScale.z + scaleFactor), .15f);
+            }
         }
     }
 
     // called by ShipCheckpoint class 
     public void CheckpointHit()
     {
-        MoveShip(0f); 
+        MoveShip(0f);
+        beatVisualizer = false;
+        blueDrum.SetActive(false);
+        pinkDrum.SetActive(false); 
     }
 }
