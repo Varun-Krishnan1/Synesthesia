@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using DG.Tweening;
 
 
 public class Drum : MonoBehaviour
@@ -13,14 +14,9 @@ public class Drum : MonoBehaviour
     private float previousRightTriggerValue; 
     private float previousLeftTriggerValue; 
 
-    private float scaleSpeed = 10f;
     private float scaleHeight = .01f;
-    private float scaleTime = .15f;
+    private float scaleTime = .10f;
 
-    Vector3 pointA;
-    Vector3 pointB;
-
-    private float curScaleTime; 
     private AudioSource source;
     private bool drumIsActive;
 
@@ -29,9 +25,6 @@ public class Drum : MonoBehaviour
     {
         source = GetComponent<AudioSource>();
         drumIsActive = true;
-
-        // -- scaling 
-        pointA = transform.parent.localScale;
 
     }
 
@@ -83,15 +76,20 @@ public class Drum : MonoBehaviour
 
     void ScaleDrum()
     {
-        curScaleTime = scaleTime;
+        transform.parent.DOScale(transform.parent.localScale + new Vector3(scaleHeight, scaleHeight, scaleHeight), scaleTime).SetLoops(2, LoopType.Yoyo);
 
+    }
+
+    public void CorrectHitEffect()
+    {
+        Debug.Log(drumType + " Effect");
     }
 
     void RequestVisualChange()
     {
         if (drumIsActive)
         {
-            VisualManager.Instance.RequestElementChange(drumType);
+            VisualManager.Instance.RequestElementChange(this);
         }
     }
 
@@ -104,16 +102,7 @@ public class Drum : MonoBehaviour
         }
 
 
-        // Scaling 
-        pointB = pointA + new Vector3(scaleHeight, scaleHeight, scaleHeight);
-
         drumIsActive = VisualManager.Instance.GetIsActive(drumType); 
-        if(curScaleTime >= 0f)
-        {
-            float time = Mathf.PingPong(Time.time * scaleSpeed, 1);
-            transform.parent.localScale = Vector3.Lerp(pointA, pointB, time);
-        }
-        curScaleTime -= Time.deltaTime; 
     }
 
     public enum drumTypes

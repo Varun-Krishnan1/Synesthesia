@@ -16,7 +16,7 @@ public class VisualManager : MonoBehaviour
     private float lastKickHit;
     private bool haltPlaying = false; 
 
-    public Transform[] drumObjectParticleFiringPoints; 
+    public Drum[] drums; 
     public GameObject particleSystem;
     public GameObject testObject;
 
@@ -29,8 +29,7 @@ public class VisualManager : MonoBehaviour
     public Gradient yellow;
 
     public GameObject colorBurstVFX;
-    
-    
+
     private Dictionary<Drum.drumTypes, Gradient> drumTypeToColorDict = new Dictionary<Drum.drumTypes, Gradient>();
 
 
@@ -55,8 +54,10 @@ public class VisualManager : MonoBehaviour
     }
 
 
-    public void RequestElementChange(Drum.drumTypes drumType)
-    {        
+    public void RequestElementChange(Drum drum)
+    {
+        Drum.drumTypes drumType = drum.drumType; 
+
         if(drumType == Drum.drumTypes.Kick)
         {
             lastKickHit = .01f; 
@@ -70,7 +71,7 @@ public class VisualManager : MonoBehaviour
         }  
         if(gameStage == 1)
         {
-            StageOne.Instance.DrumShipMovement(drumType);
+            StageOne.Instance.DrumShipMovement(drum);
             // DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumType);
         }
     }

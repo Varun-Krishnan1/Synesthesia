@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class StageOne : MonoBehaviour
 {
     private static StageOne _instance;
@@ -15,7 +15,6 @@ public class StageOne : MonoBehaviour
     public GameObject terrain;
     public GameObject blueDrum;
     public GameObject pinkDrum; 
-    public GameObject testObjectTwo; 
 
     [Header("Variables")]
     public float spawnDelay;
@@ -49,7 +48,7 @@ public class StageOne : MonoBehaviour
 
     IEnumerator SpawnShip()
     {
-
+        /*
         // -- set parent ship container to active 
         shipParts[0].transform.parent.gameObject.SetActive(true); 
         yield return new WaitForSeconds(spawnDelay);
@@ -69,6 +68,9 @@ public class StageOne : MonoBehaviour
         yield return new WaitForSeconds(5f);
 
         TextManager.Instance.Activate();
+        */
+
+        yield return new WaitForSeconds(0f); 
 
         blueDrum.SetActive(true);
         pinkDrum.SetActive(true);
@@ -83,13 +85,14 @@ public class StageOne : MonoBehaviour
         terrain.SetActive(true); 
     }
 
-    public void DrumShipMovement(Drum.drumTypes drumType)
+    public void DrumShipMovement(Drum drum)
     {
+        Drum.drumTypes drumType = drum.drumType; 
+
         if(AudioManager.Instance.getCurrentPoint() >= 0f)
         {
             // .15 seconds leeway either direction 
             float timeOff = Mathf.RoundToInt(Time.time * 100f) % 100f;
-            Debug.Log(timeOff); 
             if ((timeOff < 15f) || (timeOff > 85f))
             {
                 Vector3 positionOffset = new Vector3(0f, .1f, 0f);
@@ -110,6 +113,7 @@ public class StageOne : MonoBehaviour
                 }
 
                 VisualManager.Instance.DrawColorSplash(drumHit.transform.position + positionOffset, drumHit.transform.rotation, scale, drumType);
+                drum.CorrectHitEffect(); 
                 MoveShip(moveSpeed + 1f); 
             }
         }
@@ -157,8 +161,7 @@ public class StageOne : MonoBehaviour
 
             if (timeOff == 0)
             {
-                Vector3 localScale = blueDrum.transform.localScale;
-                float scaleFactor = .04f;
+                float scaleFactor = .05f;
 
                 GameObject drum;
                 if (firstDrum)
@@ -170,7 +173,8 @@ public class StageOne : MonoBehaviour
                     drum = pinkDrum;
                 }
 
-                iTween.ScaleFrom(drum, new Vector3(localScale.x + scaleFactor, localScale.y + scaleFactor, localScale.z + scaleFactor), .15f);
+                drum.transform.DOScale(drum.transform.localScale + new Vector3(scaleFactor, 0, scaleFactor), .15f).SetLoops(2, LoopType.Yoyo);
+                
             }
         }
     }
