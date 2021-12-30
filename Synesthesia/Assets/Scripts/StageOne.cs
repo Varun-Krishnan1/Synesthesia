@@ -30,7 +30,8 @@ public class StageOne : MonoBehaviour
     public float boatIncreaseSpeedScaleFactor;
     public float boatDecreaseSpeedScaleFactor;
     public float boatDecreaseSpeedConstantFactor;
-    public float boatTargetSpeed; 
+    public float boatTargetSpeed;
+    public float slowInterval;
 
 
 
@@ -39,6 +40,7 @@ public class StageOne : MonoBehaviour
     private bool firstDrum = false;
     private bool beatVisualizer = false;
     private bool approachingEnemy = false;
+    private float slowTime;
 
     private void Awake()
     {
@@ -207,21 +209,32 @@ public class StageOne : MonoBehaviour
                 float scaleFactor = .05f;
                 drum.transform.DOScale(drum.transform.localScale + new Vector3(scaleFactor, 0, scaleFactor), .15f).SetLoops(2, LoopType.Yoyo);
 
+                if(approachingEnemy)
+                {
+                    if ((Time.time - slowTime) > slowInterval)
+                    {
+                        MoveShip((moveSpeed * boatDecreaseSpeedScaleFactor) - boatDecreaseSpeedConstantFactor);
+                        slowInterval += slowInterval; // slow down every 3 seconds from when hit slow checkpoint 
+                    }
+                }
 
                 // -- slow down boat speed every 3 seconds (300f) 
                 if ((Mathf.RoundToInt(Time.time * 100f) % boatSlowdownInterval) == 0)
                 {
+                    if(!approachingEnemy)
+                    {
+                        MoveShip((moveSpeed * boatDecreaseSpeedScaleFactor) - boatDecreaseSpeedConstantFactor);
+                    }
 
-                    MoveShip((moveSpeed * boatDecreaseSpeedScaleFactor) - boatDecreaseSpeedConstantFactor);
-                    
                     // -- wheel animation every 3 seconds as long as boat is not stationary 
                     if (moveSpeed != 0)
                     {
                         //wheel.transform.DORotate(new Vector3(0, 0, wheel.transform.rotation.eulerAngles.z + 180f), 3f);
                         wheel.transform.DORotate(new Vector3(0, 0, Random.Range(0f, 360f)), 3f);
                     }
-
                 }
+
+
             }
         }
     }
@@ -240,6 +253,8 @@ public class StageOne : MonoBehaviour
         {
             // -- rock effect
         }
+
+        slowTime = Time.time; 
         approachingEnemy = true;
         beatTiming = 200f; 
     }
