@@ -9,6 +9,7 @@ public class StageOne : MonoBehaviour
     public static StageOne Instance { get { return _instance; } }
 
     [Header("Objects")]
+    public Ship ship; 
     public GameObject[] shipParts;
     public GameObject wheel; 
     public GameObject water;
@@ -26,13 +27,14 @@ public class StageOne : MonoBehaviour
     public float beatTiming;
     public float beatLeeway;
     public float boatSlowdownInterval;
+    public float maxBoatSpeed; 
     public float boatIncreaseSpeedConstant;
     public float boatIncreaseSpeedScaleFactor;
     public float boatDecreaseSpeedScaleFactor;
     public float boatDecreaseSpeedConstantFactor;
     public float boatTargetSpeed;
-    public float slowInterval;
-
+    public float slowSpeedInterval;
+    public float slowBeatTiming;
 
 
     private bool moveShip = false;
@@ -66,20 +68,20 @@ public class StageOne : MonoBehaviour
     {
         AudioManager.Instance.StartTheme();
 
-        /*
+
         // -- set parent ship container to active 
-        shipParts[0].transform.parent.gameObject.SetActive(true); 
+        shipParts[0].transform.parent.gameObject.SetActive(true);
         yield return new WaitForSeconds(spawnDelay);
 
 
         // -- for testing let them do color clouds
-        colorCloudsOnHit = true;
+        // colorCloudsOnHit = true;
         // ---------------------------------------
 
         foreach (GameObject s in shipParts)
         {
             s.SetActive(true);
-            yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration); 
+            yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
         }
 
         SpawnWaterAndTerrain();
@@ -87,7 +89,7 @@ public class StageOne : MonoBehaviour
         yield return new WaitForSeconds(15f);
 
         TextManager.Instance.Activate();
-        */
+
 
         yield return new WaitForSeconds(0f); 
 
@@ -160,7 +162,7 @@ public class StageOne : MonoBehaviour
     void MoveShip(float speed)
     {
         moveShip = true;
-        moveSpeed = Mathf.Clamp(speed, 0f, 50f);
+        moveSpeed = Mathf.Clamp(speed, 0f, maxBoatSpeed);
 
         Debug.Log("Move Speed set to: " + moveSpeed);
     }
@@ -211,10 +213,10 @@ public class StageOne : MonoBehaviour
 
                 if(approachingEnemy)
                 {
-                    if ((Time.time - slowTime) > slowInterval)
+                    if ((Time.time - slowTime) > slowSpeedInterval)
                     {
                         MoveShip((moveSpeed * boatDecreaseSpeedScaleFactor) - boatDecreaseSpeedConstantFactor);
-                        slowInterval += slowInterval; // slow down every 3 seconds from when hit slow checkpoint 
+                        slowSpeedInterval += slowSpeedInterval; // slow down every 3 seconds from when hit slow checkpoint 
                     }
                 }
 
@@ -242,6 +244,8 @@ public class StageOne : MonoBehaviour
     // called by ShipCheckpoint class 
     public void SlowBoatCheckpoint()
     {
+        TextManager.Instance.Activate();
+
         // -- give boat speed required to come to stop after certain distance 
         MoveShip(boatTargetSpeed);
 
@@ -254,14 +258,18 @@ public class StageOne : MonoBehaviour
             // -- rock effect
         }
 
+        ship.Shake(); 
         slowTime = Time.time; 
         approachingEnemy = true;
-        beatTiming = 200f; 
+        beatTiming = slowBeatTiming; 
     }
 
     // -- to ensure it doesn't overshoot target 
     public void StopBoatCheckpoint()
     {
-        MoveShip(0f); 
+        MoveShip(0f);
+        ship.Shake(); 
     }
+
+
 }

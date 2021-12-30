@@ -21,6 +21,7 @@ public class Drum : MonoBehaviour
 
     private AudioSource source;
     private bool drumIsActive;
+    private bool scaleInProgress = false; 
 
     private float originalH, originalS, originalV; 
 
@@ -81,7 +82,11 @@ public class Drum : MonoBehaviour
 
     void ScaleDrum()
     {
-        transform.parent.DOScale(transform.parent.localScale + new Vector3(scaleHeight, scaleHeight, scaleHeight), scaleTime).SetLoops(2, LoopType.Yoyo);
+        if(!scaleInProgress)
+        {
+            scaleInProgress = true; 
+            transform.parent.DOScale(transform.parent.localScale + new Vector3(scaleHeight, scaleHeight, scaleHeight), scaleTime).SetLoops(2, LoopType.Yoyo).OnComplete(() => { scaleInProgress = false; });
+        }
 
     }
 
