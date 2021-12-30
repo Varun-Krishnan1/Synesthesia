@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class ShipCheckpoint : MonoBehaviour
 {
+    public bool slowBoat;
+    public bool stopBoat; 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject);
-        Debug.Log(other.gameObject.GetComponent<ShipCollider>());
         if (other.gameObject.GetComponent<ShipCollider>())
         {
-            StageOne.Instance.CheckpointHit(); 
+            if(slowBoat)
+            {
+                StageOne.Instance.SlowBoatCheckpoint();
+            }
+            if(stopBoat)
+            {
+                StageOne.Instance.StopBoatCheckpoint(); 
+            }
         }
     }
 }

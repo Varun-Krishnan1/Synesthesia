@@ -30,14 +30,15 @@ public class StageOne : MonoBehaviour
     public float boatIncreaseSpeedScaleFactor;
     public float boatDecreaseSpeedScaleFactor;
     public float boatDecreaseSpeedConstantFactor;
-
+    public float boatTargetSpeed; 
 
 
 
     private bool moveShip = false;
-    private float moveSpeed = 0f;
+    public float moveSpeed = 0f;
     private bool firstDrum = false;
-    private bool beatVisualizer = false; 
+    private bool beatVisualizer = false;
+    private bool approachingEnemy = false;
 
     private void Awake()
     {
@@ -56,16 +57,18 @@ public class StageOne : MonoBehaviour
     {
         Debug.Log("Stage One Started!");
 
-        AudioManager.Instance.StartTheme();
         StartCoroutine(SpawnShip()); 
     }
 
     IEnumerator SpawnShip()
     {
+        AudioManager.Instance.StartTheme();
+
         /*
         // -- set parent ship container to active 
         shipParts[0].transform.parent.gameObject.SetActive(true); 
         yield return new WaitForSeconds(spawnDelay);
+
 
         // -- for testing let them do color clouds
         colorCloudsOnHit = true;
@@ -79,7 +82,7 @@ public class StageOne : MonoBehaviour
 
         SpawnWaterAndTerrain();
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(15f);
 
         TextManager.Instance.Activate();
         */
@@ -132,14 +135,22 @@ public class StageOne : MonoBehaviour
                 // -- drum scaling 
                 StartCoroutine(drum.CorrectHitEffect(drumCorrectHitEffectAnimationTime)); 
 
-                if(moveSpeed == 0)
+                if(!approachingEnemy)
                 {
-                    MoveShip(boatIncreaseSpeedConstant); 
+                    if (moveSpeed == 0)
+                    {
+                        MoveShip(boatIncreaseSpeedConstant);
+                    }
+                    else
+                    {
+                        MoveShip(moveSpeed + (boatIncreaseSpeedScaleFactor * Mathf.Log(moveSpeed)));
+                    }
                 }
                 else
                 {
-                    MoveShip(moveSpeed + (boatIncreaseSpeedScaleFactor * Mathf.Log(moveSpeed)));
+                    // -- TODO 
                 }
+
             }
         }
     }
@@ -158,6 +169,12 @@ public class StageOne : MonoBehaviour
         {
             waterMaterial.SetFloat("Vector1_244B0600", moveSpeed);
             terrain.transform.position -= new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
+        }
+
+        // -- end of stage 1 
+        if(approachingEnemy && moveSpeed == 0)
+        {
+            Debug.Log("Stage One Over!"); 
         }
     }
 
@@ -190,11 +207,13 @@ public class StageOne : MonoBehaviour
                 float scaleFactor = .05f;
                 drum.transform.DOScale(drum.transform.localScale + new Vector3(scaleFactor, 0, scaleFactor), .15f).SetLoops(2, LoopType.Yoyo);
 
-                // -- slow down boat speed every 3 seconds (300f) 
-                if((Mathf.RoundToInt(Time.time * 100f) % boatSlowdownInterval) == 0)
-                {
-                    MoveShip((moveSpeed * boatDecreaseSpeedScaleFactor) - boatDecreaseSpeedConstantFactor);
 
+                // -- slow down boat speed every 3 seconds (300f) 
+                if ((Mathf.RoundToInt(Time.time * 100f) % boatSlowdownInterval) == 0)
+                {
+
+                    MoveShip((moveSpeed * boatDecreaseSpeedScaleFactor) - boatDecreaseSpeedConstantFactor);
+                    
                     // -- wheel animation every 3 seconds as long as boat is not stationary 
                     if (moveSpeed != 0)
                     {
@@ -208,11 +227,26 @@ public class StageOne : MonoBehaviour
     }
 
     // called by ShipCheckpoint class 
-    public void CheckpointHit()
+    public void SlowBoatCheckpoint()
     {
-        MoveShip(0f);
-        beatVisualizer = false;
-        blueDrum.SetActive(false);
-        pinkDrum.SetActive(false); 
+        // -- give boat speed required to come to stop after certain distance 
+        MoveShip(boatTargetSpeed);
+
+        if(moveSpeed < boatTargetSpeed)
+        {
+            // -- wind effect 
+        }
+        else
+        {
+            // -- rock effect
+        }
+        approachingEnemy = true;
+        beatTiming = 200f; 
+    }
+
+    // -- to ensure it doesn't overshoot target 
+    public void StopBoatCheckpoint()
+    {
+        MoveShip(0f); 
     }
 }
