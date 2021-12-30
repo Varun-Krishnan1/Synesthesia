@@ -71,22 +71,22 @@ public class StageOne : MonoBehaviour
 
         // -- set parent ship container to active 
         shipParts[0].transform.parent.gameObject.SetActive(true);
-        yield return new WaitForSeconds(spawnDelay);
+        //yield return new WaitForSeconds(spawnDelay);
 
 
-        // -- for testing let them do color clouds
-        // colorCloudsOnHit = true;
-        // ---------------------------------------
+        //// -- for testing let them do color clouds
+        //// colorCloudsOnHit = true;
+        //// ---------------------------------------
 
-        foreach (GameObject s in shipParts)
-        {
-            s.SetActive(true);
-            yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
-        }
+        //foreach (GameObject s in shipParts)
+        //{
+        //    s.SetActive(true);
+        //    yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
+        //}
 
         SpawnWaterAndTerrain();
 
-        yield return new WaitForSeconds(15f);
+        //yield return new WaitForSeconds(15f);
 
         TextManager.Instance.Activate();
 
