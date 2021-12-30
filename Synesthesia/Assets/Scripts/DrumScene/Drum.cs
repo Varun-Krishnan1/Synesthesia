@@ -10,7 +10,9 @@ public class Drum : MonoBehaviour
     public drumTypes drumType;
     public bool playOnButtonPress = false;
     public ActionBasedController left_controller; 
-    public ActionBasedController right_controller; 
+    public ActionBasedController right_controller;
+    public float saturationChangeOnCorrectHit; 
+
     private float previousRightTriggerValue; 
     private float previousLeftTriggerValue; 
 
@@ -20,12 +22,15 @@ public class Drum : MonoBehaviour
     private AudioSource source;
     private bool drumIsActive;
 
+    private float originalH, originalS, originalV; 
+
     // Start is called before the first frame update
     void Start()
     {
         source = GetComponent<AudioSource>();
         drumIsActive = true;
 
+        Color.RGBToHSV(transform.parent.GetComponentInChildren<Renderer>().material.GetColor("Base_Color"), out originalH, out originalS, out originalV);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -80,11 +85,35 @@ public class Drum : MonoBehaviour
 
     }
 
-    public void CorrectHitEffect()
+    public IEnumerator CorrectHitEffect(float animationTime)
     {
         Debug.Log(drumType + " Effect");
-    }
 
+        float H, S, V;
+        Color.RGBToHSV(transform.parent.GetComponentInChildren<Renderer>().material.GetColor("Base_Color"), out H, out S, out V);
+        
+        SetDrumColor(H, S - saturationChangeOnCorrectHit, V); 
+
+        yield return new WaitForSeconds(animationTime);
+
+        SetDrumColor(originalH, originalS, originalV); 
+    }
+    
+    
+    void SetDrumColor(float H, float S, float V)
+    {
+        foreach (Renderer r in transform.parent.GetComponentsInChildren<Renderer>())
+        {
+            if (r != this.GetComponent<Renderer>())
+            {
+                foreach (Material m in r.materials)
+                {
+                    m.SetColor("Base_Color", Color.HSVToRGB(H, S, V));
+                }
+            }
+        }
+
+    }
     void RequestVisualChange()
     {
         if (drumIsActive)

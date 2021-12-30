@@ -85,6 +85,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - AlphaClip: 0
     - Scroll_Speed: 0
     - _AlphaClip: 0
     - _Blend: 0
@@ -122,6 +123,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Base_Color: {r: 1, g: 0.6244831, b: 0.4627451, a: 0}
+    - Fresnel_Color: {r: 0, g: 0.5735392, b: 1.720618, a: 0}
     - Hologram_Tiling: {r: 1, g: 3, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

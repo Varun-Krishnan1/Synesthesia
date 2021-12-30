@@ -16,10 +16,23 @@ public class StageOne : MonoBehaviour
     public GameObject blueDrum;
     public GameObject pinkDrum; 
 
-    [Header("Variables")]
+    [Header("General")]
     public float spawnDelay;
     public bool colorCloudsOnHit = false;
-    public float speedDecayTime; 
+    public float drumCorrectHitEffectAnimationTime; 
+
+    [Header("Boat Movement")]
+    public float beatTiming;
+    public float beatLeeway;
+    public float boatSlowdownInterval;
+    public float boatIncreaseSpeedConstant;
+    public float boatIncreaseSpeedScaleFactor;
+    public float boatDecreaseSpeedScaleFactor;
+    public float boatDecreaseSpeedConstantFactor;
+
+
+
+
     private bool moveShip = false;
     private float moveSpeed = 0f;
     private bool firstDrum = false;
@@ -89,14 +102,12 @@ public class StageOne : MonoBehaviour
     {
         Drum.drumTypes drumType = drum.drumType; 
 
-        if(AudioManager.Instance.getCurrentPoint() >= 0f)
+        if(beatVisualizer)
         {
             // .15 seconds leeway either direction 
-            float timeOff = Mathf.RoundToInt(Time.time * 100f) % 100f;
-            if ((timeOff < 15f) || (timeOff > 85f))
+            float timeOff = Mathf.RoundToInt(Time.time * 100f) % beatTiming;
+            if ((timeOff < beatLeeway) || (timeOff > (beatTiming - beatLeeway)))
             {
-                Vector3 positionOffset = new Vector3(0f, .1f, 0f);
-                Vector3 scale = new Vector3(.1f, .1f, .1f);
                 GameObject drumHit; 
 
                 if(firstDrum && drumType == Drum.drumTypes.HighTom)
@@ -112,16 +123,29 @@ public class StageOne : MonoBehaviour
                     return; 
                 }
 
+                // -- color cloud over tutorial drums 
+                Vector3 positionOffset = new Vector3(0f, .1f, 0f);
+                Vector3 scale = new Vector3(.1f, .1f, .1f);
                 VisualManager.Instance.DrawColorSplash(drumHit.transform.position + positionOffset, drumHit.transform.rotation, scale, drumType);
-                drum.CorrectHitEffect(); 
-                MoveShip(moveSpeed + 1f); 
+
+                // -- drum scaling 
+                StartCoroutine(drum.CorrectHitEffect(drumCorrectHitEffectAnimationTime)); 
+
+                if(moveSpeed == 0)
+                {
+                    MoveShip(boatIncreaseSpeedConstant); 
+                }
+                else
+                {
+                    MoveShip(moveSpeed + (boatIncreaseSpeedScaleFactor * Mathf.Log(moveSpeed)));
+                }
             }
         }
     }
 
     void MoveShip(float speed)
     {
-        moveSpeed = Mathf.Clamp(speed, 0f, 25f);
+        moveSpeed = Mathf.Clamp(speed, 0f, 50f);
         moveShip = true;
 
         Debug.Log("Move Speed set to: " + moveSpeed);
@@ -131,17 +155,8 @@ public class StageOne : MonoBehaviour
     {
         if(moveShip)
         {
-            // TODO - FIX DECAYING 
-
-            // speed decays over time 
-            moveSpeed -= Time.deltaTime * speedDecayTime;
-            moveSpeed = Mathf.Clamp(moveSpeed, 0f, 50f);
-
-            //Debug.Log(moveSpeed); 
-
             waterMaterial.SetFloat("Vector1_244B0600", moveSpeed);
             terrain.transform.position -= new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
-
         }
     }
 
@@ -150,10 +165,10 @@ public class StageOne : MonoBehaviour
         if (beatVisualizer)
         {
             // -- scale drum at interval of 1 second (100f) 
-            float timeOff = Mathf.RoundToInt(Time.time * 100f) % 100f;
+            float timeOff = Mathf.RoundToInt(Time.time * 100f) % beatTiming;
 
             // -- but change drum at interval a little before for leeway 
-            if (timeOff == 85)
+            if (timeOff == (beatTiming - beatLeeway))
             {
                 firstDrum = !firstDrum;
             }
@@ -161,8 +176,6 @@ public class StageOne : MonoBehaviour
 
             if (timeOff == 0)
             {
-                float scaleFactor = .05f;
-
                 GameObject drum;
                 if (firstDrum)
                 {
@@ -173,8 +186,15 @@ public class StageOne : MonoBehaviour
                     drum = pinkDrum;
                 }
 
+                float scaleFactor = .05f;
                 drum.transform.DOScale(drum.transform.localScale + new Vector3(scaleFactor, 0, scaleFactor), .15f).SetLoops(2, LoopType.Yoyo);
-                
+
+                // -- slow down boat speed every 3 seconds (300f) 
+                if((Mathf.RoundToInt(Time.time * 100f) % boatSlowdownInterval) == 0)
+                {
+                    MoveShip((moveSpeed * boatDecreaseSpeedScaleFactor) - boatDecreaseSpeedConstantFactor);
+                }
+
             }
         }
     }
