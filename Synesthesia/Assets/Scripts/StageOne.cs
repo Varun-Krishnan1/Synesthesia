@@ -10,6 +10,7 @@ public class StageOne : MonoBehaviour
 
     [Header("Objects")]
     public GameObject[] shipParts;
+    public GameObject wheel; 
     public GameObject water;
     public Material waterMaterial; 
     public GameObject terrain;
@@ -145,8 +146,8 @@ public class StageOne : MonoBehaviour
 
     void MoveShip(float speed)
     {
-        moveSpeed = Mathf.Clamp(speed, 0f, 50f);
         moveShip = true;
+        moveSpeed = Mathf.Clamp(speed, 0f, 50f);
 
         Debug.Log("Move Speed set to: " + moveSpeed);
     }
@@ -193,8 +194,15 @@ public class StageOne : MonoBehaviour
                 if((Mathf.RoundToInt(Time.time * 100f) % boatSlowdownInterval) == 0)
                 {
                     MoveShip((moveSpeed * boatDecreaseSpeedScaleFactor) - boatDecreaseSpeedConstantFactor);
-                }
 
+                    // -- wheel animation every 3 seconds as long as boat is not stationary 
+                    if (moveSpeed != 0)
+                    {
+                        //wheel.transform.DORotate(new Vector3(0, 0, wheel.transform.rotation.eulerAngles.z + 180f), 3f);
+                        wheel.transform.DORotate(new Vector3(0, 0, Random.Range(0f, 360f)), 3f);
+                    }
+
+                }
             }
         }
     }
