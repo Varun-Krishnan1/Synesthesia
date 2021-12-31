@@ -86,7 +86,7 @@ public class StageOne : MonoBehaviour
 
         SpawnWaterAndTerrain();
 
-        //yield return new WaitForSeconds(15f);
+        // yield return new WaitForSeconds(10f);
 
         TextManager.Instance.Activate();
 
@@ -178,10 +178,16 @@ public class StageOne : MonoBehaviour
         // -- end of stage 1 
         if(approachingEnemy && moveSpeed == 0)
         {
-            Debug.Log("Stage One Over!"); 
+            Debug.Log("Stage One Over!");
+            StartCoroutine(NextStage());
         }
     }
 
+    IEnumerator NextStage()
+    {
+        yield return new WaitForSeconds(3f);
+        GameManager.Instance.NextStage();
+    }
     void FixedUpdate()
     {
         if (beatVisualizer)

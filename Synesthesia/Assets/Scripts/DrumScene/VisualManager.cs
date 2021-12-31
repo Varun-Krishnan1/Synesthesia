@@ -56,6 +56,7 @@ public class VisualManager : MonoBehaviour
 
     public void RequestElementChange(Drum drum)
     {
+        Debug.Log("Request Change"); 
         Drum.drumTypes drumType = drum.drumType; 
 
         if(drumType == Drum.drumTypes.Kick)
@@ -73,6 +74,11 @@ public class VisualManager : MonoBehaviour
         {
             StageOne.Instance.DrumShipMovement(drum);
             // DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumType);
+        }
+        if(gameStage == 2)
+        {
+            Debug.Log("HERE");
+            StageTwo.Instance.DrumHit(drum);
         }
     }
 
@@ -106,27 +112,7 @@ public class VisualManager : MonoBehaviour
     // -- change so its not in update but sends new active to next drum after RequestElementChange
     public bool GetIsActive(Drum.drumTypes drumType)
     {
-        // Stage -1 is set when you shouldn't be able to play 
-        if(haltPlaying)
-        {
-            return false; 
-        }
-        // Stage 0 drums always active 
-        if(GameManager.Instance.GetGameStage() == 0)
-        {
-            return SetDrumActive(drumType); 
-        }
-        // Stage 1 drums only active when I say so 
-        else if(GameManager.Instance.GetGameStage() == 1)
-        {
-            if (StageOne.Instance.colorCloudsOnHit)
-            {
-                return SetDrumActive(drumType);
-            }
-        }
-
-        return false; 
-
+        return SetDrumActive(drumType);
     }
 
     void Update()

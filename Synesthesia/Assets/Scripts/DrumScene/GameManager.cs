@@ -1,6 +1,8 @@
+using System; 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; 
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +14,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return _instance; } }
 
     public GameObject StageZero; 
-    public GameObject StageOne; 
+    public GameObject StageOne;
+
+    private Array sceneArr;
+    private int curSceneIndex = 0; 
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -24,16 +30,21 @@ public class GameManager : MonoBehaviour
             _instance = this;
         }
 
+        sceneArr = Enum.GetValues(typeof(Scene));
+
+        Scene curScene = (Scene)Enum.Parse(typeof(Scene), SceneManager.GetActiveScene().name);
+        curSceneIndex = Array.IndexOf(sceneArr, curScene);
     }
-    // Start is called before the first frame update
-    void Start()
+    
+    private enum Scene
     {
+        Ship, Stage2
     }
 
-    // Update is called once per frame
-    void Update()
+    void NextScene()
     {
-        
+        curSceneIndex += 1;
+        SceneManager.LoadScene(sceneArr.GetValue(curSceneIndex).ToString());
     }
 
     public int GetGameStage()
@@ -45,6 +56,13 @@ public class GameManager : MonoBehaviour
     {
         gameStage += 1; 
         Debug.Log("Next Stage!");
-        StageOne.SetActive(true); 
+        if(gameStage == 1)
+        {
+            StageOne.SetActive(true);
+        }
+        else if(gameStage == 2)
+        {
+            NextScene(); 
+        }
     }
 }
