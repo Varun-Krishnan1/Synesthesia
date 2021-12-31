@@ -20,7 +20,8 @@ public class CannonBall : MonoBehaviour
     {
         if(other.tag == "EnemyShipCollision")
         {
-            VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, Drum.drumTypes.Snare); 
+            VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, Drum.drumTypes.Snare);
+            other.gameObject.transform.parent.GetComponent<Ship>().Shake(); 
             Destroy(this.gameObject); 
         }
     }

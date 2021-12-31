@@ -21,11 +21,11 @@ public class Ship : MonoBehaviour
     {
         Sequence mySequence = DOTween.Sequence();
 
-        mySequence.Append(transform.DORotate(new Vector3(0, 0, 1.5f), .125f));
-        mySequence.Append(transform.DORotate(new Vector3(0, 0, -1.5f), .125f));
-        mySequence.Append(transform.DORotate(new Vector3(0, 0, .75f), .125f));
-        mySequence.Append(transform.DORotate(new Vector3(0, 0, -.75f), .125f));
-        mySequence.Append(transform.DORotate(new Vector3(0, 0, 0f), .125f));
+        mySequence.Append(transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y, 1.5f), .125f));
+        mySequence.Append(transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y, -1.5f), .125f));
+        mySequence.Append(transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y, .75f), .125f));
+        mySequence.Append(transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y, -.75f), .125f));
+        mySequence.Append(transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y, 0f), .125f));
 
     }
 }
