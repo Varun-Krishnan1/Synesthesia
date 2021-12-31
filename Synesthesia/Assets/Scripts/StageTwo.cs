@@ -8,7 +8,7 @@ public class StageTwo : MonoBehaviour
 
     public static StageTwo Instance { get { return _instance; } }
 
-    public GameObject cannon;
+    public Cannon cannon;
     public GameObject cannonBalls; 
 
     private void Awake()
@@ -40,13 +40,17 @@ public class StageTwo : MonoBehaviour
     {
         Debug.Log("Drum Hit"); 
         Drum.drumTypes drumType = drum.drumType; 
-        if(drumType == Drum.drumTypes.Snare)
+        if(drumType == Drum.drumTypes.HiHat)
         {
-            cannon.SetActive(true); 
+            cannon.gameObject.SetActive(true); 
         }
         if(drumType == Drum.drumTypes.FloorTom)
         {
             cannonBalls.SetActive(true); 
+        }
+        if(drumType == Drum.drumTypes.Snare)
+        {
+            cannon.Fire(); 
         }
     }
 }
