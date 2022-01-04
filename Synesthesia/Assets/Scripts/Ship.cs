@@ -7,17 +7,14 @@ using DG.Tweening;
 abstract public class Ship : MonoBehaviour
 {
     public Slider healthBar;
-    public float health; 
+    public int health;
+    public GameObject[] cannons; 
+
     // Start is called before the first frame update
     void Start()
     {
-        healthBar.maxValue = health; 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        healthBar.maxValue = health;
+        healthBar.value = healthBar.maxValue; 
     }
 
     public void Shake()
@@ -38,12 +35,14 @@ abstract public class Ship : MonoBehaviour
         healthBar.value = health; 
         if(health <= 0)
         {
-            Debug.Log("Ship Destroyed");
+            Sink();
         }
         Shake();
         ShipHitEffect(); 
     }
 
     // -- implemented specifically for each ship 
-    protected abstract void ShipHitEffect(); 
+    protected abstract void ShipHitEffect();
+
+    protected abstract void Sink(); 
 }

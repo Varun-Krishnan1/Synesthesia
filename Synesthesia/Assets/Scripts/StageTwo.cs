@@ -8,8 +8,7 @@ public class StageTwo : MonoBehaviour
 
     public static StageTwo Instance { get { return _instance; } }
 
-    public Cannon cannon;
-    public GameObject cannonBalls; 
+    public UserShip userShip; 
 
     private void Awake()
     {
@@ -41,9 +40,13 @@ public class StageTwo : MonoBehaviour
 
         Drum.drumTypes drumType = drum.drumType; 
 
-        if(drum.CorrectHit())
+        if(drumType == Drum.drumTypes.Kick)
         {
-            cannon.Fire(); 
+            userShip.SetShield();
+        }
+        else if(drum.CorrectHit())
+        {
+            userShip.Shoot(); 
         }
     }
 }

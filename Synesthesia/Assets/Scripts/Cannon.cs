@@ -10,6 +10,7 @@ public class Cannon : MonoBehaviour
 
     public float cannonBallForce;
     public int damage;
+    public float colorCloudScale;
     public bool sideCannon; 
     public bool fire; 
 
@@ -25,9 +26,10 @@ public class Cannon : MonoBehaviour
         CannonBall newCannonBall = Instantiate(cannonBall, firePoint.position, firePoint.rotation).GetComponent<CannonBall>();
         newCannonBall.SetBallForce(cannonBallForce);
         newCannonBall.damage = damage;
-        newCannonBall.ship = ship; 
-        newCannonBall.Fire(); 
-
+        newCannonBall.ship = ship;
+        newCannonBall.colorCloudScale = colorCloudScale;
+        newCannonBall.gameObject.GetComponent<Rigidbody>().AddForce(firePoint.right * cannonBallForce, ForceMode.Impulse);
+      
     }
 
     void Update()

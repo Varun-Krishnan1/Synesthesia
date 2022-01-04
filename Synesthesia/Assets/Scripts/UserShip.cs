@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class UserShip : Ship
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
+    public Shield shield; 
     // Update is called once per frame
     void Update()
     {
@@ -19,5 +15,23 @@ public class UserShip : Ship
     protected override void ShipHitEffect()
     {
         Debug.Log("User Ship Hit!");
+    }
+
+    public void Shoot()
+    {
+        int randNum = Random.Range(0, cannons.Length);
+        foreach (Transform child in cannons[randNum].transform)
+        {
+            child.GetComponent<Cannon>().Fire();
+        }
+    }
+
+    public void SetShield()
+    {
+        shield.gameObject.SetActive(true); 
+    }
+    protected override void Sink()
+    {
+
     }
 }

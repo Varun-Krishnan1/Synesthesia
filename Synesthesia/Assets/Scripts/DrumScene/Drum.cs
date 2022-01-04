@@ -24,7 +24,8 @@ public class Drum : MonoBehaviour
     private Collider noteCollider; 
 
     private float previousRightTriggerValue; 
-    private float previousLeftTriggerValue; 
+    private float previousLeftTriggerValue;
+    private float lastKickHit; 
 
     private float scaleHeight = .01f;
     private float scaleTime = .10f;
@@ -144,13 +145,12 @@ public class Drum : MonoBehaviour
 
     void Update()
     {
+        lastKickHit -= Time.deltaTime; 
+
         if(playOnButtonPress)
         {
             CheckButtonPress(); 
         }
-
-
-        drumIsActive = VisualManager.Instance.GetIsActive(drumType); 
 
         if(spawnNote)
         {
@@ -185,32 +185,38 @@ public class Drum : MonoBehaviour
     }
     void CheckButtonPress()
     {
-        float right_trigger_value = right_controller.activateAction.action.ReadValue<float>(); 
-        float left_trigger_value = left_controller.activateAction.action.ReadValue<float>();
-
-        bool buttonPressed = false; 
-        if(previousRightTriggerValue < 0.5f && right_trigger_value > 0.5f)
+        if(lastKickHit <= 0f)
         {
-            ActivateSound(right_trigger_value);
-            buttonPressed = true; 
-        }
-        else if(previousLeftTriggerValue < 0.5f && left_trigger_value > 0.5f)
-        {
-            ActivateSound(left_trigger_value);
-            buttonPressed = true;
-        }
-        if(buttonPressed)
-        {
-            ScaleDrum();
-            RequestVisualChange();
+            float right_trigger_value = right_controller.activateAction.action.ReadValue<float>();
+            float left_trigger_value = left_controller.activateAction.action.ReadValue<float>();
 
-            // keep vibration intensity low 
-            left_controller.SendHapticImpulse(.1f, .25f);
-            right_controller.SendHapticImpulse(.1f, .25f);
-        }
+            bool buttonPressed = false;
+            if (previousRightTriggerValue < 0.5f && right_trigger_value > 0.5f)
+            {
+                ActivateSound(right_trigger_value);
+                buttonPressed = true;
+            }
+            else if (previousLeftTriggerValue < 0.5f && left_trigger_value > 0.5f)
+            {
+                ActivateSound(left_trigger_value);
+                buttonPressed = true;
+            }
+            if (buttonPressed)
+            {
+                ScaleDrum();
+                RequestVisualChange();
 
-        previousRightTriggerValue = right_trigger_value;
-        previousLeftTriggerValue = left_trigger_value;
+                // keep vibration intensity low 
+                left_controller.SendHapticImpulse(.1f, .25f);
+                right_controller.SendHapticImpulse(.1f, .25f);
+
+                lastKickHit = .1f;
+            }
+
+            previousRightTriggerValue = right_trigger_value;
+            previousLeftTriggerValue = left_trigger_value;
+        }
+        
     }
 
     public void SpawnNote()

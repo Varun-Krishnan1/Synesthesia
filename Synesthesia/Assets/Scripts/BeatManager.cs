@@ -13,7 +13,7 @@ public class BeatManager : MonoBehaviour
     public Drum kick;
     public Drum hiHat; 
    
-    private float nextPlayTime;
+    public float nextPlayTime;
     private Drum curDrum;
     private int stage; 
 
@@ -36,8 +36,15 @@ public class BeatManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        curDrum = hiTom;
         stage = GameManager.Instance.GetGameStage(); 
+        if(stage == 1)
+        {
+            curDrum = hiTom;
+        }
+        else if(stage == 2)
+        {
+            curDrum = snare; 
+        }
     }
 
     // Update is called once per frame
@@ -63,11 +70,18 @@ public class BeatManager : MonoBehaviour
         }
         else if(stage == 2)
         {
-            curDrum = snare; 
-
             if (Time.time > nextPlayTime)
             {
                 curDrum.SpawnNote();
+
+                if (curDrum == snare)
+                {
+                    curDrum = floorTom;
+                }
+                else
+                {
+                    curDrum = snare;
+                }
 
                 nextPlayTime = Time.time + speed;
             }

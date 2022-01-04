@@ -126,8 +126,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1446985d1fa23b4ea44cf4ab47a56de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ship: {fileID: 0}
   firePoint: {fileID: 813482340823967643}
   cannonBall: {fileID: 6613739083047349668, guid: 5d1ffad8e4ce3f241984a1b05b1e1bb4, type: 3}
   cannonBallForce: 100
   damage: 2
+  colorCloudScale: 10
+  sideCannon: 0
   fire: 0

@@ -6,16 +6,12 @@ public class CannonBall : MonoBehaviour
 {
     public GameObject ship; // -- keep track of which ship it came from
     public int damage; 
-    private float ballForce; 
+    private float ballForce;
+    public float colorCloudScale; 
 
     public void SetBallForce(float force)
     {
         ballForce = force; 
-    }
-
-    public void Fire()
-    {
-        this.GetComponent<Rigidbody>().AddForce(transform.right * ballForce, ForceMode.Impulse);
     }
 
     void OnTriggerEnter(Collider other)
@@ -25,8 +21,17 @@ public class CannonBall : MonoBehaviour
             // -- ensure it doesn't hit collider of same ship it came from 
             if(other.gameObject.transform.parent.gameObject != ship)
             {
-                VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, Drum.drumTypes.Snare);
-                other.gameObject.transform.parent.GetComponent<Ship>().HitEffect(damage);
+                VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, new Vector3(colorCloudScale, colorCloudScale, colorCloudScale), Drum.drumTypes.Snare);
+                
+                if (other.gameObject.GetComponent<Shield>())
+                {
+                    other.gameObject.GetComponent<Shield>().HitEffect(damage);
+                }
+                else
+                {
+                    other.gameObject.transform.parent.GetComponent<Ship>().HitEffect(damage);
+                }
+
 
                 Destroy(this.gameObject);
             }

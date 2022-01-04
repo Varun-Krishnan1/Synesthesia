@@ -14,7 +14,6 @@ public class VisualManager : MonoBehaviour
     // -- or csv file in future 
     public float refractoryTime = 5f;
     private float lastKickHit;
-    private bool haltPlaying = false; 
 
     public Drum[] drums; 
     public GameObject particleSystem;
@@ -86,40 +85,7 @@ public class VisualManager : MonoBehaviour
         return drumTypeToColorDict[drumType]; 
     }
     
-    public void HaltPlaying()
-    {
-        this.haltPlaying = true; 
-    }
 
-    private bool SetDrumActive(Drum.drumTypes drumType)
-    {
-        // kick always needs a slight delay 
-        if (drumType == Drum.drumTypes.Kick)
-        {
-            if (lastKickHit <= 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        // if not kick then let them hit however many times they want 
-        return true;
-    }
-    // -- change so its not in update but sends new active to next drum after RequestElementChange
-    public bool GetIsActive(Drum.drumTypes drumType)
-    {
-        return SetDrumActive(drumType);
-    }
-
-    void Update()
-    {
-        lastKickHit -= Time.deltaTime; 
-    }
- 
-    
     public GameObject DrawColorSplash(Vector3 position, Quaternion rotation, Drum.drumTypes drumType)
     {
         GameObject vfx = Instantiate(colorBurstVFX, position, rotation);
