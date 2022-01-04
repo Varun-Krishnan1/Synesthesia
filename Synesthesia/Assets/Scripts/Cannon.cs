@@ -9,12 +9,14 @@ public class Cannon : MonoBehaviour
     public GameObject cannonBall;
 
     public float cannonBallForce;
+    public int damage; 
     public bool fire; 
 
     public void Fire()
     {
         CannonBall newCannonBall = Instantiate(cannonBall, firePoint.position, firePoint.rotation).GetComponent<CannonBall>();
         newCannonBall.SetBallForce(cannonBallForce);
+        newCannonBall.damage = damage; 
         newCannonBall.Fire(); 
 
     }

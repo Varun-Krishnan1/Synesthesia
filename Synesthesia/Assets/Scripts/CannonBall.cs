@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CannonBall : MonoBehaviour
 {
+    public int damage; 
     private float ballForce; 
 
     public void SetBallForce(float force)
@@ -18,10 +19,11 @@ public class CannonBall : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "EnemyShipCollision")
+        if(other.tag == "CannonCollision")
         {
             VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, Drum.drumTypes.Snare);
-            other.gameObject.transform.parent.GetComponent<Ship>().Shake(); 
+            other.gameObject.transform.parent.GetComponent<Ship>().HitEffect(damage);
+
             Destroy(this.gameObject); 
         }
     }

@@ -8,7 +8,7 @@ TagManager:
   - SpawnableObjectMesh
   - Sky
   - Ground
-  - EnemyShipCollision
+  - CannonCollision
   layers:
   - Default
   - TransparentFX
