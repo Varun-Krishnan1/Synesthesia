@@ -4,19 +4,28 @@ using UnityEngine;
 
 public class Cannon : MonoBehaviour
 {
+    public GameObject ship; 
     public Transform firePoint;
-    public GameObject cannonBallSet;
     public GameObject cannonBall;
 
     public float cannonBallForce;
-    public int damage; 
+    public int damage;
+    public bool sideCannon; 
     public bool fire; 
 
+    void Start()
+    {
+        if(sideCannon)
+        {
+            firePoint = this.gameObject.transform; 
+        }
+    }
     public void Fire()
     {
         CannonBall newCannonBall = Instantiate(cannonBall, firePoint.position, firePoint.rotation).GetComponent<CannonBall>();
         newCannonBall.SetBallForce(cannonBallForce);
-        newCannonBall.damage = damage; 
+        newCannonBall.damage = damage;
+        newCannonBall.ship = ship; 
         newCannonBall.Fire(); 
 
     }

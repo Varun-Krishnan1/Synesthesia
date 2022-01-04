@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CannonBall : MonoBehaviour
 {
+    public GameObject ship; // -- keep track of which ship it came from
     public int damage; 
     private float ballForce; 
 
@@ -21,10 +22,15 @@ public class CannonBall : MonoBehaviour
     {
         if(other.tag == "CannonCollision")
         {
-            VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, Drum.drumTypes.Snare);
-            other.gameObject.transform.parent.GetComponent<Ship>().HitEffect(damage);
+            // -- ensure it doesn't hit collider of same ship it came from 
+            if(other.gameObject.transform.parent.gameObject != ship)
+            {
+                VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, Drum.drumTypes.Snare);
+                other.gameObject.transform.parent.GetComponent<Ship>().HitEffect(damage);
 
-            Destroy(this.gameObject); 
+                Destroy(this.gameObject);
+            }
+
         }
     }
 }
