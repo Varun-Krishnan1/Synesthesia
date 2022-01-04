@@ -11,7 +11,17 @@ public class Drum : MonoBehaviour
     public bool playOnButtonPress = false;
     public ActionBasedController left_controller; 
     public ActionBasedController right_controller;
-    public float saturationChangeOnCorrectHit; 
+    public float saturationChangeOnCorrectHit;
+    public GameObject note;
+
+    [Header("Notes")]
+    public bool spawnNote;
+    public float yOffset;
+    public float zOffset;
+    public float leewayTime; 
+
+    private bool hasNote;
+    private Collider noteCollider; 
 
     private float previousRightTriggerValue; 
     private float previousLeftTriggerValue; 
@@ -78,6 +88,12 @@ public class Drum : MonoBehaviour
             }
         }
 
+        Note noteComponent = other.GetComponent<Note>(); 
+        if(noteComponent)
+        {
+            hasNote = true;
+            noteCollider = other; 
+        }
     }
 
     void ScaleDrum()
@@ -92,8 +108,6 @@ public class Drum : MonoBehaviour
 
     public IEnumerator CorrectHitEffect(float animationTime)
     {
-        Debug.Log(drumType + " Effect");
-
         float H, S, V;
         Color.RGBToHSV(transform.parent.GetComponentInChildren<Renderer>().material.GetColor("Base_Color"), out H, out S, out V);
         
@@ -137,6 +151,18 @@ public class Drum : MonoBehaviour
 
 
         drumIsActive = VisualManager.Instance.GetIsActive(drumType); 
+
+        if(spawnNote)
+        {
+            SpawnNote();
+            spawnNote = false; 
+        }
+
+        if(hasNote && !noteCollider)
+        {
+            // -- note has been destroyed 
+            hasNote = false; 
+        }
     }
 
     public enum drumTypes
@@ -185,5 +211,19 @@ public class Drum : MonoBehaviour
 
         previousRightTriggerValue = right_trigger_value;
         previousLeftTriggerValue = left_trigger_value;
+    }
+
+    public void SpawnNote()
+    {
+        GameObject tempNote = Instantiate(note, new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z + zOffset), note.transform.rotation);
+        tempNote.transform.DOMoveY(this.transform.position.y, 2f).SetEase(Ease.Linear);
+        tempNote.transform.DOMoveZ(this.transform.position.z, 2f).SetEase(Ease.Linear);
+
+        Destroy(tempNote, 2f + leewayTime);
+    }
+
+    public bool CorrectHit()
+    {
+        return hasNote; 
     }
 }

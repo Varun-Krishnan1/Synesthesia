@@ -38,17 +38,10 @@ public class StageTwo : MonoBehaviour
 
     public void DrumHit(Drum drum)
     {
-        Debug.Log("Drum Hit"); 
+
         Drum.drumTypes drumType = drum.drumType; 
-        if(drumType == Drum.drumTypes.HiHat)
-        {
-            cannon.gameObject.SetActive(true); 
-        }
-        if(drumType == Drum.drumTypes.FloorTom)
-        {
-            cannonBalls.SetActive(true); 
-        }
-        if(drumType == Drum.drumTypes.Snare)
+
+        if(drum.CorrectHit())
         {
             cannon.Fire(); 
         }

@@ -77,7 +77,6 @@ public class VisualManager : MonoBehaviour
         }
         if(gameStage == 2)
         {
-            Debug.Log("HERE");
             StageTwo.Instance.DrumHit(drum);
         }
     }

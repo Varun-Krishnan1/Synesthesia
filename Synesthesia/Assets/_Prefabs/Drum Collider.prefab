@@ -207,3 +207,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d6faf8e0ce5f1408ff50c7d4a683f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drumType: 0
+  playOnButtonPress: 0
+  left_controller: {fileID: 0}
+  right_controller: {fileID: 0}
+  saturationChangeOnCorrectHit: 0
+  note: {fileID: 674536768300619118, guid: 603c7e5efd7ff214c9bb120e47b5c7d1, type: 3}
+  spawnNote: 0
+  yOffset: 1
+  zOffset: 1
+  leewayTime: 0.1
