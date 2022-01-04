@@ -15,7 +15,7 @@ public class CannonBall : MonoBehaviour
 
     public void Fire()
     {
-        this.GetComponent<Rigidbody>().AddForce(Vector3.right * ballForce, ForceMode.Impulse);
+        this.GetComponent<Rigidbody>().AddForce(transform.right * ballForce, ForceMode.Impulse);
     }
 
     void OnTriggerEnter(Collider other)
