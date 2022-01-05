@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     
     private enum Scene
     {
-        Ship, Stage2
+        Ship, Stage2, Stage3Lose
     }
 
     void NextScene()
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         {
             StageOne.SetActive(true);
         }
-        else if(gameStage == 2)
+        else if(gameStage == 2 || gameStage == 3)
         {
             NextScene(); 
         }

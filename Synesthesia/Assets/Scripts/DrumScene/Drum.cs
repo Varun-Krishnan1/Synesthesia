@@ -18,7 +18,8 @@ public class Drum : MonoBehaviour
     public bool spawnNote;
     public float yOffset;
     public float zOffset;
-    public float leewayTime; 
+    public float leewayTime;
+    public bool hit;
 
     private bool hasNote;
     private Collider noteCollider; 
@@ -48,45 +49,10 @@ public class Drum : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-
         DrumStick drumstick = other.GetComponent<DrumStick>(); 
         if (drumstick != null)
         {
-            //Debug.Log("this y: " + transform.position.y);
-            //Debug.Log("drumstick y: " + drumstick.transform.position.y);
-            
-            if(drumType == drumTypes.Kick)
-            {
-                // MUSIC 
-                ActivateSound(other.GetComponent<DrumStick>().GetSpeed());
-
-                // VISUAL 
-                ScaleDrum();
-                RequestVisualChange();
-
-
-                // VIBRATION 
-                // normalize between 0 and 1 assuming max un-normalized value is 25 
-                float vibrationIntensity = other.GetComponent<DrumStick>().GetSpeed() / 25;
-                drumstick.SendHapticImpulse(vibrationIntensity, .25f);
-            }
-            // make sure drumstick hitting from above only for all drums besides kick
-            else if ((other.transform.position.y > this.transform.position.y))
-            {
-                // MUSIC 
-                ActivateSound(other.GetComponent<DrumStick>().GetSpeed());
-
-                // VISUAL 
-                ScaleDrum();
-                RequestVisualChange(); 
-
-
-                // VIBRATION 
-                // normalize between 0 and 1 assuming max un-normalized value is 25 
-                float vibrationIntensity = other.GetComponent<DrumStick>().GetSpeed() / 25;
-                drumstick.SendHapticImpulse(vibrationIntensity, .25f); 
-
-            }
+            DrumHit(drumstick);
         }
 
         Note noteComponent = other.GetComponent<Note>(); 
@@ -94,6 +60,45 @@ public class Drum : MonoBehaviour
         {
             hasNote = true;
             noteCollider = other; 
+        }
+    }
+
+    void DrumHit(DrumStick drumstick)
+    {
+        //Debug.Log("this y: " + transform.position.y);
+        //Debug.Log("drumstick y: " + drumstick.transform.position.y);
+
+        if (drumType == drumTypes.Kick)
+        {
+            // MUSIC 
+            ActivateSound(drumstick.GetSpeed());
+
+            // VISUAL 
+            ScaleDrum();
+            RequestVisualChange();
+
+
+            // VIBRATION 
+            // normalize between 0 and 1 assuming max un-normalized value is 25 
+            float vibrationIntensity = drumstick.GetSpeed() / 25;
+            drumstick.SendHapticImpulse(vibrationIntensity, .25f);
+        }
+        // make sure drumstick hitting from above only for all drums besides kick
+        else if ((drumstick.gameObject.transform.position.y > this.transform.position.y))
+        {
+            // MUSIC 
+            ActivateSound(drumstick.GetSpeed());
+
+            // VISUAL 
+            ScaleDrum();
+            RequestVisualChange();
+
+
+            // VIBRATION 
+            // normalize between 0 and 1 assuming max un-normalized value is 25 
+            float vibrationIntensity = drumstick.GetSpeed() / 25;
+            drumstick.SendHapticImpulse(vibrationIntensity, .25f);
+
         }
     }
 
@@ -162,6 +167,14 @@ public class Drum : MonoBehaviour
         {
             // -- note has been destroyed 
             hasNote = false; 
+        }
+
+        // -- FOR TESTING 
+        if(hit)
+        {
+            ScaleDrum();
+            RequestVisualChange();
+            hit = false; 
         }
     }
 

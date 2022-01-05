@@ -8,8 +8,16 @@ public class StageTwo : MonoBehaviour
 
     public static StageTwo Instance { get { return _instance; } }
 
-    public UserShip userShip; 
+    public UserShip userShip;
+    public Material waterMaterial;
 
+    public float maxWaveScale;
+    public float waveScaleProgression; 
+    public float maxWaveSpeed;
+    public float waveSpeedProgression;
+
+    private float curWaveScale = 0.1f;
+    private float curWaveSpeed = 1f; 
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -26,7 +34,7 @@ public class StageTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -48,5 +56,17 @@ public class StageTwo : MonoBehaviour
         {
             userShip.Shoot(); 
         }
+    }
+
+    public void IncreaseStageIntensity()
+    {
+        curWaveScale += waveScaleProgression;
+        curWaveScale = Mathf.Clamp(curWaveScale, 0.1f, maxWaveScale);
+
+        curWaveSpeed += waveSpeedProgression;
+        curWaveSpeed = Mathf.Clamp(curWaveSpeed, 1f, maxWaveSpeed); 
+
+        waterMaterial.SetFloat("_WaveScale", curWaveScale);
+        waterMaterial.SetFloat("_WaveSpeed", curWaveSpeed);
     }
 }

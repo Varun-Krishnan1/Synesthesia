@@ -41,7 +41,7 @@ public class EnemyShip : Ship
 
     protected override void Sink()
     {
-        this.transform.DOMoveY(-28.1f, 10f);
+        this.transform.DOMoveY(transform.position.y-sinkDepth, sinkTime);
 
     }
 }
