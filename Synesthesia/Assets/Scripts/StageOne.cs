@@ -13,7 +13,7 @@ public class StageOne : MonoBehaviour
     public GameObject[] shipParts;
     public GameObject wheel; 
     public GameObject water;
-    public Material waterMaterial; 
+    public WaterMesh waterMesh; 
     public GameObject terrain;
     public GameObject blueDrum;
     public GameObject pinkDrum; 

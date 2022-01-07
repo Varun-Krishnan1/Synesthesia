@@ -8,7 +8,14 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class HandController : MonoBehaviour
 {
     public Hand hand;
-    public Drum kick; 
+    public Drum kick;
+
+    public bool enableHands; 
+
+    public bool drumstickAttachedOnce;
+    public bool interactorDestroyedOnce;
+    private bool drumstickDropped; 
+    private bool isActive = true; 
 
     ActionBasedController controller;
     // Start is called before the first frame update
@@ -20,33 +27,73 @@ public class HandController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hand.SetGrip(controller.selectAction.action.ReadValue<float>());
-        hand.SetTrigger(controller.activateAction.action.ReadValue<float>());
+        if(isActive)
+        {
+            hand.SetGrip(controller.selectAction.action.ReadValue<float>());
+            hand.SetTrigger(controller.activateAction.action.ReadValue<float>());
+        }
+
+        if(enableHands)
+        {
+            EnableHands();
+            enableHands = false; 
+        }
     }
 
     public void AttachDrumstick()
     {
-        StageZero.Instance.numDrumsticksPickedUp += 1; 
-
-        GameObject drumstick = this.GetComponent<XRDirectInteractor>().selectTarget.gameObject;
-        drumstick.GetComponentInChildren<DrumStick>().controller = controller;
-
-        // ensure both drumsticks are picked up
-        if (StageZero.Instance.numDrumsticksPickedUp == 2)
+        if(!drumstickAttachedOnce)
         {
-            kick.playOnButtonPress = true;
-            // -- reset text back to normal after they grab 
-            TextManager.Instance.ClearText();
-        }
-        
-        Destroy(hand.gameObject);
+            StageZero.Instance.numDrumsticksPickedUp += 1;
 
+            GameObject drumstick = this.GetComponent<XRDirectInteractor>().selectTarget.gameObject;
+            drumstick.GetComponentInChildren<DrumStick>().controller = controller;
+
+            // ensure both drumsticks are picked up
+            if (StageZero.Instance.numDrumsticksPickedUp == 2)
+            {
+                kick.playOnButtonPress = true;
+                // -- reset text back to normal after they grab 
+                TextManager.Instance.ClearText();
+            }
+
+            hand.gameObject.SetActive(false);
+
+            drumstickAttachedOnce = true;
+        }
     }
 
 
     public void DestroyInteractor()
     {
-        Destroy(this.GetComponent<XRDirectInteractor>());
-        Destroy(this);
+        if(!interactorDestroyedOnce)
+        {
+            this.GetComponent<XRDirectInteractor>().enabled = false;
+            this.isActive = false;
+
+            interactorDestroyedOnce = true;
+        }
+    }
+
+    public void EnableHands()
+    {
+        if(kick) kick.playOnButtonPress = false; 
+
+        DrumStick drumstick = this.GetComponentsInChildren<DrumStick>()[0];
+        drumstick.transform.parent.gameObject.transform.parent = null; // -- unparent from controller 
+        
+        hand.gameObject.SetActive(true);
+        this.GetComponent<XRDirectInteractor>().enabled = true;
+        this.isActive = true;
+
+        drumstickDropped = true; 
+    }
+
+    public void ToggleVisibility()
+    {
+        if(drumstickDropped)
+        {
+            hand.gameObject.SetActive(!hand.gameObject.activeSelf);
+        }
     }
 }

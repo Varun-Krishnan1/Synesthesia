@@ -45,7 +45,7 @@ public class Hand : MonoBehaviour
     }
 
     void AnimateHand()
-    {
+    {   
         if(gripCurrent != gripTarget)
         {
             gripCurrent = Mathf.MoveTowards(gripCurrent, gripTarget, Time.deltaTime * animationSpeed);

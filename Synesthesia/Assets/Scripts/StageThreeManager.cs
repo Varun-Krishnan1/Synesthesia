@@ -2,27 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using DG.Tweening;
 
 public class StageThreeManager : MonoBehaviour
 {
-    public ActionBasedController[] controllers; 
+    public XRRig rig; 
+    public HandController left_controller;
+    public HandController right_controller;
 
+    public float sinkDepth;
+    public float sinkTime;
     // Start is called before the first frame update
     void Start()
     {
-        foreach(ActionBasedController controller in controllers)
-        {
-            DrumStick drumstick = controller.gameObject.GetComponentsInChildren<DrumStick>()[0];
-            drumstick.transform.parent.gameObject.transform.parent = null; // -- unparent from controller 
-            // -- Add hands back onto controller (shouldn't destroy them in first place just set them inactive in Stage 0) 
-            // -- TODO: Add box collider and rigid body to drumstick 
+        StartCoroutine(StartScene());
+    }
 
-        }
+    IEnumerator StartScene()
+    {
+        rig.transform.DOMoveY(rig.transform.position.y - sinkDepth, sinkTime);
+
+        yield return new WaitForSeconds(2f);
+
+        left_controller.EnableHands();
+        right_controller.EnableHands();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
