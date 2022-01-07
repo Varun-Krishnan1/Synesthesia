@@ -6,6 +6,7 @@ using DG.Tweening;
 
 abstract public class Ship : MonoBehaviour
 {
+    public bool isUserShip;
     public Slider healthBar;
     public int health;
     public GameObject[] cannons;
@@ -39,10 +40,15 @@ abstract public class Ship : MonoBehaviour
         StageTwo.Instance.IncreaseStageIntensity(); 
         if(health <= 0)
         {
-            Sink();
+            StageOver();
         }
         Shake();
         ShipHitEffect(); 
+    }
+
+    private void StageOver()
+    {
+        StageTwo.Instance.StageOver(isUserShip); 
     }
 
     // -- implemented specifically for each ship 

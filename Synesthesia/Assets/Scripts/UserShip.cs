@@ -47,8 +47,9 @@ public class UserShip : Ship
         }
 
     }
+
     protected override void Sink()
     {
-        this.transform.DOMoveY(transform.position.y-sinkDepth, sinkTime).OnComplete(GameManager.Instance.NextStage);
+        this.transform.DOMoveY(transform.position.y - sinkDepth, sinkTime);
     }
 }

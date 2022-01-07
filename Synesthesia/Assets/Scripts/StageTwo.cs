@@ -74,4 +74,12 @@ public class StageTwo : MonoBehaviour
         waterMesh.waveAmplitude1 = curWave1Scale;
         waterMesh.waveAmplitude2 = curWave1Scale / 5f;
     }
+
+    public void StageOver(bool isUserShip)
+    {
+        if(isUserShip)
+        {
+            GameManager.Instance.NextStage(); 
+        }
+    }
 }

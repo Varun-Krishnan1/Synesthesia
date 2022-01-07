@@ -155,11 +155,14 @@ public class StageOne : MonoBehaviour
     {
         if(moveShip)
         {
-            waterMesh.noiseSpeed = moveSpeed / noiseSpeedFactor;
-            waterMesh.waveSpeed1 = moveSpeed / waveSpeed1Factor;
-            waterMesh.waveSpeed2 = moveSpeed / waveSpeed2Factor;
+            //waterMesh.noiseSpeed = moveSpeed / noiseSpeedFactor;
+            //waterMesh.waveSpeed1 = moveSpeed / waveSpeed1Factor;
+            //waveSpeed2 = moveSpeed / waveSpeed2Factor;
             //waterMaterial.SetFloat("Vector1_244B0600", moveSpeed);
-            terrain.transform.position -= new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
+            //terrain.transform.position -= new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
+            ship.transform.position += new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
+            //water.transform.position += new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
+            
         }
 
         // -- end of stage 1 

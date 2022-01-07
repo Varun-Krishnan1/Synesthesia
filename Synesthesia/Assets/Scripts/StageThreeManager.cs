@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class StageThreeManager : MonoBehaviour
 {
-    public XRRig rig; 
+    public GameObject ship; 
     public HandController left_controller;
     public HandController right_controller;
 
@@ -20,7 +20,7 @@ public class StageThreeManager : MonoBehaviour
 
     IEnumerator StartScene()
     {
-        rig.transform.DOMoveY(rig.transform.position.y - sinkDepth, sinkTime);
+        ship.transform.DOMoveY(ship.transform.position.y - sinkDepth, sinkTime);
 
         yield return new WaitForSeconds(2f);
 
