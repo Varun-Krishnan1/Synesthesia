@@ -85,23 +85,23 @@ namespace LowPolyUnderwaterPack
 		[SerializeField] private  Vector2 waveDirection = Vector2.one;
 
 		[Min(0), Tooltip("Controls the height of the primary waves.")]
-		[SerializeField] private  float waveAmplitude1 = 1;
+		[SerializeField] public  float waveAmplitude1 = 1;
 		[Min(0), Tooltip("Controls how frequently a primary wave appears. Lower values spread waves further out and vice versa.")]
 		[SerializeField] private  float waveFrequency1 = 10;
 		[Min(0), Tooltip("Controls how fast primary waves move.")]
-		[SerializeField] private  float waveSpeed1 = 0.25f;
+		[SerializeField] public float waveSpeed1 = 0.25f;
 
 		[Min(0), Tooltip("Controls the height of the secondary waves.")]
-		[SerializeField] private  float waveAmplitude2 = 0.5f;
+		[SerializeField] public  float waveAmplitude2 = 0.5f;
 		[Min(0), Tooltip("Controls how frequently a secondary wave appears. Lower values spread waves further out and vice versa.")]
 		[SerializeField] private  float waveFrequency2 = 6;
 		[Min(0), Tooltip("Controls how fast secondary waves move.")]
-		[SerializeField] private  float waveSpeed2 = 0.4f;
+		[SerializeField] public float waveSpeed2 = 0.4f;
 
 		[Min(0), Tooltip("Controls amplification of the displacement noise in the vertex displacement calculations.")]
 		[SerializeField] private  float noiseAmplitude = 2;
 		[Min(0), Tooltip("How fast the displacement noise scrolls along the mesh.")]
-		[SerializeField] private  float noiseSpeed = 1.5f;
+		[SerializeField] public float noiseSpeed = 1.5f;
 		[Min(0.01f), Tooltip("The scale/density of the displacement noise.")]
 		[SerializeField] private  float noiseScale = 3.5f;
 

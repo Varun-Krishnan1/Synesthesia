@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LowPolyUnderwaterPack;
 
 public class StageTwo : MonoBehaviour
 {
@@ -9,15 +10,15 @@ public class StageTwo : MonoBehaviour
     public static StageTwo Instance { get { return _instance; } }
 
     public UserShip userShip;
-    public Material waterMaterial;
+    public WaterMesh waterMesh;
 
-    public float maxWaveScale;
-    public float waveScaleProgression; 
-    public float maxWaveSpeed;
-    public float waveSpeedProgression;
+    public float maxWave1Scale;
+    public float wave1ScaleProgression; 
+    public float maxWave1Speed;
+    public float wave1SpeedProgression;
 
-    private float curWaveScale = 0.1f;
-    private float curWaveSpeed = 1f; 
+    private float curWave1Scale;
+    private float curWave1Speed;   
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -34,7 +35,8 @@ public class StageTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        curWave1Scale = waterMesh.waveAmplitude1;
+        curWave1Speed = waterMesh.waveSpeed1;
     }
 
     // Update is called once per frame
@@ -60,13 +62,16 @@ public class StageTwo : MonoBehaviour
 
     public void IncreaseStageIntensity()
     {
-        curWaveScale += waveScaleProgression;
-        curWaveScale = Mathf.Clamp(curWaveScale, 0.1f, maxWaveScale);
+        curWave1Scale += wave1ScaleProgression;
+        curWave1Scale = Mathf.Clamp(curWave1Scale, curWave1Scale, maxWave1Scale);
 
-        curWaveSpeed += waveSpeedProgression;
-        curWaveSpeed = Mathf.Clamp(curWaveSpeed, 1f, maxWaveSpeed); 
+        curWave1Speed += wave1SpeedProgression;
+        curWave1Speed = Mathf.Clamp(curWave1Speed, curWave1Speed, maxWave1Speed); 
+        
+        waterMesh.waveSpeed1 = curWave1Speed;
+        waterMesh.waveSpeed2 = curWave1Speed * 2f;
 
-        waterMaterial.SetFloat("_WaveScale", curWaveScale);
-        waterMaterial.SetFloat("_WaveSpeed", curWaveSpeed);
+        waterMesh.waveAmplitude1 = curWave1Scale;
+        waterMesh.waveAmplitude2 = curWave1Scale / 5f;
     }
 }

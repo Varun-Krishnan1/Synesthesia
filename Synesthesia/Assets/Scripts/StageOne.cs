@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using LowPolyUnderwaterPack; 
+
 public class StageOne : MonoBehaviour
 {
     private static StageOne _instance;
@@ -32,6 +34,9 @@ public class StageOne : MonoBehaviour
     public float boatIncreaseSpeedScaleFactor;
     public float boatDecreaseSpeedScaleFactor;
     public float boatDecreaseSpeedConstantFactor;
+    public float noiseSpeedFactor;
+    public float waveSpeed1Factor;
+    public float waveSpeed2Factor;
     public float boatTargetSpeed;
     public float slowSpeedInterval;
     public float slowBeatTiming;
@@ -150,7 +155,10 @@ public class StageOne : MonoBehaviour
     {
         if(moveShip)
         {
-            waterMaterial.SetFloat("Vector1_244B0600", moveSpeed);
+            waterMesh.noiseSpeed = moveSpeed / noiseSpeedFactor;
+            waterMesh.waveSpeed1 = moveSpeed / waveSpeed1Factor;
+            waterMesh.waveSpeed2 = moveSpeed / waveSpeed2Factor;
+            //waterMaterial.SetFloat("Vector1_244B0600", moveSpeed);
             terrain.transform.position -= new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
         }
 
