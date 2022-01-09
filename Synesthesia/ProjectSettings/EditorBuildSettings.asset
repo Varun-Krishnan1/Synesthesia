@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: 
     guid: d1c3109bdb54ad54c8a2b2838528e640
   - enabled: 1
-    path: Assets/_aScenes/Ship.unity
+    path: Assets/_aScenes/Stage0_1.unity
     guid: b572a60dbb573df46a5ebba187377431
   - enabled: 1
     path: Assets/_aScenes/Stage2.unity

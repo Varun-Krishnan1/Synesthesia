@@ -37,6 +37,8 @@ public class StageTwo : MonoBehaviour
     {
         curWave1Scale = waterMesh.waveAmplitude1;
         curWave1Speed = waterMesh.waveSpeed1;
+
+        BeatManager.Instance.Activate(); 
     }
 
     // Update is called once per frame

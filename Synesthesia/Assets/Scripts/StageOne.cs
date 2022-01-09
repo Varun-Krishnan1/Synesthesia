@@ -15,10 +15,11 @@ public class StageOne : MonoBehaviour
     public GameObject[] shipParts;
     public GameObject wheel; 
     public GameObject water;
+    public GameObject waterTwo; 
     public WaterMesh waterMesh; 
     public GameObject terrain;
     public GameObject blueDrum;
-    public GameObject pinkDrum; 
+    public GameObject pinkDrum;
 
     [Header("General")]
     public float spawnDelay;
@@ -26,8 +27,6 @@ public class StageOne : MonoBehaviour
     public float drumCorrectHitEffectAnimationTime; 
 
     [Header("Boat Movement")]
-    public float beatTiming;
-    public float beatLeeway;
     public float boatSlowdownInterval;
     public float maxBoatSpeed; 
     public float boatIncreaseSpeedConstant;
@@ -39,7 +38,6 @@ public class StageOne : MonoBehaviour
     public float waveSpeed2Factor;
     public float boatTargetSpeed;
     public float slowSpeedInterval;
-    public float slowBeatTiming;
 
 
     private bool moveShip = false;
@@ -98,12 +96,15 @@ public class StageOne : MonoBehaviour
 
         yield return new WaitForSeconds(0f); 
 
-        beatVisualizer = true; 
+        beatVisualizer = true;
+        BeatManager.Instance.Activate();
+        BeatManager.Instance.speed = 0.8f; 
     }
 
     void SpawnWaterAndTerrain()
     {
         water.SetActive(true);
+        waterTwo.SetActive(true); 
         terrain.SetActive(true); 
     }
 
@@ -155,12 +156,12 @@ public class StageOne : MonoBehaviour
     {
         if(moveShip)
         {
-            //waterMesh.noiseSpeed = moveSpeed / noiseSpeedFactor;
-            //waterMesh.waveSpeed1 = moveSpeed / waveSpeed1Factor;
-            //waveSpeed2 = moveSpeed / waveSpeed2Factor;
-            //waterMaterial.SetFloat("Vector1_244B0600", moveSpeed);
-            //terrain.transform.position -= new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
-            ship.transform.position += new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
+            waterMesh.noiseSpeed = moveSpeed / noiseSpeedFactor;
+            waterMesh.waveSpeed1 = moveSpeed / waveSpeed1Factor;
+            waterMesh.waveSpeed2 = moveSpeed / waveSpeed2Factor;
+            terrain.transform.position -= new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
+            
+            //ship.transform.position += new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
             //water.transform.position += new Vector3(0, 0, Time.deltaTime * moveSpeed * 2);
             
         }
@@ -221,7 +222,7 @@ public class StageOne : MonoBehaviour
         ship.Shake(); 
         slowTime = Time.time; 
         approachingEnemy = true;
-        BeatManager.Instance.speed = BeatManager.Instance.speed / 2f;  
+        BeatManager.Instance.speed = BeatManager.Instance.speed * 2f; 
     }
 
     // -- to ensure it doesn't overshoot target 

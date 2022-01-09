@@ -50,6 +50,8 @@ namespace LowPolyUnderwaterPack
         private string tintPropName;
         private Vector3 waterMeshPoint = Vector3.zero;
 
+        public bool activated = false; 
+
         #region Boids Test Scene Variables
         
         private GameObject boidsRoom; 
@@ -127,8 +129,16 @@ namespace LowPolyUnderwaterPack
             if (water != null)
                 waterMeshPoint = water.GetWaterPoint(pos);
 
+            Debug.Log(pos);
+            Debug.Log(waterMeshPoint.y);
             // If the point on the water is above our position, we are underwater and should be applying underwater effects
-            ApplyUnderwaterEffects((waterMeshPoint != Vector3.zero) ? waterMeshPoint.y > pos.y : false);
+            //ApplyUnderwaterEffects((waterMeshPoint != Vector3.zero) ? waterMeshPoint.y > pos.y : false);
+
+            Debug.Log(transform.position.y);
+            if (transform.position.y < waterDetectionOffset.y)
+            {
+                ApplyUnderwaterEffects(true);
+            }
         }
 
         private void OnDrawGizmos()
@@ -148,12 +158,22 @@ namespace LowPolyUnderwaterPack
 
         private void ApplyUnderwaterEffects(bool underwater)
         {
-            // Underwater effects
-            isUnderwater = underwater;
-            RenderSettings.fog = underwater;
-            RenderSettings.skybox.SetColor("_Tint", ((!underwater && modifySkyboxTint) ? skyColor : fogColor));
-            vol.profile = ((underwater) ? underwaterProfile : surfaceProfile);
-            refractionRendererFeature.SetActive(underwater);
+            if(!activated)
+            {
+                // Underwater effects
+                isUnderwater = underwater;
+                RenderSettings.fog = underwater;
+                RenderSettings.skybox.SetColor("_Tint", ((!underwater && modifySkyboxTint) ? skyColor : fogColor));
+                vol.profile = ((underwater) ? underwaterProfile : surfaceProfile);
+
+                if(refractionRendererFeature)
+                {
+                    refractionRendererFeature.SetActive(underwater);
+                }
+
+                activated = true;
+            }
+
         }
     }
 

@@ -235,10 +235,9 @@ public class Drum : MonoBehaviour
     public void SpawnNote()
     {
         GameObject tempNote = Instantiate(note, new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z + zOffset), note.transform.rotation);
-        tempNote.transform.parent = this.transform.parent;
-        
-        tempNote.transform.DOLocalMoveY(this.transform.localPosition.y, 2f).SetEase(Ease.Linear);
-        tempNote.transform.DOLocalMoveZ(this.transform.localPosition.z, 2f).SetEase(Ease.Linear);
+
+        tempNote.transform.DOMoveY(this.transform.position.y, 2f).SetEase(Ease.Linear);
+        tempNote.transform.DOMoveZ(this.transform.position.z, 2f).SetEase(Ease.Linear);
 
         Destroy(tempNote, 2f + leewayTime);
     }

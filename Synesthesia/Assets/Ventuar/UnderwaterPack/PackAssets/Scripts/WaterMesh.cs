@@ -99,11 +99,11 @@ namespace LowPolyUnderwaterPack
 		[SerializeField] public float waveSpeed2 = 0.4f;
 
 		[Min(0), Tooltip("Controls amplification of the displacement noise in the vertex displacement calculations.")]
-		[SerializeField] private  float noiseAmplitude = 2;
+		[SerializeField] public  float noiseAmplitude = 2;
 		[Min(0), Tooltip("How fast the displacement noise scrolls along the mesh.")]
 		[SerializeField] public float noiseSpeed = 1.5f;
 		[Min(0.01f), Tooltip("The scale/density of the displacement noise.")]
-		[SerializeField] private  float noiseScale = 3.5f;
+		[SerializeField] public float noiseScale = 3.5f;
 
         #endregion
 
