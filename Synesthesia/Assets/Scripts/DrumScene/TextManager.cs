@@ -14,7 +14,6 @@ public class TextManager : MonoBehaviour
     public float[] timingBetweenSentences;
     public int[] sentenceElementToStopActivation; 
     public TextMeshProUGUI textDisplay;
-    public Camera mainCamera; 
 
     private int curIndex;
     private int curActivationIndex; 
@@ -67,20 +66,6 @@ public class TextManager : MonoBehaviour
             }
         }
 
-        //RaycastHit hit;
-
-        //// if raycast hits, it checks if it hit an object with the tag Player
-        //Debug.DrawRay(mainCamera.gameObject.transform.position, transform.forward, Color.green);
-
-        //if (Physics.Raycast(mainCamera.gameObject.transform.position, transform.forward, out hit))
-        //{
-        //    Debug.Log(hit.collider.gameObject);
-        //    TextManager t = hit.collider.gameObject.GetComponent<TextManager>();
-        //    if (t)
-        //    {
-        //        Debug.Log("Looking at!");
-        //    }
-        //}
     }
 
     void DeActivate()
@@ -109,5 +94,19 @@ public class TextManager : MonoBehaviour
     public void WriteText(string text)
     {
         textDisplay.text = text;
+    }
+
+    public void WriteText(string text, float duration)
+    {
+        StartCoroutine(WriteTextDuration(text, duration)); 
+    }
+
+    IEnumerator WriteTextDuration(string text, float duration)
+    {
+        WriteText(text); 
+
+        yield return new WaitForSeconds(duration);
+
+        ClearText(); 
     }
 }

@@ -54,11 +54,6 @@ public class AudioManager : MonoBehaviour
         {
             mainTheme.clip = audioClips[2];
         }
-        mainTheme.Play();
+        //mainTheme.Play();
     }
 }
-
-/* 
- * 8 seconds - first transition; .25 seconds per beat 
- * 30 seconds - second transition; 
- */ 

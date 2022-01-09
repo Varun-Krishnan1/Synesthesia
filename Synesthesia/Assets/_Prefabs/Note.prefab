@@ -110,6 +110,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5146654660b11734d9681796ea4f3b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isComboNote: 0
+  comboNoteColor: {r: 1, g: 1, b: 1, a: 0}
+  isLastComboNote: 0
+  destroyTime: 0
 --- !u!54 &790966537
 Rigidbody:
   m_ObjectHideFlags: 0

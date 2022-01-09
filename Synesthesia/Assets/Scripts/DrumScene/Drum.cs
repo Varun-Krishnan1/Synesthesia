@@ -15,14 +15,15 @@ public class Drum : MonoBehaviour
     public GameObject note;
 
     [Header("Notes")]
-    public bool spawnNote;
     public float yOffset;
     public float zOffset;
     public float leewayTime;
     public bool hit;
 
     private bool hasNote;
-    private Collider noteCollider; 
+    private Note noteComponent; 
+    private Collider noteCollider;
+    private List<Note> spawnedNotes = new List<Note>();  
 
     private float previousRightTriggerValue; 
     private float previousLeftTriggerValue;
@@ -55,11 +56,13 @@ public class Drum : MonoBehaviour
             DrumHit(drumstick);
         }
 
-        Note noteComponent = other.GetComponent<Note>(); 
-        if(noteComponent)
+        Note tempNoteComponent = other.GetComponent<Note>(); 
+        if(tempNoteComponent && (spawnedNotes.Contains(tempNoteComponent)))
         {
+            noteComponent = tempNoteComponent; 
             hasNote = true;
-            noteCollider = other; 
+            noteCollider = other;
+            spawnedNotes.RemoveAt(0); 
         }
     }
 
@@ -93,11 +96,19 @@ public class Drum : MonoBehaviour
             ScaleDrum();
             RequestVisualChange();
 
+            if(hasNote)
+            {
+                StartCoroutine(CorrectHitEffect(.15f));
+                drumstick.SendHapticImpulse(.75f, .25f);
+            }
+            else
+            {
+                // VIBRATION 
+                // normalize between 0 and 1 assuming max un-normalized value is 25 
+                float vibrationIntensity = drumstick.GetSpeed() / 25;
+                drumstick.SendHapticImpulse(vibrationIntensity, .25f);
+            }
 
-            // VIBRATION 
-            // normalize between 0 and 1 assuming max un-normalized value is 25 
-            float vibrationIntensity = drumstick.GetSpeed() / 25;
-            drumstick.SendHapticImpulse(vibrationIntensity, .25f);
 
         }
     }
@@ -114,6 +125,9 @@ public class Drum : MonoBehaviour
 
     public IEnumerator CorrectHitEffect(float animationTime)
     {
+        VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, new Vector3(.1f, .1f, .1f), drumType);
+        //Destroy(note.gameObject); 
+
         float H, S, V;
         Color.RGBToHSV(transform.parent.GetComponentInChildren<Renderer>().material.GetColor("Base_Color"), out H, out S, out V);
         
@@ -157,23 +171,22 @@ public class Drum : MonoBehaviour
             CheckButtonPress(); 
         }
 
-        if(spawnNote)
-        {
-            SpawnNote();
-            spawnNote = false; 
-        }
-
         if(hasNote && !noteCollider)
         {
             // -- note has been destroyed 
-            hasNote = false; 
+            hasNote = false;
+            noteComponent = null; 
         }
 
         // -- FOR TESTING 
-        if(hit)
+        if (hit)
         {
             ScaleDrum();
             RequestVisualChange();
+            if (hasNote)
+            {
+                StartCoroutine(CorrectHitEffect(.15f));
+            }
             hit = false; 
         }
     }
@@ -232,18 +245,26 @@ public class Drum : MonoBehaviour
         
     }
 
-    public void SpawnNote()
+    public void SpawnNote(bool isComboNote, bool isLastComboNote)
     {
         GameObject tempNote = Instantiate(note, new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z + zOffset), note.transform.rotation);
+        tempNote.GetComponent<Renderer>().material.SetColor("Base_Color", Color.HSVToRGB(originalH, originalS, originalV));
+
+        Note tempNoteComponent = tempNote.GetComponent<Note>();
+        tempNoteComponent.isComboNote = isComboNote;
+        tempNoteComponent.isLastComboNote = isLastComboNote;
+
 
         tempNote.transform.DOMoveY(this.transform.position.y, 2f).SetEase(Ease.Linear);
         tempNote.transform.DOMoveZ(this.transform.position.z, 2f).SetEase(Ease.Linear);
 
-        Destroy(tempNote, 2f + leewayTime);
+        tempNoteComponent.destroyTime = 2f + leewayTime;
+
+        spawnedNotes.Add(tempNoteComponent); 
     }
 
-    public bool CorrectHit()
+    public Note CorrectHit()
     {
-        return hasNote; 
+        return noteComponent;
     }
 }

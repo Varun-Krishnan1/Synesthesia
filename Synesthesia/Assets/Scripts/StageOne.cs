@@ -24,7 +24,6 @@ public class StageOne : MonoBehaviour
     [Header("General")]
     public float spawnDelay;
     public bool colorCloudsOnHit = false;
-    public float drumCorrectHitEffectAnimationTime; 
 
     [Header("Boat Movement")]
     public float boatSlowdownInterval;
@@ -90,11 +89,6 @@ public class StageOne : MonoBehaviour
 
         yield return new WaitForSeconds(10f);
 
-        TextManager.Instance.Activate();
-
-
-        yield return new WaitForSeconds(0f); 
-
         beatVisualizer = true;
         BeatManager.Instance.Activate();
         BeatManager.Instance.speed = 0.8f; 
@@ -132,9 +126,6 @@ public class StageOne : MonoBehaviour
                 {
                     // -- TODO 
                 }
-
-                // -- drum scaling 
-                StartCoroutine(drum.CorrectHitEffect(drumCorrectHitEffectAnimationTime));
             }
             else
             {
