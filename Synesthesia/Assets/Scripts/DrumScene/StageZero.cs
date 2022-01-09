@@ -66,7 +66,10 @@ public class StageZero : MonoBehaviour
         turnAroundObjects.SetActive(true); 
         // -- ensure other objects are hidden 
         progressBar.transform.parent.gameObject.SetActive(false);
-        drumsticks.SetActive(false); 
+        drumsticks.SetActive(false);
+
+        //AudioManager.Instance.StartStageTheme(0);
+
     }
 
     public int GetLevel()

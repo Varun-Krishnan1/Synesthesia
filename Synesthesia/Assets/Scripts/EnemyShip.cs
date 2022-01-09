@@ -8,20 +8,25 @@ public class EnemyShip : Ship
     public float speedFactor; 
     private float nextShootTime;
 
+    public bool activated; 
     // Update is called once per frame
     void Update()
     {
-        // -- initialize next shoot time to correspond to beat manager 
-        if(nextShootTime == 0f)
+        if(activated)
         {
-            nextShootTime = BeatManager.Instance.nextPlayTime;
+            // -- initialize next shoot time to correspond to beat manager 
+            if (nextShootTime == 0f)
+            {
+                nextShootTime = BeatManager.Instance.nextPlayTime;
+            }
+
+            if (Time.time > nextShootTime)
+            {
+                Shoot();
+                nextShootTime = Time.time + (BeatManager.Instance.speed * speedFactor);
+            }
         }
-        
-        if(Time.time > nextShootTime)
-        {
-            Shoot();
-            nextShootTime = Time.time + (BeatManager.Instance.speed * speedFactor); 
-        }
+
     }
 
     protected override void ShipHitEffect()

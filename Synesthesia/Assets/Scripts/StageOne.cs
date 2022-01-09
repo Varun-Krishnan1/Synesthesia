@@ -64,32 +64,31 @@ public class StageOne : MonoBehaviour
     {
         Debug.Log("Stage One Started!");
 
+        AudioManager.Instance.StartStageTheme(1);
+
         StartCoroutine(SpawnShip()); 
     }
 
     IEnumerator SpawnShip()
     {
-        AudioManager.Instance.StartTheme();
-
-
         // -- set parent ship container to active 
         shipParts[0].transform.parent.gameObject.SetActive(true);
-        // yield return new WaitForSeconds(spawnDelay);
+        yield return new WaitForSeconds(spawnDelay);
 
 
         // -- for testing let them do color clouds
         // colorCloudsOnHit = true;
         // ---------------------------------------
 
-        //foreach (GameObject s in shipParts)
-        //{
-        //    s.SetActive(true);
-        //    yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
-        //}
+        foreach (GameObject s in shipParts)
+        {
+            s.SetActive(true);
+            yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
+        }
 
         SpawnWaterAndTerrain();
 
-        // yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(10f);
 
         TextManager.Instance.Activate();
 
@@ -214,8 +213,6 @@ public class StageOne : MonoBehaviour
     // called by ShipCheckpoint class 
     public void SlowBoatCheckpoint()
     {
-        TextManager.Instance.Activate();
-
         // -- give boat speed required to come to stop after certain distance 
         MoveShip(boatTargetSpeed);
 

@@ -44,7 +44,32 @@ public class GameManager : MonoBehaviour
     void NextScene()
     {
         curSceneIndex += 1;
-        SceneManager.LoadScene(sceneArr.GetValue(curSceneIndex).ToString());
+        StartCoroutine(LoadScene());
+        //SceneManager.LoadScene(sceneArr.GetValue(curSceneIndex).ToString());
+    }
+
+    IEnumerator LoadScene()
+    {
+        yield return null;
+
+        //Begin to load the Scene you specify
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneArr.GetValue(curSceneIndex).ToString());
+        //Don't let the Scene activate until you allow it to
+        asyncOperation.allowSceneActivation = false;
+        Debug.Log("Pro :" + asyncOperation.progress);
+        //When the load is still in progress, output the Text and progress bar
+        while (!asyncOperation.isDone)
+        {
+
+            // Check if the load has finished
+            if (asyncOperation.progress >= 0.9f)
+            {
+                asyncOperation.allowSceneActivation = true;
+            }
+
+            Debug.Log("Loading progress: " + (asyncOperation.progress * 100) + "%");
+            yield return null;
+        }
     }
 
     public int GetGameStage()

@@ -10,8 +10,10 @@ public class StageTwo : MonoBehaviour
     public static StageTwo Instance { get { return _instance; } }
 
     public UserShip userShip;
+    public EnemyShip enemyShip; 
     public WaterMesh waterMesh;
 
+    public float startDelay;
     public float maxWave1Scale;
     public float wave1ScaleProgression; 
     public float maxWave1Speed;
@@ -35,12 +37,20 @@ public class StageTwo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(StartScene()); 
+    }
+
+    IEnumerator StartScene()
+    {
+        yield return new WaitForSeconds(startDelay); 
         curWave1Scale = waterMesh.waveAmplitude1;
         curWave1Speed = waterMesh.waveSpeed1;
 
-        BeatManager.Instance.Activate(); 
-    }
+        BeatManager.Instance.Activate();
+        AudioManager.Instance.StartStageTheme(2);
 
+        enemyShip.activated = true; 
+    }
     // Update is called once per frame
     void Update()
     {

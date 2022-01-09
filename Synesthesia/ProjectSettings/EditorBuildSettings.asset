@@ -7,7 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 0
     path: 
-    guid: d1c3109bdb54ad54c8a2b2838528e640
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/_aScenes/Stage0_1.unity
     guid: b572a60dbb573df46a5ebba187377431
@@ -16,6 +16,9 @@ EditorBuildSettings:
     guid: 09ebf01c4bdf6044c99f8820e4585f54
   - enabled: 1
     path: Assets/_aScenes/Stage3Lose.unity
+    guid: f1cddb18be56802459279d7d6debdd71
+  - enabled: 0
+    path: Assets/_aScenes/Stage3Previous.unity
     guid: cb6417769a1ee3641ab6cbe771d41c72
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: a8d16d1e78f765a4f9f509f30c98648f, type: 2}

@@ -9,9 +9,9 @@ public class AudioManager : MonoBehaviour
     private static AudioManager _instance;
     public static AudioManager Instance { get { return _instance; } }
 
-    public float delay;
-
+    public AudioClip[] audioClips; 
     private AudioSource mainTheme; 
+
 
     void Awake()
     {
@@ -25,16 +25,36 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public float getCurrentPoint()
+    void Start()
     {
-        return mainTheme.time; 
+        mainTheme = GetComponent<AudioSource>(); 
     }
 
-
-    public void StartTheme()
+    public void ClearTheme()
     {
-        mainTheme = GetComponent<AudioSource>();
-        //mainTheme.Play();
+        mainTheme.clip = null; 
+    }
+
+    public void StartStageTheme(int stage)
+    {
+        if(stage == 0)
+        {
+            mainTheme.clip = audioClips[0];
+        }
+        else if(stage == 1)
+        {
+            mainTheme.clip = audioClips[0];
+            mainTheme.time = 20f;
+        }
+        else if(stage == 2)
+        {
+            mainTheme.clip = audioClips[1];
+        }
+        else if(stage == 3)
+        {
+            mainTheme.clip = audioClips[2];
+        }
+        mainTheme.Play();
     }
 }
 
