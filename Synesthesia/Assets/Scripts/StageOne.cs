@@ -91,7 +91,6 @@ public class StageOne : MonoBehaviour
 
         beatVisualizer = true;
         BeatManager.Instance.Activate();
-        BeatManager.Instance.speed = 0.8f; 
     }
 
     void SpawnWaterAndTerrain()
@@ -210,7 +209,7 @@ public class StageOne : MonoBehaviour
         ship.Shake(); 
         slowTime = Time.time; 
         approachingEnemy = true;
-        BeatManager.Instance.speed = BeatManager.Instance.speed * 2f; 
+        AudioManager.Instance.secPerBeat = AudioManager.Instance.secPerBeat * 2f; 
     }
 
     // -- to ensure it doesn't overshoot target 

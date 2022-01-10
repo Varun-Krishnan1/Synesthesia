@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BeatManager : MonoBehaviour
 {
+    public float normalBeatPlayedOn; 
 
-    public float normalSpeed;
     public Drum snare;
     public Drum hiTom;
     public Drum midTom;
@@ -27,7 +27,9 @@ public class BeatManager : MonoBehaviour
     private int curComboTimeIndex = 0;
     private int curIndexInCombo = 0; 
     private bool inCombo;
-    public float speed; 
+    public float secPerBeat;
+
+    private float nextBeat; 
 
     private static BeatManager _instance;
 
@@ -52,8 +54,6 @@ public class BeatManager : MonoBehaviour
         stringToDrumType.Add('M', midTom);
         stringToDrumType.Add('H', hiTom);
         stringToDrumType.Add('C', hiHat);
-
-        speed = normalSpeed; 
     }
 
     public void Activate()
@@ -67,17 +67,19 @@ public class BeatManager : MonoBehaviour
         {
             curDrum = snare; 
         }
+
         activated = true; 
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    // Called from Update of AudioManager which uses AudioSettings.dspTime
+    public void BeatChecker(float numBeats)
     {
         if(activated)
         {
             if (stage == 1)
             {
-                if (Time.time > nextPlayTime)
+                //if (songPosition > nextPlayTime)
+                if(numBeats % normalBeatPlayedOn == 0)
                 {
                     curDrum.SpawnNote(isComboNote: false, isLastComboNote: false);
 
@@ -89,19 +91,16 @@ public class BeatManager : MonoBehaviour
                     {
                         curDrum = hiTom;
                     }
-
-                    nextPlayTime = Time.time + speed;
                 }
             }
             else if (stage == 2)
             {
-                if(curComboTimeIndex < stageTwoComboTimes.Length && (Time.time > stageTwoComboTimes[curComboTimeIndex]))
+                Debug.Log(curComboTimeIndex);
+                Debug.Log(numBeats);
+                if(curComboTimeIndex < stageTwoComboTimes.Length && (numBeats == stageTwoComboTimes[curComboTimeIndex]))
                 {
                     Debug.Log("Starting Combo!");
                     inCombo = true;
-                    curComboTimeIndex += 1;
-                    nextPlayTime = Time.time;
-                    speed = stageTwoComboSpeeds[curComboTimeIndex]; 
 
                     // -- provide length of all notes in the upcombing combo
                     StageTwo.Instance.ComboStarted(stageTwoCombos[curComboIndex].Replace(" ", "").Length);
@@ -109,7 +108,7 @@ public class BeatManager : MonoBehaviour
 
                 if(inCombo)
                 {
-                    if(Time.time >= nextPlayTime)
+                    if(numBeats % stageTwoComboSpeeds[curComboTimeIndex] == 0)
                     {
                         Debug.Log("Next combo beat");
                         char curDrumChar = stageTwoCombos[curComboIndex][curIndexInCombo];
@@ -122,8 +121,8 @@ public class BeatManager : MonoBehaviour
                                 stringToDrumType[curDrumChar].SpawnNote(isComboNote: true, isLastComboNote: true);
                                 inCombo = false;
                                 curComboIndex += 1;
+                                curComboTimeIndex += 1;
                                 curIndexInCombo = 0;
-                                speed = normalSpeed; 
                                 break;
                             }
                             // -- Not last note 
@@ -139,26 +138,23 @@ public class BeatManager : MonoBehaviour
                         if(inCombo)
                         {
                             curIndexInCombo += 1; // -- so doesn't start on ' ' next beat 
-                        }
-                        nextPlayTime = Time.time + speed;    
+                        }  
                     }
                 }
 
-                else if (Time.time > nextPlayTime)
+                else if(numBeats % normalBeatPlayedOn == 0)
                 {
                     curDrum.SpawnNote(isComboNote: false, isLastComboNote: false);
 
                     if (curDrum == snare)
                     {
-                        curDrum = snare;
+                        curDrum = floorTom;
                     }
                     else
                     {
                         curDrum = snare;
                     }
-
-                    nextPlayTime = Time.time + speed;
-                }
+                }          
             }
         }
     }

@@ -10,9 +10,12 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get { return _instance; } }
 
     public AudioClip[] audioClips; 
-    private AudioSource mainTheme; 
+    private AudioSource mainTheme;
 
-
+    public float songBpm;
+    public float secPerBeat;
+    public float numBeats;
+    
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -54,6 +57,22 @@ public class AudioManager : MonoBehaviour
         {
             mainTheme.clip = audioClips[2];
         }
+
+        //Calculate the number of seconds in each beat
+        secPerBeat = 60f / songBpm;
         mainTheme.Play();
+
+        InvokeRepeating("CallBeatManager", 0, secPerBeat / 2); 
+    }
+
+    // -- called every half beat 
+    void CallBeatManager()
+    {
+        numBeats += 0.5f;
+        BeatManager.Instance.BeatChecker(numBeats);
+    }
+    void Update()
+    {
+
     }
 }

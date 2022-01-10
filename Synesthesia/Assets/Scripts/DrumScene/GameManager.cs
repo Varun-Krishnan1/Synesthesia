@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject StageZero; 
     public GameObject StageOne;
+    public bool reloadScene;
 
     private Array sceneArr;
     private int curSceneIndex = 0; 
@@ -88,6 +89,15 @@ public class GameManager : MonoBehaviour
         else if(gameStage == 2 || gameStage == 3)
         {
             NextScene(); 
+        }
+    }
+
+    void Update()
+    {
+        if(reloadScene)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            reloadScene = false; 
         }
     }
 }

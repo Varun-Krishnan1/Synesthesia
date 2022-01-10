@@ -23,7 +23,7 @@ public class EnemyShip : Ship
             if (Time.time > nextShootTime)
             {
                 Shoot();
-                nextShootTime = Time.time + (BeatManager.Instance.speed * speedFactor);
+                nextShootTime = Time.time + (AudioManager.Instance.secPerBeat * speedFactor);
             }
         }
 
