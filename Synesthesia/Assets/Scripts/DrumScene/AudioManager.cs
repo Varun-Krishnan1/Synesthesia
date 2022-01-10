@@ -54,6 +54,6 @@ public class AudioManager : MonoBehaviour
         {
             mainTheme.clip = audioClips[2];
         }
-        //mainTheme.Play();
+        mainTheme.Play();
     }
 }

@@ -71,7 +71,7 @@ public class BeatManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(activated)
         {
@@ -150,7 +150,7 @@ public class BeatManager : MonoBehaviour
 
                     if (curDrum == snare)
                     {
-                        curDrum = floorTom;
+                        curDrum = snare;
                     }
                     else
                     {

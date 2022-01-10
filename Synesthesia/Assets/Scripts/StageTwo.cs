@@ -47,12 +47,14 @@ public class StageTwo : MonoBehaviour
 
     IEnumerator StartScene()
     {
-        yield return new WaitForSeconds(startDelay); 
         curWave1Scale = waterMesh.waveAmplitude1;
         curWave1Speed = waterMesh.waveSpeed1;
 
-        BeatManager.Instance.Activate();
+
         AudioManager.Instance.StartStageTheme(2);
+
+        yield return new WaitForSeconds(startDelay);
+        BeatManager.Instance.Activate();
 
         enemyShip.activated = true; 
     }
