@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LowPolyUnderwaterPack;
+using DG.Tweening; 
 
 public class StageTwo : MonoBehaviour
 {
@@ -12,12 +13,17 @@ public class StageTwo : MonoBehaviour
     public UserShip userShip;
     public EnemyShip enemyShip; 
     public WaterMesh waterMesh;
+    public GameObject drums;
 
     public float startDelay;
+    public Transform newDrumPosition; 
+    public float drumLerpDuration;
+    public float drumPauseTimeOffset;
     public float maxWave1Scale;
     public float wave1ScaleProgression; 
     public float maxWave1Speed;
     public float wave1SpeedProgression;
+
 
     private float curWave1Scale;
     private float curWave1Speed;
@@ -47,15 +53,42 @@ public class StageTwo : MonoBehaviour
 
     IEnumerator StartScene()
     {
+
+        yield return new WaitForSeconds(3f); 
+
         curWave1Scale = waterMesh.waveAmplitude1;
         curWave1Speed = waterMesh.waveSpeed1;
 
+        foreach (DissolveIn d in drums.GetComponentsInChildren<DissolveIn>())
+        {
+            // -- dissolve back in 
+            d.startValue = 0f;
+            d.endValue = .7f;
+            d.lerpDuration = drumLerpDuration;
+            d.Dissolve();
+        }
 
+        yield return new WaitForSeconds(drumLerpDuration + drumPauseTimeOffset);
+        
+        drums.transform.position = newDrumPosition.position;
+        drums.transform.rotation = newDrumPosition.rotation;
+        
+        foreach (DissolveIn d in drums.GetComponentsInChildren<DissolveIn>())
+        {
+            // -- dissolve back in 
+            d.startValue = .7f;
+            d.endValue = 0f;
+            d.Dissolve(); 
+        }
+
+
+        // -- Music
         AudioManager.Instance.StartStageTheme(2);
 
         yield return new WaitForSeconds(startDelay);
         BeatManager.Instance.Activate();
 
+        // - Gameplay Loop 
         enemyShip.activated = true; 
     }
     // Update is called once per frame

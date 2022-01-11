@@ -5,17 +5,21 @@ using UnityEngine;
 public class DissolveIn : MonoBehaviour
 {
     public float lerpDuration;
-    public bool sharedMaterial; 
+    public bool sharedMaterial;
+    public bool hasHologramMaterial;
 
-    private float startValue = .83f;
-    private float endValue = 0f;
+    public float startValue = .83f;
+    public float endValue = 0f;
     private float valueToLerp;
 
     private Material shader;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Lerp()); 
+        if(!hasHologramMaterial)
+        {
+            StartCoroutine(Lerp());
+        }
     }
 
     // Update is called once per frame
@@ -31,6 +35,10 @@ public class DissolveIn : MonoBehaviour
             if(sharedMaterial)
             {
                 this.gameObject.GetComponent<Renderer>().sharedMaterial.SetFloat("AlphaClip", valueToLerp);
+            }
+            else if(hasHologramMaterial)
+            {
+                GetComponent<Drum>().SetAlphaClip(valueToLerp); 
             }
             else
             {
@@ -49,5 +57,10 @@ public class DissolveIn : MonoBehaviour
         {
             this.gameObject.GetComponent<Renderer>().material.SetFloat("AlphaClip", endValue);
         }
+    }
+
+    public void Dissolve()
+    {
+        StartCoroutine(Lerp());
     }
 }

@@ -15,8 +15,7 @@ public class Drum : MonoBehaviour
     public GameObject note;
 
     [Header("Notes")]
-    public float yOffset;
-    public float zOffset;
+    public Vector3 noteSpawnOffset; 
     public float leewayTime;
     public bool hit;
 
@@ -153,6 +152,21 @@ public class Drum : MonoBehaviour
         }
 
     }
+
+    public void SetAlphaClip(float alphaClip)
+    {
+        foreach (Renderer r in transform.parent.GetComponentsInChildren<Renderer>())
+        {
+            if (r != this.GetComponent<Renderer>())
+            {
+                foreach (Material m in r.materials)
+                {
+                    m.SetFloat("AlphaClip", alphaClip);
+                }
+            }
+        }
+    }
+
     void RequestVisualChange()
     {
         if (drumIsActive)
@@ -247,16 +261,16 @@ public class Drum : MonoBehaviour
 
     public void SpawnNote(bool isComboNote, bool isLastComboNote)
     {
-        GameObject tempNote = Instantiate(note, new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z + zOffset), note.transform.rotation);
+        GameObject tempNote = Instantiate(note, transform.position + noteSpawnOffset, note.transform.rotation);
+        //GameObject tempNote = Instantiate(note, new Vector3(transform.localPosition.x, transform.localPosition.y + yOffset, transform.localPosition.z + zOffset), note.transform.rotation, this.transform.parent);
         tempNote.GetComponent<Renderer>().material.SetColor("Base_Color", Color.HSVToRGB(originalH, originalS, originalV));
 
         Note tempNoteComponent = tempNote.GetComponent<Note>();
         tempNoteComponent.isComboNote = isComboNote;
         tempNoteComponent.isLastComboNote = isLastComboNote;
 
-
-        tempNote.transform.DOMoveY(this.transform.position.y, 2f).SetEase(Ease.Linear);
-        tempNote.transform.DOMoveZ(this.transform.position.z, 2f).SetEase(Ease.Linear);
+        //tempNote.transform.parent = this.transform.parent; 
+        tempNote.transform.DOMove(this.transform.position, 2f).SetEase(Ease.Linear);
 
         tempNoteComponent.destroyTime = 2f + leewayTime;
 

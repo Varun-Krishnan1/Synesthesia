@@ -60,7 +60,7 @@ public class AudioManager : MonoBehaviour
 
         //Calculate the number of seconds in each beat
         secPerBeat = 60f / songBpm;
-        mainTheme.Play();
+        //mainTheme.Play();
 
         InvokeRepeating("CallBeatManager", 0, secPerBeat / 2); 
     }
