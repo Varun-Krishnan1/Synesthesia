@@ -60,16 +60,24 @@ public class AudioManager : MonoBehaviour
 
         //Calculate the number of seconds in each beat
         secPerBeat = 60f / songBpm;
-        //mainTheme.Play();
+        mainTheme.Play();
 
-        InvokeRepeating("CallBeatManager", 0, secPerBeat / 2); 
+        InvokeRepeating("HalfBeatPassed", 0, secPerBeat / 2); 
     }
 
     // -- called every half beat 
-    void CallBeatManager()
+    void HalfBeatPassed()
     {
         numBeats += 0.5f;
         BeatManager.Instance.BeatChecker(numBeats);
+        if(StageTwo.Instance)
+        {
+            if(numBeats == StageTwo.Instance.startDelayInBeats)
+            {
+                StageTwo.Instance.StartGameplayLoop(); 
+            }
+            StageTwo.Instance.enemyShip.BeatChecker(numBeats); 
+        }
     }
     void Update()
     {

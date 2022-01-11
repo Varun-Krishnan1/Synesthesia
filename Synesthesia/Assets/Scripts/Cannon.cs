@@ -9,7 +9,7 @@ public class Cannon : MonoBehaviour
     public GameObject cannonBall;
 
     public float cannonBallForce;
-    public int damage;
+    public float damage;
     public float colorCloudScale;
     public bool sideCannon; 
     public bool fire; 

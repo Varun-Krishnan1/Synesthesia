@@ -8,9 +8,10 @@ abstract public class Ship : MonoBehaviour
 {
     public bool isUserShip;
     public Slider healthBar;
-    public int health;
+    public float health;
     public GameObject[] cannons;
 
+    public float cannonDamage;
     public float sinkDepth;
     public float sinkTime;
     // Start is called before the first frame update
@@ -32,7 +33,7 @@ abstract public class Ship : MonoBehaviour
 
     }
 
-    public void HitEffect(int damage)
+    public void HitEffect(float damage)
     {
         health -= damage;
         healthBar.value = health;
@@ -40,7 +41,7 @@ abstract public class Ship : MonoBehaviour
         StageTwo.Instance.IncreaseStageIntensity(); 
         if(health <= 0)
         {
-            StageOver();
+            Sink();
         }
         Shake();
         ShipHitEffect(); 
@@ -48,7 +49,7 @@ abstract public class Ship : MonoBehaviour
 
     private void StageOver()
     {
-        StageTwo.Instance.StageOver(isUserShip); 
+        // StageTwo.Instance.StageOver(isUserShip); 
     }
 
     // -- implemented specifically for each ship 

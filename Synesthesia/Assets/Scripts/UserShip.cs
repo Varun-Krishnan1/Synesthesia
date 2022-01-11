@@ -27,6 +27,7 @@ public class UserShip : Ship
         int randNum = Random.Range(0, cannons.Length);
         foreach (Transform child in cannons[randNum].transform)
         {
+            child.GetComponent<Cannon>().damage = cannonDamage;
             child.GetComponent<Cannon>().Fire();
         }
     }
@@ -50,6 +51,8 @@ public class UserShip : Ship
 
     protected override void Sink()
     {
-        this.transform.DOMoveY(transform.position.y - sinkDepth, sinkTime);
+        Debug.Log("Ship sunk...");
+        TextManager.Instance.WriteText("Ship sunk!");
+        //this.transform.DOMoveY(transform.position.y - sinkDepth, sinkTime);
     }
 }

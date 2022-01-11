@@ -5,7 +5,7 @@ using UnityEngine;
 public class CannonBall : MonoBehaviour
 {
     public GameObject ship; // -- keep track of which ship it came from
-    public int damage; 
+    public float damage; 
     private float ballForce;
     public float colorCloudScale; 
 

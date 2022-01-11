@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
-    public int shieldHealth;
+    public float shieldHealth;
 
-    private int maxShieldHealth; 
+    private float maxShieldHealth; 
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +19,7 @@ public class Shield : MonoBehaviour
         
     }
 
-    public void HitEffect(int damage)
+    public void HitEffect(float damage)
     {
         shieldHealth -= damage;
         if (shieldHealth <= 0)

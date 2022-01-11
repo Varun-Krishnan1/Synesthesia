@@ -5,34 +5,57 @@ using DG.Tweening;
 
 public class EnemyShip : Ship
 {
-    public float speedFactor; 
-    private float nextShootTime;
+    public float numBeatTillShoot;
+    public float beatsTillFirstTransition;  
+    public float beatsTillSecondTransition; 
+    public float beatsTillThirdTransition; 
+    public float beatsTillFourthTransition; 
 
-    public bool activated; 
+    public bool activated;
+
+    private float startDelayInBeats;
+    void Start()
+    {
+        startDelayInBeats = StageTwo.Instance.startDelayInBeats;
+    }
     // Update is called once per frame
-    void Update()
+    public void BeatChecker(float numBeats)
     {
         if(activated)
         {
-            // -- initialize next shoot time to correspond to beat manager 
-            if (nextShootTime == 0f)
+            if((numBeats - startDelayInBeats) % numBeatTillShoot == 0)
             {
-                nextShootTime = BeatManager.Instance.nextPlayTime;
-            }
-
-            if (Time.time > nextShootTime)
-            {
-                Shoot();
-                nextShootTime = Time.time + (AudioManager.Instance.secPerBeat * speedFactor);
+                Shoot(); 
             }
         }
 
+        if (numBeats == beatsTillFirstTransition)
+        {
+            Shoot();
+            numBeatTillShoot = 8;
+        }
+        else if (numBeats == beatsTillSecondTransition)
+        {
+            Shoot(); 
+            activated = false;
+        }        
+        else if (numBeats == beatsTillThirdTransition)
+        {
+            Shoot();
+            numBeatTillShoot = 12;
+            activated = true; 
+        }
+        else if (numBeats == beatsTillFourthTransition)
+        {
+            Shoot();
+            numBeatTillShoot = 4; 
+        }
     }
+
 
     protected override void ShipHitEffect()
     {
         Debug.Log("Enemy Ship Hit!");
-
     }
 
     void Shoot()
@@ -40,6 +63,7 @@ public class EnemyShip : Ship
         int randNum = Random.Range(0, cannons.Length);
         foreach (Transform child in cannons[randNum].transform)
         {
+            child.GetComponent<Cannon>().damage = cannonDamage; 
             child.GetComponent<Cannon>().Fire(); 
         }
     }

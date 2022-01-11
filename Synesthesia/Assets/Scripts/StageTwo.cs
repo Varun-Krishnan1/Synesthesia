@@ -15,7 +15,7 @@ public class StageTwo : MonoBehaviour
     public WaterMesh waterMesh;
     public GameObject drums;
 
-    public float startDelay;
+    public float startDelayInBeats;
     public Transform newDrumPosition; 
     public float drumLerpDuration;
     public float drumPauseTimeOffset;
@@ -54,7 +54,10 @@ public class StageTwo : MonoBehaviour
     IEnumerator StartScene()
     {
 
-        yield return new WaitForSeconds(3f); 
+        yield return new WaitForSeconds(3f);
+
+        // -- Music
+        AudioManager.Instance.StartStageTheme(2);
 
         curWave1Scale = waterMesh.waveAmplitude1;
         curWave1Speed = waterMesh.waveSpeed1;
@@ -81,15 +84,13 @@ public class StageTwo : MonoBehaviour
             d.Dissolve(); 
         }
 
+    }
 
-        // -- Music
-        AudioManager.Instance.StartStageTheme(2);
-
-        yield return new WaitForSeconds(startDelay);
-        BeatManager.Instance.Activate();
-
+    public void StartGameplayLoop()
+    {
         // - Gameplay Loop 
-        enemyShip.activated = true; 
+        enemyShip.activated = true;
+        BeatManager.Instance.Activate();
     }
     // Update is called once per frame
     void Update()

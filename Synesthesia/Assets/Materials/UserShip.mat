@@ -50,6 +50,6 @@ Material:
     - EdgeWidth: 0.01
     - NoiseScale: 30
     m_Colors:
-    - BaseColor: {r: 0.50980395, g: 0.5058824, b: 0.9647059, a: 0}
+    - BaseColor: {r: 0.5098039, g: 0.5058824, b: 0.9647059, a: 0}
     - EdgeColor: {r: 0, g: 3.403922, b: 4, a: 0}
   m_BuildTextureStacks: []
