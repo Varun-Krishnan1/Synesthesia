@@ -110,7 +110,7 @@ public class StageTwo : MonoBehaviour
         if(curComboLength >= totalComboLength)
         {
             TextManager.Instance.WriteText("Combo Succeeded!", 3f);
-            userShip.Shoot();
+            userShip.ComboShoot();
         }
         else
         {

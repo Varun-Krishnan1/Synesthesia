@@ -10,6 +10,8 @@ public class UserShip : Ship
     public GameObject shieldIcon; 
     public GameObject[] drumIcons;
 
+    public float comboCannonDamage;
+
     private int shieldUsesLeft;
 
     void Start()
@@ -28,6 +30,16 @@ public class UserShip : Ship
         foreach (Transform child in cannons[randNum].transform)
         {
             child.GetComponent<Cannon>().damage = cannonDamage;
+            child.GetComponent<Cannon>().Fire();
+        }
+    }
+
+    public void ComboShoot()
+    {
+        int randNum = Random.Range(0, cannons.Length);
+        foreach (Transform child in cannons[randNum].transform)
+        {
+            child.GetComponent<Cannon>().damage = comboCannonDamage;
             child.GetComponent<Cannon>().Fire();
         }
     }
