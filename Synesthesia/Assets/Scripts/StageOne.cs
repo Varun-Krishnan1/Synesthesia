@@ -18,8 +18,11 @@ public class StageOne : MonoBehaviour
     public GameObject waterTwo; 
     public WaterMesh waterMesh; 
     public GameObject terrain;
-    public GameObject blueDrum;
-    public GameObject pinkDrum;
+
+    [Header("Scene Transition")]
+    public Material newSkybox;
+    public Light directionalLight;
+    public GameObject oldFloor; 
 
     [Header("General")]
     public float spawnDelay;
@@ -64,6 +67,12 @@ public class StageOne : MonoBehaviour
         Debug.Log("Stage One Started!");
 
         AudioManager.Instance.StartStageTheme(1);
+
+        RenderSettings.skybox = newSkybox;
+        directionalLight.gameObject.SetActive(true);
+        RenderSettings.sun = directionalLight;
+
+        oldFloor.GetComponent<DissolveIn>().Dissolve(); 
 
         StartCoroutine(SpawnShip()); 
     }

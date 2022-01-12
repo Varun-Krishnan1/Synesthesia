@@ -129,12 +129,9 @@ namespace LowPolyUnderwaterPack
             if (water != null)
                 waterMeshPoint = water.GetWaterPoint(pos);
 
-            Debug.Log(pos);
-            Debug.Log(waterMeshPoint.y);
             // If the point on the water is above our position, we are underwater and should be applying underwater effects
             //ApplyUnderwaterEffects((waterMeshPoint != Vector3.zero) ? waterMeshPoint.y > pos.y : false);
 
-            Debug.Log(transform.position.y);
             if (transform.position.y < waterDetectionOffset.y)
             {
                 ApplyUnderwaterEffects(true);

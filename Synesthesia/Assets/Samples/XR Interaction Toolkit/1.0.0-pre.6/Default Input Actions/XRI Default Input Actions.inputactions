@@ -137,7 +137,7 @@
                     "id": "9693e25f-8a4f-4aed-842f-3961243c69a1",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Sector(directions=2147483647)"
                 },
                 {
                     "name": "Rotate Anchor",

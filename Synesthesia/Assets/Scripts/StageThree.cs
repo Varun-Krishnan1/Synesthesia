@@ -62,7 +62,7 @@ public class StageThree : MonoBehaviour
 
         camera.GetComponent<UnderwaterEffect>().enabled = true; 
         rig.transform.parent = ship.transform; 
-        ship.transform.DOMoveY(ship.transform.position.y - sinkDepth, sinkTime);
+        //ship.transform.DOMoveY(ship.transform.position.y - sinkDepth, sinkTime);
     }
 
     // Update is called once per frame

@@ -14,7 +14,7 @@ public class HandController : MonoBehaviour
 
     public bool drumstickAttachedOnce;
     public bool interactorDestroyedOnce;
-    private bool drumstickDropped; 
+    public bool drumstickDropped; 
     private bool isActive = true; 
 
     ActionBasedController controller;
@@ -93,7 +93,20 @@ public class HandController : MonoBehaviour
     {
         if(drumstickDropped)
         {
+            hand.SetGrip(0f); 
+            hand.SetTrigger(0f); 
             hand.gameObject.SetActive(!hand.gameObject.activeSelf);
+        }
+
+        // -- if picking something up 
+        if (this.GetComponent<XRDirectInteractor>().selectTarget)
+        {
+            // Check if it is an actionable object
+            ActionItem actionItem = this.GetComponent<XRDirectInteractor>().selectTarget.gameObject.GetComponent<ActionItem>();
+            if (actionItem)
+            {
+                actionItem.DoAction();
+            }
         }
     }
 }

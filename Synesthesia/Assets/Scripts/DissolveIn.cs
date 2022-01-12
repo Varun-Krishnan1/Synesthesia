@@ -7,6 +7,7 @@ public class DissolveIn : MonoBehaviour
     public float lerpDuration;
     public bool sharedMaterial;
     public bool hasHologramMaterial;
+    public bool dontDissolveOnStart;
 
     public float startValue = .83f;
     public float endValue = 0f;
@@ -16,15 +17,17 @@ public class DissolveIn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(!hasHologramMaterial)
+        if(!hasHologramMaterial && !dontDissolveOnStart)
         {
+            Debug.Log("HERE!");
             StartCoroutine(Lerp());
         }
     }
 
-    // Update is called once per frame
     IEnumerator Lerp()
     {
+        Debug.Log("Dissolving...");
+
         float timeElapsed = 0;
 
         while (timeElapsed < lerpDuration)

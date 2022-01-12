@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     
     private enum Scene
     {
-        Stage0_1, Stage2, Stage3Lose
+        Stage0_1, Stage2, Stage3
     }
 
     void NextScene()

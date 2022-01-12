@@ -26,6 +26,8 @@ public class Hand : MonoBehaviour
         animator = GetComponent<Animator>();
         mesh = GetComponentInChildren<SkinnedMeshRenderer>();
 
+        gripTarget = 0f; 
+        triggerTarget = 0f; 
     }
 
     // Update is called once per frame
