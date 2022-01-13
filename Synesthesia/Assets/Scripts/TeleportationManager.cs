@@ -62,7 +62,7 @@ public class TeleportationManager : MonoBehaviour
 
         // -- Ray cast canceled 
         //if (!hittingObject || hit.transform.GetComponent<TeleportationArea>() == null)
-        if(!hittingObject)
+        if(!hittingObject || hit.transform.GetComponent<TeleportationAnchor>() == null )
         {
             rayInteractor.enabled = false;
             _isActive = false;

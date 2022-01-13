@@ -35,7 +35,7 @@ public class Cannon : MonoBehaviour
         newCannonBall.gameObject.GetComponent<Rigidbody>().AddForce(firePoint.right * cannonBallForce, ForceMode.Impulse);
 
         source.clip = cannonSounds[Random.Range(0, cannonSounds.Length - 1)];
-        source.Play(); 
+        //source.Play(); 
     }
 
     void Update()

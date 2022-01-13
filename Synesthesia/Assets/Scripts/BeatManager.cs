@@ -20,7 +20,7 @@ public class BeatManager : MonoBehaviour
     private float stageStartTime; 
     private Drum curDrum;
     private int stage;
-    private bool activated;
+    public bool activated;
 
     private Dictionary<char, Drum> stringToDrumType = new Dictionary<char, Drum>();
     private int curComboIndex = 0;
@@ -93,7 +93,8 @@ public class BeatManager : MonoBehaviour
                     }
                 }
             }
-            else if (stage == 2)
+            //else if (stage == 2)
+            if(true)
             {
                 Debug.Log(curComboTimeIndex);
                 Debug.Log(numBeats);

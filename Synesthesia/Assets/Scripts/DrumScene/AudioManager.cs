@@ -57,18 +57,18 @@ public class AudioManager : MonoBehaviour
         {
             mainTheme.clip = audioClips[1];
             soundEffectTheme.clip = soundEffectClips[0];
-            soundEffectTheme.Play();
+            //soundEffectTheme.Play();
         }
         else if(stage == 3)
         {
             mainTheme.clip = audioClips[2];
             soundEffectTheme.clip = soundEffectClips[1];
-            soundEffectTheme.Play();
+            //soundEffectTheme.Play();
         }
 
         //Calculate the number of seconds in each beat
         secPerBeat = 60f / songBpm;
-        mainTheme.Play();
+        //mainTheme.Play();
 
         InvokeRepeating("HalfBeatPassed", 0, secPerBeat / 4); 
     }

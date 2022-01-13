@@ -21,7 +21,7 @@ public class CannonBall : MonoBehaviour
             // -- ensure it doesn't hit collider of same ship it came from 
             if(other.gameObject.transform.parent.gameObject != ship)
             {
-                VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, new Vector3(colorCloudScale, colorCloudScale, colorCloudScale), Drum.drumTypes.Snare);
+                VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, new Vector3(colorCloudScale, colorCloudScale, colorCloudScale), Drum.drumTypes.Kick);
                 
                 if (other.gameObject.GetComponent<Shield>())
                 {

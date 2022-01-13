@@ -18,6 +18,7 @@ public class Drum : MonoBehaviour
     public Vector3 noteSpawnOffset; 
     public float leewayTime;
     public bool hit;
+    public bool spawnNote; 
 
     private bool hasNote;
     private Note noteComponent; 
@@ -202,6 +203,12 @@ public class Drum : MonoBehaviour
                 StartCoroutine(CorrectHitEffect(.15f));
             }
             hit = false; 
+        }
+
+        if(spawnNote)
+        {
+            SpawnNote(false, false);
+            spawnNote = false; 
         }
     }
 

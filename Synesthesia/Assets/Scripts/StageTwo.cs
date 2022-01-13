@@ -54,7 +54,7 @@ public class StageTwo : MonoBehaviour
     IEnumerator StartScene()
     {
 
-        yield return new WaitForSeconds(3f);
+        //yield return new WaitForSeconds(3f);
 
         // -- Music
         AudioManager.Instance.StartStageTheme(2);

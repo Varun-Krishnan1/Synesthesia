@@ -96,7 +96,7 @@ public class StageOne : MonoBehaviour
 
         SpawnWaterAndTerrain();
 
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(2f);
 
         beatVisualizer = true;
         BeatManager.Instance.Activate();

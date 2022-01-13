@@ -63,9 +63,9 @@ public class UserShip : Ship
 
     protected override void Sink()
     {
-        StageTwo.Instance.StageOver(true); 
+        //StageTwo.Instance.StageOver(true); 
         Debug.Log("Ship sunk...");
-        TextManager.Instance.WriteText("Ship sunk!");
+        //TextManager.Instance.WriteText("Ship sunk!");
         //this.transform.DOMoveY(transform.position.y - sinkDepth, sinkTime);
     }
 }
