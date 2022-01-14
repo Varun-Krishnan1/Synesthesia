@@ -23,7 +23,18 @@ public class StageZero : MonoBehaviour
     [Header("Stage 0 Objects")]
     public GameObject drumsticks;
     public Slider progressBar;
-    public GameObject turnAroundObjects; 
+    public GameObject turnAroundObjects;
+
+    public GameObject firstImage;
+    public GameObject secondImage;
+    public GameObject thirdImage;
+
+    public float timingOne;
+    public float timingTwo;
+    public float timingTwoPause;
+    public float timingThreePause;
+    public float timingThree;
+    public float timingFour;
 
     public int numDrumsticksPickedUp;
 
@@ -63,12 +74,41 @@ public class StageZero : MonoBehaviour
         progressBar.maxValue = levelProgressions[0];
 
         // -- ensure correct objects are shown 
-        turnAroundObjects.SetActive(true); 
+        // turnAroundObjects.SetActive(true); 
         // -- ensure other objects are hidden 
-        progressBar.transform.parent.gameObject.SetActive(false);
-        drumsticks.SetActive(false);
+        // progressBar.transform.parent.gameObject.SetActive(false);
+        // drumsticks.SetActive(false);
 
         //AudioManager.Instance.StartStageTheme(0);
+
+        StartCoroutine(StartScene()); 
+    }
+
+    IEnumerator StartScene()
+    {
+        yield return new WaitForSeconds(timingOne);
+
+        firstImage.SetActive(true);
+
+        yield return new WaitForSeconds(timingTwo);
+
+        firstImage.SetActive(false);
+
+        yield return new WaitForSeconds(timingTwoPause);
+
+        secondImage.SetActive(true);
+
+        yield return new WaitForSeconds(timingThree);
+
+        secondImage.SetActive(false);
+
+        yield return new WaitForSeconds(timingThreePause);
+
+        thirdImage.SetActive(true);
+
+        yield return new WaitForSeconds(timingFour);
+        
+        thirdImage.SetActive(false);
 
     }
 
@@ -99,31 +139,31 @@ public class StageZero : MonoBehaviour
 
     public void ProgressLevel(Gradient drumColor)
     {
-        if(endOfStage)
-        {
-            return; 
-        }
-        curLevelProgression += 1;
-        progressBar.value = curLevelProgression; 
-        Debug.Log(curLevelProgression);
+        //if(endOfStage)
+        //{
+        //    return; 
+        //}
+        //curLevelProgression += 1;
+        //progressBar.value = curLevelProgression; 
+        //Debug.Log(curLevelProgression);
 
-        if(curLevelProgression == levelProgressions[GetLevel()])
-        {
-            Debug.Log("Progressed!");
-            // End of stage hit begin next stage 
-            if(level+1 == levelProgressions.Length)
-            {
-                progressBar.transform.parent.gameObject.SetActive(false);
-                endOfStage = true;
-                GameManager.Instance.NextStage();
-                return;
-            }
-            // Continue stage with text manager   
-            else
-            {
-                TextManager.Instance.Activate();
-            }
-        }
+        //if(curLevelProgression == levelProgressions[GetLevel()])
+        //{
+        //    Debug.Log("Progressed!");
+        //    // End of stage hit begin next stage 
+        //    if(level+1 == levelProgressions.Length)
+        //    {
+        //        progressBar.transform.parent.gameObject.SetActive(false);
+        //        endOfStage = true;
+        //        GameManager.Instance.NextStage();
+        //        return;
+        //    }
+        //    // Continue stage with text manager   
+        //    else
+        //    {
+        //        TextManager.Instance.Activate();
+        //    }
+        //}
     }
 
 }

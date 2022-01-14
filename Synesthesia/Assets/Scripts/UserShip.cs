@@ -11,6 +11,7 @@ public class UserShip : Ship
     public GameObject[] drumIcons;
 
     public float comboCannonDamage;
+    public bool sink; 
 
     private int shieldUsesLeft;
 
@@ -61,6 +62,14 @@ public class UserShip : Ship
 
     }
 
+    void Update()
+    {
+        if(sink)
+        {
+            Sink();
+            sink = false; 
+        }
+    }
     protected override void Sink()
     {
         //StageTwo.Instance.StageOver(true); 

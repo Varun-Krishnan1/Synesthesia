@@ -37,7 +37,7 @@ public class TextManager : MonoBehaviour
     {
         activated = true; 
         curIndex = 0; 
-        textDisplay.text = sentences[curIndex];
+        // textDisplay.text = sentences[curIndex];
         curTime = timingBetweenSentences[curIndex]; 
 
         // Variable Checks 
@@ -50,21 +50,21 @@ public class TextManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        curTime -= Time.deltaTime; 
-        if(curTime <= 0 && activated)
-        {
-            // reached end of sentences 
-            if(curIndex+1 == sentenceElementToStopActivation[curActivationIndex])
-            {
-                DeActivate(); 
-            }
-            else
-            {
-                curIndex += 1;
-                textDisplay.text = sentences[curIndex];
-                curTime = timingBetweenSentences[curIndex-1];
-            }
-        }
+        //curTime -= Time.deltaTime; 
+        //if(curTime <= 0 && activated)
+        //{
+        //    // reached end of sentences 
+        //    if(curIndex+1 == sentenceElementToStopActivation[curActivationIndex])
+        //    {
+        //        DeActivate(); 
+        //    }
+        //    else
+        //    {
+        //        curIndex += 1;
+        //        textDisplay.text = sentences[curIndex];
+        //        curTime = timingBetweenSentences[curIndex-1];
+        //    }
+        //}
 
     }
 

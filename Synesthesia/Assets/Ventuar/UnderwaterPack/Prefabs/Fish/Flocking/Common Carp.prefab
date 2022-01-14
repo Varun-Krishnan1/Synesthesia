@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1521860567818021583}
   - component: {fileID: 4229986512391469298}
   - component: {fileID: 2114567962165417197}
+  - component: {fileID: 5948312360952729323}
   m_Layer: 8
   m_Name: Common Carp
   m_TagString: Untagged
@@ -40,12 +41,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4915545860315762724}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 440f285545300ee4f80f77b901a139bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swimType: 1
+  swimType: 0
   bobSpeed: 1
   bobHeight: 5
   faceBobDirection: 1
@@ -57,7 +58,7 @@ MonoBehaviour:
   viewAngle: 215
   turnFraction: 25
   accuracy: 10
-  maxVelocity: 12
+  maxVelocity: 3
   detectionRadius: 20
   boundsRadius: 2
   obstacleAvoidanceForce: 8
@@ -86,6 +87,37 @@ CapsuleCollider:
   m_Height: 4.0207896
   m_Direction: 2
   m_Center: {x: 0, y: 0.08795929, z: -0.6898544}
+--- !u!114 &5948312360952729323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4915545860315762724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50401156e42c1c640a809cbd9dc5ae82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swimType: 0
+  bobSpeed: 1
+  bobHeight: 1
+  faceBobDirection: 1
+  visualizeViewRays: 0
+  visualizeAvoidanceRay: 0
+  visualizeDetectionRadius: 0
+  visualizeBoundsRadius: 0
+  detectionQuality: 2
+  viewAngle: 200
+  turnFraction: 12
+  accuracy: 8
+  maxVelocity: 5
+  detectionRadius: 15
+  boundsRadius: 2
+  obstacleAvoidanceForce: 1
+  velocity: {x: 0, y: 0, z: 0}
+  boundsCollider: {fileID: 0}
+  avoidancePoint: {x: 0, y: 0, z: 0}
 --- !u!1 &7532071171743057394
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,10 +170,12 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -166,6 +200,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4776798383243696821
 MonoBehaviour:
   m_ObjectHideFlags: 0

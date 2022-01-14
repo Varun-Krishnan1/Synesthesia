@@ -44,7 +44,7 @@ public class StageThree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AudioManager.Instance.ClearTheme();
+        //AudioManager.Instance.ClearTheme();
 
         rig = GameObject.FindObjectOfType<XRRig>();
         camera = rig.gameObject.GetComponentsInChildren<Camera>()[0];
@@ -62,17 +62,21 @@ public class StageThree : MonoBehaviour
 
         camera.GetComponent<UnderwaterEffect>().enabled = true; 
         rig.transform.parent = ship.transform; 
-        //ship.transform.DOMoveY(ship.transform.position.y - sinkDepth, sinkTime);
+        ship.transform.DOMoveY(ship.transform.position.y - sinkDepth, sinkTime);
+
+        StartCoroutine(UnderwaterEffects());
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(underwaterEffect.activated && !isUnderwater)
-        {
-            StartCoroutine(UnderwaterEffects()); 
-            isUnderwater = true; 
-        }
+
+        //if (underwaterEffect.activated && !isUnderwater)
+        //{
+        //    StartCoroutine(UnderwaterEffects()); 
+        //    isUnderwater = true; 
+        //}
     }
 
     IEnumerator UnderwaterEffects()
@@ -82,7 +86,7 @@ public class StageThree : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
 
-        AudioManager.Instance.StartStageTheme(3);
+        //AudioManager.Instance.StartStageTheme(3);
         left_controller.EnableHands();
         right_controller.EnableHands();
     }
