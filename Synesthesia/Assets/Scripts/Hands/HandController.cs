@@ -53,8 +53,7 @@ public class HandController : MonoBehaviour
             if (StageZero.Instance.numDrumsticksPickedUp == 2)
             {
                 kick.playOnButtonPress = true;
-                // -- reset text back to normal after they grab 
-                TextManager.Instance.ClearText();
+                StageZero.Instance.DrumsticksGrabbed(); 
             }
 
             hand.gameObject.SetActive(false);

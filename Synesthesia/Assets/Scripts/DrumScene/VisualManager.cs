@@ -66,7 +66,7 @@ public class VisualManager : MonoBehaviour
         int gameStage = GameManager.Instance.GetGameStage(); 
         if(gameStage == 0)
         {
-            StageZero.Instance.ProgressLevel(drumTypeToColor(drumType)); 
+            // StageZero.Instance.ProgressLevel(drumTypeToColor(drumType)); 
             DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumType); 
         }  
         if(gameStage == 1)

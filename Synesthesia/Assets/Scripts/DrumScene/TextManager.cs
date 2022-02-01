@@ -10,15 +10,7 @@ public class TextManager : MonoBehaviour
 
     public static TextManager Instance { get { return _instance; } }
 
-    public string[] sentences;
-    public float[] timingBetweenSentences;
-    public int[] sentenceElementToStopActivation; 
     public TextMeshProUGUI textDisplay;
-
-    private int curIndex;
-    private int curActivationIndex; 
-    private float curTime;
-    private bool activated;
 
     private void Awake()
     {
@@ -30,60 +22,6 @@ public class TextManager : MonoBehaviour
         {
             _instance = this;
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        activated = true; 
-        curIndex = 0; 
-        // textDisplay.text = sentences[curIndex];
-        curTime = timingBetweenSentences[curIndex]; 
-
-        // Variable Checks 
-        if(timingBetweenSentences.Length != sentences.Length - 1)
-        {
-            Debug.LogError("Mismatch between length of timingBetweenSentences[] and sentences[]");
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //curTime -= Time.deltaTime; 
-        //if(curTime <= 0 && activated)
-        //{
-        //    // reached end of sentences 
-        //    if(curIndex+1 == sentenceElementToStopActivation[curActivationIndex])
-        //    {
-        //        DeActivate(); 
-        //    }
-        //    else
-        //    {
-        //        curIndex += 1;
-        //        textDisplay.text = sentences[curIndex];
-        //        curTime = timingBetweenSentences[curIndex-1];
-        //    }
-        //}
-
-    }
-
-    void DeActivate()
-    {
-        Debug.Log("End of Activation!");
-        textDisplay.text = "";
-        activated = false;
-        curActivationIndex += 1;
-
-        if(GameManager.Instance.GetGameStage() == 0)
-        {
-            StageZero.Instance.NextLevel(); 
-        }
-    }
-
-    public void Activate()
-    {
-        activated = true;
     }
 
     public void ClearText()

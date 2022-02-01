@@ -10,6 +10,8 @@ public class StageZero : MonoBehaviour
 
     public static StageZero Instance { get { return _instance; } }
 
+    public bool testing = false; 
+
     [Header("Stage 0 Locations")]
     public Transform blueLocation;
     public Transform greenLocation;
@@ -21,6 +23,7 @@ public class StageZero : MonoBehaviour
     public int[] levelProgressions;
 
     [Header("Stage 0 Objects")]
+    public GameObject drumset; 
     public GameObject drumsticks;
     public Slider progressBar;
     public GameObject turnAroundObjects;
@@ -28,6 +31,9 @@ public class StageZero : MonoBehaviour
     public GameObject firstImage;
     public GameObject secondImage;
     public GameObject thirdImage;
+
+    public GameObject letters;
+    public GameObject fishSpawner; 
 
     public float timingOne;
     public float timingTwo;
@@ -73,15 +79,14 @@ public class StageZero : MonoBehaviour
 
         progressBar.maxValue = levelProgressions[0];
 
-        // -- ensure correct objects are shown 
-        // turnAroundObjects.SetActive(true); 
+        turnAroundObjects.SetActive(true);
+        drumset.SetActive(false); 
+
         // -- ensure other objects are hidden 
         // progressBar.transform.parent.gameObject.SetActive(false);
         // drumsticks.SetActive(false);
 
-        //AudioManager.Instance.StartStageTheme(0);
-
-        StartCoroutine(StartScene()); 
+        AudioManager.Instance.StartStageTheme(0);
     }
 
     IEnumerator StartScene()
@@ -97,19 +102,24 @@ public class StageZero : MonoBehaviour
         yield return new WaitForSeconds(timingTwoPause);
 
         secondImage.SetActive(true);
+        letters.SetActive(true); 
 
         yield return new WaitForSeconds(timingThree);
 
         secondImage.SetActive(false);
+        letters.SetActive(false); 
 
         yield return new WaitForSeconds(timingThreePause);
 
         thirdImage.SetActive(true);
+        fishSpawner.SetActive(true); 
 
         yield return new WaitForSeconds(timingFour);
         
         thirdImage.SetActive(false);
-
+        Destroy(fishSpawner); // -- this destroys all fish as well since the fish are children
+        
+        GameManager.Instance.NextStage();
     }
 
     public int GetLevel()
@@ -117,24 +127,21 @@ public class StageZero : MonoBehaviour
         return level; 
     }
 
-    public void NextLevel()
+    void Update()
     {
-        level += 1;
+        if(testing)
+        {
+            DrumsticksGrabbed();
+            testing = false; 
+        }
+    }
+    public void DrumsticksGrabbed()
+    {
+        drumset.SetActive(true); 
+        Destroy(turnAroundObjects);
 
-        // this level of the stage you grab the drumsticks 
-        if (level == 0)
-        {
-            TextManager.Instance.WriteText("Grab the drumsticks in front of you to try it out!");
-            progressBar.transform.parent.gameObject.SetActive(true);
-            drumsticks.SetActive(true);
-            Destroy(turnAroundObjects); 
-        }
-        else
-        {
-            curLevelProgression = 0;
-            progressBar.value = 0;
-            progressBar.maxValue = levelProgressions[level]; 
-        }
+        StartCoroutine(StartScene());
+
     }
 
     public void ProgressLevel(Gradient drumColor)

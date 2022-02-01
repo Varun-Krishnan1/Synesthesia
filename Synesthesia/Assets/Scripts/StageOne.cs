@@ -35,6 +35,8 @@ public class StageOne : MonoBehaviour
     public float boatIncreaseSpeedScaleFactor;
     public float boatDecreaseSpeedScaleFactor;
     public float boatDecreaseSpeedConstantFactor;
+    public float boatEnemyApproachDecreaseSpeedScaleFactor;
+    public float boatEnemyApproachDecreaseSpeedConstantFactor;
     public float noiseSpeedFactor;
     public float waveSpeed1Factor;
     public float waveSpeed2Factor;
@@ -48,6 +50,7 @@ public class StageOne : MonoBehaviour
     private bool beatVisualizer = false;
     private bool approachingEnemy = false;
     private float slowTime;
+    private float slowSpeedIntervalTime; 
 
     private void Awake()
     {
@@ -88,11 +91,11 @@ public class StageOne : MonoBehaviour
         // colorCloudsOnHit = true;
         // ---------------------------------------
 
-        foreach (GameObject s in shipParts)
-        {
-            s.SetActive(true);
-            yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
-        }
+        //foreach (GameObject s in shipParts)
+        //{
+        //    s.SetActive(true);
+        //    yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
+        //}
 
         SpawnWaterAndTerrain();
 
@@ -184,10 +187,10 @@ public class StageOne : MonoBehaviour
         {
             if(approachingEnemy)
             {
-                if ((Time.time - slowTime) > slowSpeedInterval)
+                if ((Time.time - slowTime) > slowSpeedIntervalTime)
                 {
-                    MoveShip((moveSpeed * boatDecreaseSpeedScaleFactor) - boatDecreaseSpeedConstantFactor);
-                    slowSpeedInterval += slowSpeedInterval; // slow down every 3 seconds from when hit slow checkpoint 
+                    MoveShip((moveSpeed * boatEnemyApproachDecreaseSpeedScaleFactor) - boatEnemyApproachDecreaseSpeedConstantFactor);
+                    slowSpeedIntervalTime += slowSpeedInterval; // slow down every 3 seconds from when hit slow checkpoint 
                 }
             }
 
@@ -216,9 +219,10 @@ public class StageOne : MonoBehaviour
         MoveShip(boatTargetSpeed);
 
         ship.Shake(); 
-        slowTime = Time.time; 
+        slowTime = Time.time;
+        slowSpeedIntervalTime = slowSpeedInterval; 
         approachingEnemy = true;
-        AudioManager.Instance.secPerBeat = AudioManager.Instance.secPerBeat * 2f; 
+        BeatManager.Instance.normalBeatPlayedOn = BeatManager.Instance.normalBeatPlayedOn * 2f; 
     }
 
     // -- to ensure it doesn't overshoot target 

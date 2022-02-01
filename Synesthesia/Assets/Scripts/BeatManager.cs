@@ -61,7 +61,7 @@ public class BeatManager : MonoBehaviour
         stage = GameManager.Instance.GetGameStage(); 
         if(stage == 1)
         {
-            curDrum = hiTom;
+            curDrum = snare;
         }
         else if(stage == 2)
         {
@@ -83,18 +83,18 @@ public class BeatManager : MonoBehaviour
                 {
                     curDrum.SpawnNote(isComboNote: false, isLastComboNote: false);
 
-                    if (curDrum == hiTom)
+                    if (curDrum == snare)
                     {
-                        curDrum = midTom;
+                        curDrum = floorTom;
                     }
                     else
                     {
-                        curDrum = hiTom;
+                        curDrum = snare;
                     }
                 }
             }
-            //else if (stage == 2)
-            if(true)
+            else if (stage == 2)
+            //if(true)
             {
                 Debug.Log(curComboTimeIndex);
                 Debug.Log(numBeats);

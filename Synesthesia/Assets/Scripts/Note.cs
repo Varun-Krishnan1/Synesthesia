@@ -14,7 +14,7 @@ public class Note : MonoBehaviour
     {
         if(isComboNote)
         {
-            this.GetComponent<Renderer>().material.SetColor("Base_Color", comboNoteColor);
+            // this.GetComponent<Renderer>().material.SetColor("Base_Color", comboNoteColor);
         }
 
         StartCoroutine(DestroySelf());

@@ -33,6 +33,16 @@ abstract public class Ship : MonoBehaviour
 
     }
 
+    public void CannonShake()
+    {
+        Sequence mySequence = DOTween.Sequence();
+
+        mySequence.Append(transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y, 3f), .25f));
+        mySequence.Append(transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y, -1.5f), .25f));   
+        mySequence.Append(transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y, 1.5f), .25f));
+        mySequence.Append(transform.DORotate(new Vector3(0, transform.rotation.eulerAngles.y, .5f), .25f));
+    }
+
     public void HitEffect(float damage)
     {
         health -= damage;
@@ -43,7 +53,7 @@ abstract public class Ship : MonoBehaviour
         {
             Sink();
         }
-        Shake();
+        CannonShake();
         ShipHitEffect(); 
     }
 
