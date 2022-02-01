@@ -7,7 +7,10 @@ public class CannonBall : MonoBehaviour
     public GameObject ship; // -- keep track of which ship it came from
     public float damage; 
     private float ballForce;
-    public float colorCloudScale; 
+    public float colorCloudScale;
+
+    public Color UserShipCannonColor;
+    public Color EnemyShipCannonColor;
 
     public void SetBallForce(float force)
     {
@@ -21,7 +24,19 @@ public class CannonBall : MonoBehaviour
             // -- ensure it doesn't hit collider of same ship it came from 
             if(other.gameObject.transform.parent.gameObject != ship)
             {
-                VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, new Vector3(colorCloudScale, colorCloudScale, colorCloudScale), Drum.drumTypes.Kick);
+                Color colorCloudColor; 
+                // -- if enemy ball hitting user ship 
+                if(other.gameObject.transform.parent.GetComponent<Ship>().isUserShip)
+                {
+                    colorCloudColor = EnemyShipCannonColor;
+                }
+                // -- else user ship hitting enemy ship 
+                else
+                {
+                    colorCloudColor = UserShipCannonColor;
+                }
+
+                VisualManager.Instance.DrawColorSplash(transform.position, transform.rotation, new Vector3(colorCloudScale, colorCloudScale, colorCloudScale), colorCloudColor);
                 
                 if (other.gameObject.GetComponent<Shield>())
                 {

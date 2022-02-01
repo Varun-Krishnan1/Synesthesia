@@ -93,6 +93,15 @@ public class VisualManager : MonoBehaviour
         vfx_effects.SetVector4("Color", drumTypeToColor(drumType).colorKeys[0].color);
 
         return vfx; 
+    }    
+    
+    public GameObject DrawColorSplash(Vector3 position, Quaternion rotation, Color color)
+    {
+        GameObject vfx = Instantiate(colorBurstVFX, position, rotation);
+        VisualEffect vfx_effects = vfx.GetComponent<VisualEffect>();
+        vfx_effects.SetVector4("Color", color);
+
+        return vfx; 
     }
 
     public GameObject DrawColorSplash(Transform location, Drum.drumTypes drumType)
@@ -103,6 +112,14 @@ public class VisualManager : MonoBehaviour
     public GameObject DrawColorSplash(Vector3 position, Quaternion rotation, Vector3 scale, Drum.drumTypes drumType)
     {
         GameObject vfx = DrawColorSplash(position, rotation, drumType);
+        vfx.transform.localScale = scale;
+
+        return vfx; 
+    }    
+    
+    public GameObject DrawColorSplash(Vector3 position, Quaternion rotation, Vector3 scale, Color color)
+    {
+        GameObject vfx = DrawColorSplash(position, rotation, color);
         vfx.transform.localScale = scale;
 
         return vfx; 

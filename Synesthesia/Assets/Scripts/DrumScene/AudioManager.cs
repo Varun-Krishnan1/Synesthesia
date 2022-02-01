@@ -87,8 +87,5 @@ public class AudioManager : MonoBehaviour
             StageTwo.Instance.enemyShip.BeatChecker(numBeats); 
         }
     }
-    void Update()
-    {
 
-    }
 }
