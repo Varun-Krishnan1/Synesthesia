@@ -11,24 +11,31 @@ public class StageThree : MonoBehaviour
 
     public static StageThree Instance { get { return _instance; } }
 
-    public GameObject ship;
+    public Ship userShip;
+    public GameObject enemyShip;
+    public GameObject sunkenShip; 
     public GameObject oldWater; 
-    public GameObject newWater; 
+    public GameObject newWater;
+    public GameObject retryObject;
+    public XRRig lossRig;
+    public XRRig teleportationRig;
 
-    private Camera camera; 
-    private XRRig rig;
+    public bool isUnderwater;
+    [Header("Lose Scenario")]
+    public float sinkDepth;
+    public float sinkTime;
+    public float drumstickDetachmentTime;
+    [Header("Win Scenario")]
+    public GameObject keyDrawings; 
+    public int numKeysCollected;
+
+    private Camera camera;
     private HandController left_controller;
     private HandController right_controller;
     private UnderwaterEffect underwaterEffect;
 
-    public float sinkDepth;
-    public float sinkTime;
-    public float drumstickDetachmentTime; 
 
-    public bool isUnderwater;
-
-
-    private void Awake()
+    void Awake() 
     {
         if (_instance != null && _instance != this)
         {
@@ -39,32 +46,71 @@ public class StageThree : MonoBehaviour
             _instance = this;
         }
 
+        // -- disable current rig 
+        GameObject.FindObjectOfType<XRRig>().gameObject.SetActive(false); 
+
+        // -- set active the correct new rig 
+        if (GameManager.Instance.stageThreeWin)
+        {
+            Destroy(lossRig.gameObject);
+            teleportationRig.gameObject.SetActive(true); 
+        }
+        else
+        {
+            lossRig.gameObject.SetActive(true);
+            Destroy(teleportationRig.gameObject); 
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //AudioManager.Instance.ClearTheme();
+        if (GameManager.Instance.stageThreeWin)
+        {
+            StartWinScene(); 
+        }
+        else
+        {
+            StartCoroutine(StartLoseScene());
+        }
+    }
 
-        rig = GameObject.FindObjectOfType<XRRig>();
+    public void CollectKey(int keyNumber)
+    {
+        numKeysCollected += 1;
+
+        keyDrawings.transform.GetChild(keyNumber).gameObject.SetActive(true); 
+    }
+
+
+    void StartWinScene()
+    {
+        enemyShip.gameObject.SetActive(false);
+    }
+
+
+    IEnumerator StartLoseScene()
+    {
+        XRRig rig = lossRig;
         camera = rig.gameObject.GetComponentsInChildren<Camera>()[0];
-        underwaterEffect = camera.GetComponent<UnderwaterEffect>(); 
+        underwaterEffect = camera.GetComponent<UnderwaterEffect>();
         HandController[] controllers = rig.gameObject.GetComponentsInChildren<HandController>();
         left_controller = controllers[0];
         right_controller = controllers[1];
 
-        StartCoroutine(StartScene()); 
-    }
-
-    IEnumerator StartScene()
-    {
         yield return new WaitForSeconds(0f); 
 
         camera.GetComponent<UnderwaterEffect>().enabled = true; 
-        rig.transform.parent = ship.transform; 
-        ship.transform.DOMoveY(ship.transform.position.y - sinkDepth, sinkTime);
+        rig.transform.parent = userShip.gameObject.transform;
+        userShip.gameObject.transform.DOMoveY(userShip.gameObject.transform.position.y - sinkDepth, sinkTime);
+
+        sunkenShip.SetActive(false); 
 
         StartCoroutine(UnderwaterEffects());
+
+        yield return new WaitForSeconds(sinkTime);
+
+        retryObject.SetActive(true); 
 
     }
 
@@ -84,7 +130,7 @@ public class StageThree : MonoBehaviour
         oldWater.SetActive(false);
         newWater.SetActive(true);
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(drumstickDetachmentTime);
 
         //AudioManager.Instance.StartStageTheme(3);
         left_controller.EnableHands();

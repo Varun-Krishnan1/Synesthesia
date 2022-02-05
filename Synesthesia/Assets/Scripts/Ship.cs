@@ -57,10 +57,6 @@ abstract public class Ship : MonoBehaviour
         ShipHitEffect(); 
     }
 
-    private void StageOver()
-    {
-        // StageTwo.Instance.StageOver(isUserShip); 
-    }
 
     // -- implemented specifically for each ship 
     protected abstract void ShipHitEffect();

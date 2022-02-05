@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject StageZero; 
     public GameObject StageOne;
     public bool reloadScene;
+    public bool stageThreeWin = false; 
 
     private Array sceneArr;
     private int curSceneIndex = 0; 
@@ -90,6 +91,16 @@ public class GameManager : MonoBehaviour
         {
             NextScene(); 
         }
+    }
+
+    public void ThirdStage(bool win)
+    {
+        if(win)
+        {
+            stageThreeWin = true; 
+        }
+
+        NextStage(); 
     }
 
     void Update()

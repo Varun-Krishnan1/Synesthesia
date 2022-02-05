@@ -70,7 +70,15 @@ public class EnemyShip : Ship
 
     protected override void Sink()
     {
-        this.transform.DOMoveY(transform.position.y-sinkDepth, sinkTime);
+        StartCoroutine(SinkCoroutine()); 
+    }
 
+    IEnumerator SinkCoroutine()
+    {
+        this.transform.DOMoveY(transform.position.y - sinkDepth, sinkTime);
+
+        yield return new WaitForSeconds(sinkTime);
+
+        StageTwo.Instance.StageOver(win: true); 
     }
 }

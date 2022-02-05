@@ -78,6 +78,12 @@ public class TeleportationManager : MonoBehaviour
 
         provider.QueueTeleportRequest(request);
 
+        Treasure treasure = hit.transform.GetComponent<Treasure>();
+        if (treasure)
+        {
+            treasure.CheckKeys(); 
+        }
+
         rayInteractor.enabled = false;
         _isActive = false;
     }

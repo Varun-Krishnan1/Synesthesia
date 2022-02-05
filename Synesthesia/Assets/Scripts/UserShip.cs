@@ -11,7 +11,6 @@ public class UserShip : Ship
     public GameObject[] drumIcons;
 
     public float comboCannonDamage;
-    public bool sink; 
 
     private int shieldUsesLeft;
 
@@ -64,17 +63,17 @@ public class UserShip : Ship
 
     void Update()
     {
-        if(sink)
-        {
-            Sink();
-            sink = false; 
-        }
+
     }
     protected override void Sink()
     {
-        //StageTwo.Instance.StageOver(true); 
-        Debug.Log("Ship sunk...");
-        //TextManager.Instance.WriteText("Ship sunk!");
-        //this.transform.DOMoveY(transform.position.y - sinkDepth, sinkTime);
+        StartCoroutine(SinkCoroutine());
+    }
+
+    IEnumerator SinkCoroutine()
+    {
+        // -- give some time after user health goes down to
+        yield return new WaitForSeconds(2f);
+        StageTwo.Instance.StageOver(win: false);
     }
 }
