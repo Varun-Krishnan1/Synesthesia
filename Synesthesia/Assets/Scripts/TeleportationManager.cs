@@ -6,6 +6,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class TeleportationManager : MonoBehaviour
 {
+    public XRRig rig; 
+
     public Material correctMaterial;
     public Material incorrectMaterial; 
     [SerializeField] private InputActionAsset actionAsset;
@@ -14,6 +16,8 @@ public class TeleportationManager : MonoBehaviour
     [SerializeField] private TeleportationProvider provider;
     private InputAction _thumbstick;
     private bool _isActive;
+
+    private TeleportationAnchor currentAnchor;
 
     void Start()
     {
@@ -61,22 +65,33 @@ public class TeleportationManager : MonoBehaviour
         //Debug.Log(y.collider);
 
         // -- Ray cast canceled 
-        //if (!hittingObject || hit.transform.GetComponent<TeleportationArea>() == null)
-        if(!hittingObject || hit.transform.GetComponent<TeleportationAnchor>() == null )
+        if (!hittingObject || hit.transform.GetComponent<TeleportationAnchor>() == null)
         {
             rayInteractor.enabled = false;
             _isActive = false;
             return;
         }
 
-
-        TeleportRequest request = new TeleportRequest()
+        // -- as you teleport away from anchor re-enabled collider 
+        if (currentAnchor)
         {
-            destinationPosition = hit.point,
-            // destinationRotation = ?,
-        };
+            currentAnchor.GetComponent<Collider>().enabled = true;
+        }
 
-        provider.QueueTeleportRequest(request);
+        TeleportationAnchor anchor = hit.transform.GetComponent<TeleportationAnchor>();
+        rig.gameObject.transform.position = anchor.teleportAnchorTransform.position;
+
+        // -- disable collider on new anchor 
+        anchor.GetComponent<Collider>().enabled = false;
+        currentAnchor = anchor; 
+
+        //TeleportRequest request = new TeleportRequest()
+        //{
+        //    destinationPosition = hit.point,
+        //    // destinationRotation = ?,
+        //};
+
+        //provider.QueueTeleportRequest(request);
 
         Treasure treasure = hit.transform.GetComponent<Treasure>();
         if (treasure)

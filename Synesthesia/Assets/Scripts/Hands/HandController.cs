@@ -15,7 +15,7 @@ public class HandController : MonoBehaviour
     public bool drumstickAttachedOnce;
     public bool interactorDestroyedOnce;
     public bool drumstickDropped; 
-    private bool isActive = true; 
+    private bool isActive = true;
 
     ActionBasedController controller;
     // Start is called before the first frame update
@@ -98,14 +98,23 @@ public class HandController : MonoBehaviour
         }
 
         // -- if picking something up 
-        if (this.GetComponent<XRDirectInteractor>().selectTarget)
+        XRBaseInteractable selectTarget = this.GetComponent<XRDirectInteractor>().selectTarget; 
+        if (selectTarget)
         {
             // Check if it is an actionable object
-            ActionItem actionItem = this.GetComponent<XRDirectInteractor>().selectTarget.gameObject.GetComponent<ActionItem>();
+            ActionItem actionItem = selectTarget.gameObject.GetComponent<ActionItem>();
             if (actionItem)
             {
                 actionItem.DoAction();
             }
+            //else
+            //{
+            //    Rigidbody r = selectTarget.gameObject.GetComponent<Rigidbody>(); 
+            //    if(r)
+            //    {
+            //        r.isKinematic = false; 
+            //    }
+            //}
         }
     }
 }

@@ -9,6 +9,14 @@ public class Key : ActionItem
     public override void DoAction()
     {
         StageThree.Instance.CollectKey(keyNumber);
-        this.transform.GetComponent<DissolveIn>().Dissolve(); 
+
+        StartCoroutine(Dissolve());
+    }
+
+    IEnumerator Dissolve()
+    {
+        yield return new WaitForSeconds(2f); 
+
+        this.transform.GetComponent<DissolveIn>().Dissolve();
     }
 }
