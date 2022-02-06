@@ -72,7 +72,7 @@ public class TeleportationManager : MonoBehaviour
             return;
         }
 
-        // -- as you teleport away from anchor re-enabled collider 
+        // -- as you teleport away from anchor re-enable the collider 
         if (currentAnchor)
         {
             currentAnchor.GetComponent<Collider>().enabled = true;
