@@ -26,7 +26,8 @@ public class StageThree : MonoBehaviour
     public float sinkTime;
     public float drumstickDetachmentTime;
     [Header("Win Scenario")]
-    public GameObject keyDrawings; 
+    public GameObject keyDrawings;
+    public GameObject treasureKeyDrawings; 
     public int numKeysCollected;
 
     private Camera camera;
@@ -34,6 +35,7 @@ public class StageThree : MonoBehaviour
     private HandController right_controller;
     private UnderwaterEffect underwaterEffect;
 
+    public XRRig originalRig; 
 
     void Awake() 
     {
@@ -47,7 +49,8 @@ public class StageThree : MonoBehaviour
         }
 
         // -- disable current rig 
-        GameObject.FindObjectOfType<XRRig>().gameObject.SetActive(false); 
+        originalRig = GameObject.FindObjectOfType<XRRig>(); 
+        originalRig.gameObject.SetActive(false); 
 
         // -- set active the correct new rig 
         if (GameManager.Instance.stageThreeWin)
@@ -75,11 +78,16 @@ public class StageThree : MonoBehaviour
         }
     }
 
-    public void CollectKey(int keyNumber)
+    public void CollectKey(int keyNumber, Color keyColor)
     {
         numKeysCollected += 1;
 
-        keyDrawings.transform.GetChild(keyNumber).gameObject.SetActive(true); 
+        GameObject key = keyDrawings.transform.GetChild(keyNumber).gameObject;
+        key.GetComponent<Renderer>().material.SetColor("BaseColor", keyColor);
+        key.GetComponentInChildren<Light>().enabled = true;
+
+        GameObject treasureKey = treasureKeyDrawings.transform.GetChild(keyNumber).gameObject;
+        treasureKey.GetComponent<Renderer>().material.SetColor("BaseColor", keyColor);
     }
 
 
@@ -123,6 +131,7 @@ public class StageThree : MonoBehaviour
         //    StartCoroutine(UnderwaterEffects()); 
         //    isUnderwater = true; 
         //}
+
     }
 
     IEnumerator UnderwaterEffects()

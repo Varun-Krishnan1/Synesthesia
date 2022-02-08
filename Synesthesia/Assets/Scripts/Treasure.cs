@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class Treasure : MonoBehaviour
 {
-    public GameObject chestLid;
-    public Light pointLight; 
+    public ChestLid chestLid;
     public void CheckKeys()
     {
         if(StageThree.Instance.numKeysCollected == 3)
         {
-            chestLid.GetComponent<Animator>().enabled = true;
-            pointLight.gameObject.GetComponent<Animator>().enabled = true; 
+            StageThree.Instance.treasureKeyDrawings.SetActive(false);
+            chestLid.gameObject.GetComponent<Animator>().enabled = true;
         }
+    }
+
+    // Animation calls function on chest lid that calls function on this 
+    public void OpeningAnimationFinished()
+    {
+        chestLid.gameObject.GetComponent<Animator>().enabled = false;
+
+        // -- Win! 
+
     }
 }

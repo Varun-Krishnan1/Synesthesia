@@ -4,19 +4,33 @@ using UnityEngine;
 
 public class Key : ActionItem
 {
-    public int keyNumber; 
+    public int keyNumber;
+
+    private bool activated; 
 
     public override void DoAction()
     {
-        StageThree.Instance.CollectKey(keyNumber);
+        if(!activated)
+        {
+            activated = true; 
 
-        StartCoroutine(Dissolve());
+            StageThree.Instance.CollectKey(keyNumber, this.GetComponent<Renderer>().material.GetColor("BaseColor"));
+
+            StartCoroutine(Dissolve());
+        }
+
     }
 
     IEnumerator Dissolve()
     {
-        yield return new WaitForSeconds(2f); 
+        yield return new WaitForSeconds(2f);
 
-        this.transform.GetComponent<DissolveIn>().Dissolve();
+        DissolveIn dissolveComponent = this.transform.GetComponent<DissolveIn>();
+        dissolveComponent.Dissolve();
+
+        yield return new WaitForSeconds(dissolveComponent.lerpDuration);
+
+        Destroy(this.gameObject); 
     }
+
 }

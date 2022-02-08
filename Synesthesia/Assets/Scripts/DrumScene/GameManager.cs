@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject StageZero; 
     public GameObject StageOne;
-    public bool reloadScene;
+    public bool nextStage;
     public bool stageThreeWin = false; 
 
     private Array sceneArr;
@@ -41,6 +41,13 @@ public class GameManager : MonoBehaviour
     private enum Scene
     {
         Stage0_1, Stage2, Stage3
+    }
+
+    public void RetrySecondStage()
+    {
+        curSceneIndex -= 1;
+        gameStage -= 1; 
+        StartCoroutine(LoadScene());
     }
 
     void NextScene()
@@ -105,10 +112,10 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(reloadScene)
+        if(nextStage)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            reloadScene = false; 
+            NextStage();
+            nextStage = false; 
         }
     }
 }

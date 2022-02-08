@@ -14,6 +14,8 @@ abstract public class Ship : MonoBehaviour
     public float cannonDamage;
     public float sinkDepth;
     public float sinkTime;
+
+    private bool isSinking; 
     // Start is called before the first frame update
     void Start()
     {
@@ -49,9 +51,11 @@ abstract public class Ship : MonoBehaviour
         healthBar.value = health;
 
         StageTwo.Instance.IncreaseStageIntensity(); 
-        if(health <= 0)
+        if(health <= 0 && !isSinking)
         {
+            Debug.Log("SINK!");
             Sink();
+            isSinking = true; 
         }
         CannonShake();
         ShipHitEffect(); 
