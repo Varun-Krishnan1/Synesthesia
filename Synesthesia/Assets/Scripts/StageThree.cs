@@ -49,7 +49,7 @@ public class StageThree : MonoBehaviour
         }
 
         // -- disable current rig 
-        originalRig = GameObject.FindObjectOfType<XRRig>(); 
+        originalRig = GameObject.FindObjectOfType<XRRig>(true); // -- finds inactive gameobjects 
         originalRig.gameObject.SetActive(false); 
 
         // -- set active the correct new rig 

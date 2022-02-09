@@ -87,15 +87,11 @@ public class StageOne : MonoBehaviour
         yield return new WaitForSeconds(spawnDelay);
 
 
-        // -- for testing let them do color clouds
-        // colorCloudsOnHit = true;
-        // ---------------------------------------
-
-        //foreach (GameObject s in shipParts)
-        //{
-        //    s.SetActive(true);
-        //    yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
-        //}
+        foreach (GameObject s in shipParts)
+        {
+            s.SetActive(true);
+            yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
+        }
 
         SpawnWaterAndTerrain();
 

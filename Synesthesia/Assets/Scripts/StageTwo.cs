@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LowPolyUnderwaterPack;
-using DG.Tweening; 
+using DG.Tweening;
+using UnityEngine.XR.Interaction.Toolkit;
+
 
 public class StageTwo : MonoBehaviour
 {
@@ -165,6 +167,8 @@ public class StageTwo : MonoBehaviour
 
     public void StageOver(bool win)
     {
+        GameObject.FindObjectOfType<XRRig>().gameObject.SetActive(false);
+
         GameManager.Instance.ThirdStage(win); 
     }
 }
