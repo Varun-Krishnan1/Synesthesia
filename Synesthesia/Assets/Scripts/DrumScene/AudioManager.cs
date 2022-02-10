@@ -43,7 +43,11 @@ public class AudioManager : MonoBehaviour
 
     public void StartStageTheme(int stage)
     {
-        if(stage == 0)
+        // -- In case any invoking functions still going stop it 
+        CancelInvoke("HalfBeatPassed");
+        numBeats = 0; // -- reset beats as well 
+
+        if (stage == 0)
         {
             mainTheme.clip = audioClips[0];
         }
@@ -58,19 +62,27 @@ public class AudioManager : MonoBehaviour
             mainTheme.clip = audioClips[1];
             soundEffectTheme.clip = soundEffectClips[0];
             //soundEffectTheme.Play();
+
+            //Calculate the number of seconds in each beat
+            secPerBeat = 60f / songBpm;
+            //mainTheme.Play();
+
+            InvokeRepeating("HalfBeatPassed", 0, secPerBeat / 4);
         }
         else if(stage == 3)
         {
             mainTheme.clip = audioClips[2];
             soundEffectTheme.clip = soundEffectClips[1];
             //soundEffectTheme.Play();
+
+            //Calculate the number of seconds in each beat
+            secPerBeat = 60f / songBpm;
+            //mainTheme.Play();
+
+            InvokeRepeating("HalfBeatPassed", 0, secPerBeat / 4);
         }
 
-        //Calculate the number of seconds in each beat
-        secPerBeat = 60f / songBpm;
-        //mainTheme.Play();
 
-        InvokeRepeating("HalfBeatPassed", 0, secPerBeat / 4); 
     }
 
     // -- called every half beat 

@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,7 +17,9 @@ public class GameManager : MonoBehaviour
     public GameObject StageZero; 
     public GameObject StageOne;
     public bool nextStage;
-    public bool stageThreeWin = false; 
+    public bool stageThreeWin = false;
+
+    public CrossFade crossFade;
 
     private Array sceneArr;
     private int curSceneIndex = 0; 
@@ -59,7 +62,10 @@ public class GameManager : MonoBehaviour
 
     IEnumerator LoadScene()
     {
-        yield return null;
+
+        crossFade.StartAnimation(); 
+
+        yield return new WaitForSeconds(crossFade.transitionAnimationTime);
 
         //Begin to load the Scene you specify
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneArr.GetValue(curSceneIndex).ToString());
@@ -73,6 +79,11 @@ public class GameManager : MonoBehaviour
             // Check if the load has finished
             if (asyncOperation.progress >= 0.9f)
             {
+                //if (stageTwoRig)
+                //{
+                //    Destroy(stageTwoRig);
+                //}
+
                 asyncOperation.allowSceneActivation = true;
             }
 
@@ -94,8 +105,13 @@ public class GameManager : MonoBehaviour
         {
             StageOne.SetActive(true);
         }
-        else if(gameStage == 2 || gameStage == 3)
+        else if(gameStage == 2)
         {
+            NextScene(); 
+        }
+        else if(gameStage == 3)
+        {
+            // stageTwoRig = GameObject.FindObjectOfType<XRRig>().gameObject;
             NextScene(); 
         }
     }

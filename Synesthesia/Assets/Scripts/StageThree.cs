@@ -17,8 +17,6 @@ public class StageThree : MonoBehaviour
     public GameObject oldWater; 
     public GameObject newWater;
     public GameObject retryObject;
-    public XRRig lossRig;
-    public XRRig teleportationRig;
 
     public bool isUnderwater;
     [Header("Lose Scenario")]
@@ -29,13 +27,15 @@ public class StageThree : MonoBehaviour
     public GameObject keyDrawings;
     public GameObject treasureKeyDrawings; 
     public int numKeysCollected;
+    public GameObject left_controller;
+    public GameObject right_controller;
 
     private Camera camera;
-    private HandController left_controller;
-    private HandController right_controller;
-    private UnderwaterEffect underwaterEffect;
 
-    public XRRig originalRig; 
+    private UnderwaterEffect underwaterEffect;
+    private HandController lose_left_controller;
+    private HandController lose_right_controller; 
+    private GameObject rig; 
 
     void Awake() 
     {
@@ -48,21 +48,24 @@ public class StageThree : MonoBehaviour
             _instance = this;
         }
 
-        // -- disable current rig 
-        originalRig = GameObject.FindObjectOfType<XRRig>(true); // -- finds inactive gameobjects 
-        originalRig.gameObject.SetActive(false); 
-
-        // -- set active the correct new rig 
+        rig = GameObject.FindObjectOfType<XRRig>().gameObject;
+        HandController[] controllers = rig.gameObject.GetComponentsInChildren<HandController>();
+        
         if (GameManager.Instance.stageThreeWin)
         {
-            Destroy(lossRig.gameObject);
-            teleportationRig.gameObject.SetActive(true); 
+            Destroy(controllers[0].gameObject);
+            Destroy(controllers[1].gameObject);
+
+            left_controller.transform.parent = rig.transform;
+            right_controller.transform.parent = rig.transform;   
         }
         else
         {
-            lossRig.gameObject.SetActive(true);
-            Destroy(teleportationRig.gameObject); 
+            lose_left_controller = controllers[0];
+            lose_right_controller = controllers[1]; 
+            rig.transform.parent = userShip.gameObject.transform; 
         }
+
     }
 
     // Start is called before the first frame update
@@ -78,33 +81,12 @@ public class StageThree : MonoBehaviour
         }
     }
 
-    public void CollectKey(int keyNumber, Color keyColor)
-    {
-        numKeysCollected += 1;
-
-        GameObject key = keyDrawings.transform.GetChild(keyNumber).gameObject;
-        key.GetComponent<Renderer>().material.SetColor("BaseColor", keyColor);
-        key.GetComponentInChildren<Light>().enabled = true;
-
-        GameObject treasureKey = treasureKeyDrawings.transform.GetChild(keyNumber).gameObject;
-        treasureKey.GetComponent<Renderer>().material.SetColor("BaseColor", keyColor);
-    }
-
-
-    void StartWinScene()
-    {
-        enemyShip.gameObject.SetActive(false);
-    }
-
-
+    //// LOSE SCENE //// 
+    
     IEnumerator StartLoseScene()
     {
-        XRRig rig = lossRig;
         camera = rig.gameObject.GetComponentsInChildren<Camera>()[0];
         underwaterEffect = camera.GetComponent<UnderwaterEffect>();
-        HandController[] controllers = rig.gameObject.GetComponentsInChildren<HandController>();
-        left_controller = controllers[0];
-        right_controller = controllers[1];
 
         yield return new WaitForSeconds(0f); 
 
@@ -122,18 +104,6 @@ public class StageThree : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-        //if (underwaterEffect.activated && !isUnderwater)
-        //{
-        //    StartCoroutine(UnderwaterEffects()); 
-        //    isUnderwater = true; 
-        //}
-
-    }
-
     IEnumerator UnderwaterEffects()
     {
         oldWater.SetActive(false);
@@ -142,7 +112,27 @@ public class StageThree : MonoBehaviour
         yield return new WaitForSeconds(drumstickDetachmentTime);
 
         //AudioManager.Instance.StartStageTheme(3);
-        left_controller.EnableHands();
-        right_controller.EnableHands();
+        lose_left_controller.EnableHands();
+        lose_right_controller.EnableHands();
+    }
+
+    ///// WIN SCENE //// 
+    
+    public void CollectKey(int keyNumber, Color keyColor)
+    {
+        numKeysCollected += 1;
+
+        GameObject key = keyDrawings.transform.GetChild(keyNumber).gameObject;
+        key.GetComponent<Renderer>().material.SetColor("BaseColor", keyColor);
+        key.GetComponentInChildren<Light>().enabled = true;
+
+        GameObject treasureKey = treasureKeyDrawings.transform.GetChild(keyNumber).gameObject;
+        treasureKey.GetComponent<Renderer>().material.SetColor("BaseColor", keyColor);
+    }
+
+
+    void StartWinScene()
+    {
+        enemyShip.gameObject.SetActive(false);
     }
 }

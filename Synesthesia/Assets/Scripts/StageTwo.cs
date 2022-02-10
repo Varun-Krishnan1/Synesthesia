@@ -167,8 +167,6 @@ public class StageTwo : MonoBehaviour
 
     public void StageOver(bool win)
     {
-        GameObject.FindObjectOfType<XRRig>().gameObject.SetActive(false);
-
         GameManager.Instance.ThirdStage(win); 
     }
 }
