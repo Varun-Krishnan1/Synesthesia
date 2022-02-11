@@ -19,15 +19,12 @@ public class DissolveIn : MonoBehaviour
     {
         if(!hasHologramMaterial && !dontDissolveOnStart)
         {
-            Debug.Log("HERE!");
             StartCoroutine(Lerp());
         }
     }
 
     IEnumerator Lerp()
     {
-        Debug.Log("Dissolving...");
-
         float timeElapsed = 0;
 
         while (timeElapsed < lerpDuration)

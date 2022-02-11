@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.XR.Interaction.Toolkit;
 using DG.Tweening;
 using LowPolyUnderwaterPack; 
@@ -27,15 +29,17 @@ public class StageThree : MonoBehaviour
     public GameObject keyDrawings;
     public GameObject treasureKeyDrawings; 
     public int numKeysCollected;
-    public GameObject left_controller;
-    public GameObject right_controller;
+    public GameObject win_left_controller;
+    public GameObject win_right_controller;
+    public GameObject loss_left_controller;
+    public GameObject loss_right_controller; 
 
     private Camera camera;
 
     private UnderwaterEffect underwaterEffect;
-    private HandController lose_left_controller;
-    private HandController lose_right_controller; 
-    private GameObject rig; 
+    private HandController orig_left_controller;
+    private HandController orig_right_controller; 
+    private GameObject rig;
 
     void Awake() 
     {
@@ -48,22 +52,37 @@ public class StageThree : MonoBehaviour
             _instance = this;
         }
 
-        rig = GameObject.FindObjectOfType<XRRig>().gameObject;
+        rig = GameManager.Instance.rig.gameObject;
+        camera = rig.gameObject.GetComponentsInChildren<Camera>()[0];
+        underwaterEffect = camera.GetComponent<UnderwaterEffect>();
+        underwaterEffect.enabled = true; 
+
         HandController[] controllers = rig.gameObject.GetComponentsInChildren<HandController>();
-        
+
         if (GameManager.Instance.stageThreeWin)
         {
             Destroy(controllers[0].gameObject);
-            Destroy(controllers[1].gameObject);
+            Destroy(controllers[1].gameObject); 
 
-            left_controller.transform.parent = rig.transform;
-            right_controller.transform.parent = rig.transform;   
+            win_left_controller.SetActive(true);
+            win_right_controller.SetActive(true); 
+
+            win_left_controller.transform.parent = rig.transform;
+            win_right_controller.transform.parent = rig.transform;   
         }
         else
         {
-            lose_left_controller = controllers[0];
-            lose_right_controller = controllers[1]; 
-            rig.transform.parent = userShip.gameObject.transform; 
+            orig_left_controller = controllers[0];
+            orig_right_controller = controllers[1];
+
+            orig_left_controller.gameObject.SetActive(false);
+            orig_right_controller.gameObject.SetActive(false);
+
+            loss_left_controller.SetActive(true);
+            loss_right_controller.SetActive(true); 
+
+            loss_left_controller.transform.parent = rig.transform;
+            loss_right_controller.transform.parent = rig.transform;  
         }
 
     }
@@ -82,17 +101,35 @@ public class StageThree : MonoBehaviour
     }
 
     //// LOSE SCENE //// 
-    
+
+    public void RetrySecondStage()
+    {
+        DOTween.Kill(GameManager.Instance.rig.gameObject); // -- remove tween on XRRig 
+
+        loss_left_controller.GetComponent<HandController>().DestroySelfAndDrumstick(); 
+        loss_right_controller.GetComponent<HandController>().DestroySelfAndDrumstick(); 
+
+        orig_left_controller.gameObject.SetActive(true);
+        orig_right_controller.gameObject.SetActive(true);
+
+        underwaterEffect.isUnderwater = false;
+        underwaterEffect.activated = false;
+        underwaterEffect.enabled = false; 
+
+        rig.gameObject.GetComponentsInChildren<Camera>()[0].GetComponent<Volume>().profile = null;
+
+        GameManager.Instance.RetrySecondStage(); 
+    }
+
+
     IEnumerator StartLoseScene()
     {
-        camera = rig.gameObject.GetComponentsInChildren<Camera>()[0];
-        underwaterEffect = camera.GetComponent<UnderwaterEffect>();
-
         yield return new WaitForSeconds(0f); 
 
-        camera.GetComponent<UnderwaterEffect>().enabled = true; 
-        rig.transform.parent = userShip.gameObject.transform;
         userShip.gameObject.transform.DOMoveY(userShip.gameObject.transform.position.y - sinkDepth, sinkTime);
+
+        // -- don't change parent of rig to ship because it takes it out of DontDestroyOnLoad scene 
+        rig.gameObject.transform.DOMoveY(rig.transform.position.y - sinkDepth, sinkTime);
 
         sunkenShip.SetActive(false); 
 
@@ -112,8 +149,8 @@ public class StageThree : MonoBehaviour
         yield return new WaitForSeconds(drumstickDetachmentTime);
 
         //AudioManager.Instance.StartStageTheme(3);
-        lose_left_controller.EnableHands();
-        lose_right_controller.EnableHands();
+        loss_left_controller.GetComponent<HandController>().EnableHands();
+        loss_right_controller.GetComponent<HandController>().EnableHands();
     }
 
     ///// WIN SCENE //// 

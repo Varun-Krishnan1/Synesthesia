@@ -6,8 +6,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class TeleportationManager : MonoBehaviour
 {
-    public XRRig rig; 
-
     public Material correctMaterial;
     public Material incorrectMaterial; 
     [SerializeField] private InputActionAsset actionAsset;
@@ -17,8 +15,13 @@ public class TeleportationManager : MonoBehaviour
     private InputAction _thumbstick;
     private bool _isActive;
 
+    private XRRig rig; 
     private TeleportationAnchor currentAnchor;
 
+    void Awake()
+    {
+        rig = GameManager.Instance.rig; 
+    }
     void Start()
     {
         rayInteractor.enabled = false;
@@ -37,6 +40,7 @@ public class TeleportationManager : MonoBehaviour
 
     void Update()
     {
+
         if (!_isActive)
             return;
 

@@ -45,6 +45,7 @@ public class StageTwo : MonoBehaviour
             _instance = this;
         }
 
+        GameManager.Instance.rig.transform.position = GameManager.Instance.stageTwoRigPosition; 
     }
 
     // Start is called before the first frame update

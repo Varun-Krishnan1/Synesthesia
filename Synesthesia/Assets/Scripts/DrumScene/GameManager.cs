@@ -14,10 +14,12 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get { return _instance; } }
 
+    public XRRig rig; 
     public GameObject StageZero; 
     public GameObject StageOne;
     public bool nextStage;
     public bool stageThreeWin = false;
+    public Vector3 stageTwoRigPosition; 
 
     public CrossFade crossFade;
 
@@ -79,11 +81,6 @@ public class GameManager : MonoBehaviour
             // Check if the load has finished
             if (asyncOperation.progress >= 0.9f)
             {
-                //if (stageTwoRig)
-                //{
-                //    Destroy(stageTwoRig);
-                //}
-
                 asyncOperation.allowSceneActivation = true;
             }
 
@@ -107,11 +104,11 @@ public class GameManager : MonoBehaviour
         }
         else if(gameStage == 2)
         {
+            stageTwoRigPosition = rig.transform.position;
             NextScene(); 
         }
         else if(gameStage == 3)
         {
-            // stageTwoRig = GameObject.FindObjectOfType<XRRig>().gameObject;
             NextScene(); 
         }
     }

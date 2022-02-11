@@ -17,6 +17,8 @@ public class HandController : MonoBehaviour
     public bool drumstickDropped; 
     private bool isActive = true;
 
+    public GameObject drumstick; // -- manually set for stage 3 hand controller 
+
     ActionBasedController controller;
     // Start is called before the first frame update
     void Start()
@@ -46,7 +48,7 @@ public class HandController : MonoBehaviour
         {
             StageZero.Instance.numDrumsticksPickedUp += 1;
 
-            GameObject drumstick = this.GetComponent<XRDirectInteractor>().selectTarget.gameObject;
+            drumstick = this.GetComponent<XRDirectInteractor>().selectTarget.gameObject; // -- sets class variable too
             drumstick.GetComponentInChildren<DrumStick>().controller = controller;
 
             // ensure both drumsticks are picked up
@@ -62,6 +64,11 @@ public class HandController : MonoBehaviour
         }
     }
 
+    public void DestroySelfAndDrumstick()
+    {
+        Destroy(drumstick);
+        Destroy(this.gameObject);
+    }
 
     public void DestroyInteractor()
     {
@@ -74,12 +81,24 @@ public class HandController : MonoBehaviour
         }
     }
 
+    //public void ResetDrumsticks()
+    //{
+    //    drumstick.transform.parent = this.transform; // -- reparent to this controller 
+
+
+    //    // -- reset variables so hands can be enabled again later 
+    //    hand.gameObject.SetActive(false);
+    //    this.GetComponent<XRDirectInteractor>().enabled = false;
+    //    this.isActive = false; 
+
+    //    drumstickDropped = false; 
+    //}
+
     public void EnableHands()
     {
         if(kick) kick.playOnButtonPress = false; 
 
-        DrumStick drumstick = this.GetComponentsInChildren<DrumStick>()[0];
-        drumstick.transform.parent.gameObject.transform.parent = null; // -- unparent from controller 
+        drumstick.transform.parent = null; // -- unparent from controller 
         
         hand.gameObject.SetActive(true);
         this.GetComponent<XRDirectInteractor>().enabled = true;

@@ -9,6 +9,6 @@ public class RetryCannon : ActionItem
     public override void DoAction()
     {
         // -- Reset Current Progress 
-        GameManager.Instance.RetrySecondStage(); 
+        StageThree.Instance.RetrySecondStage(); 
     }
 }

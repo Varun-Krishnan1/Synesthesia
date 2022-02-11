@@ -50,6 +50,7 @@ public class AudioManager : MonoBehaviour
         if (stage == 0)
         {
             mainTheme.clip = audioClips[0];
+            return; 
         }
         else if(stage == 1)
         {
@@ -67,7 +68,6 @@ public class AudioManager : MonoBehaviour
             secPerBeat = 60f / songBpm;
             //mainTheme.Play();
 
-            InvokeRepeating("HalfBeatPassed", 0, secPerBeat / 4);
         }
         else if(stage == 3)
         {
@@ -79,9 +79,9 @@ public class AudioManager : MonoBehaviour
             secPerBeat = 60f / songBpm;
             //mainTheme.Play();
 
-            InvokeRepeating("HalfBeatPassed", 0, secPerBeat / 4);
         }
 
+        InvokeRepeating("HalfBeatPassed", 0, secPerBeat / 4);
 
     }
 
