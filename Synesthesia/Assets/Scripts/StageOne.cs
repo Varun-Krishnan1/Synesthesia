@@ -86,14 +86,13 @@ public class StageOne : MonoBehaviour
         shipParts[0].transform.parent.gameObject.SetActive(true);
         yield return new WaitForSeconds(spawnDelay);
 
+        SpawnWaterAndTerrain();
 
         foreach (GameObject s in shipParts)
         {
             s.SetActive(true);
             yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
         }
-
-        SpawnWaterAndTerrain();
 
         yield return new WaitForSeconds(2f);
 
