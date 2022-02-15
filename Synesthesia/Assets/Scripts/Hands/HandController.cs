@@ -17,6 +17,7 @@ public class HandController : MonoBehaviour
     public bool drumstickDropped; 
     private bool isActive = true;
 
+    public bool attachDrumstickBool; // -- FOR TESTING ONLY!! 
     public GameObject drumstick; // -- manually set for stage 3 hand controller 
 
     ActionBasedController controller;
@@ -40,8 +41,35 @@ public class HandController : MonoBehaviour
             EnableHands();
             enableHands = false; 
         }
+
+        if(attachDrumstickBool)
+        {
+            attachDrumstickBool = false;
+            TestAttachDrumstick(); 
+        }
     }
 
+    // -- TEMPORARY FUNCTION FOR TESTING ONLY!! 
+    void TestAttachDrumstick()
+    {
+        if (!drumstickAttachedOnce)
+        {
+            StageZero.Instance.numDrumsticksPickedUp += 1;
+
+            // ensure both drumsticks are picked up
+            if (StageZero.Instance.numDrumsticksPickedUp == 2)
+            {
+                kick.playOnButtonPress = true;
+                StageZero.Instance.DrumsticksGrabbed();
+            }
+
+            hand.gameObject.SetActive(false);
+
+            drumstickAttachedOnce = true;
+        }
+
+        AudioManager.Instance.PlaySoundEffect(0, 0.5f, .12f);
+    }
     public void AttachDrumstick()
     {
         if(!drumstickAttachedOnce)

@@ -9,11 +9,11 @@ public class AudioManager : MonoBehaviour
     private static AudioManager _instance;
     public static AudioManager Instance { get { return _instance; } }
 
-    public AudioClip[] audioClips;
+    public AudioClip[] mainThemeClips;
+    public AudioClip[] mainThemeEffectsClips; 
     public AudioClip[] soundEffectClips; 
     public AudioSource mainTheme;
-    public AudioSource soundEffectTheme; 
-
+    public AudioSource mainThemeEffects; 
 
     public float songBpm;
     public float secPerBeat;
@@ -38,50 +38,55 @@ public class AudioManager : MonoBehaviour
 
     public void ClearTheme()
     {
+        mainTheme.Stop(); 
         mainTheme.clip = null; 
     }
 
     public void StartStageTheme(int stage)
     {
+
         // -- In case any invoking functions still going stop it 
         CancelInvoke("HalfBeatPassed");
         numBeats = 0; // -- reset beats as well 
 
         if (stage == 0)
         {
-            mainTheme.clip = audioClips[0];
-            return; 
+            mainTheme.clip = mainThemeClips[0];
+            // mainTheme.time = 20f;
+
+            mainTheme.Play();
         }
         else if(stage == 1)
         {
-            mainTheme.clip = audioClips[0];
-            soundEffectTheme.clip = soundEffectClips[0];
-            mainTheme.time = 20f;
+            mainThemeEffects.clip = mainThemeEffectsClips[0];
+            mainThemeEffects.Play();
+
+            InvokeRepeating("HalfBeatPassed", 0, secPerBeat / 4);
         }
         else if(stage == 2)
         {
-            mainTheme.clip = audioClips[1];
-            soundEffectTheme.clip = soundEffectClips[0];
-            //soundEffectTheme.Play();
+            mainThemeEffects.Stop();
+
+            mainTheme.clip = mainThemeClips[1];
+            mainTheme.Play();
 
             //Calculate the number of seconds in each beat
             secPerBeat = 60f / songBpm;
-            //mainTheme.Play();
 
+            InvokeRepeating("HalfBeatPassed", 0, secPerBeat / 4);
         }
         else if(stage == 3)
         {
-            mainTheme.clip = audioClips[2];
-            soundEffectTheme.clip = soundEffectClips[1];
-            //soundEffectTheme.Play();
+            mainThemeEffects.clip = mainThemeEffectsClips[1];
+            mainThemeEffects.Play();
+
+            mainTheme.clip = mainThemeClips[2];
+            mainTheme.Play();
 
             //Calculate the number of seconds in each beat
             secPerBeat = 60f / songBpm;
-            //mainTheme.Play();
-
         }
 
-        InvokeRepeating("HalfBeatPassed", 0, secPerBeat / 4);
 
     }
 
@@ -100,4 +105,12 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlaySoundEffect(int clipNum, float volume, float startTime)
+    {
+        AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = soundEffectClips[clipNum];
+        audioSource.time = startTime;
+        audioSource.volume = volume; 
+        audioSource.Play(); 
+    }
 }

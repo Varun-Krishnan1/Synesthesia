@@ -85,6 +85,7 @@ public class StageThree : MonoBehaviour
             loss_right_controller.transform.parent = rig.transform;  
         }
 
+        AudioManager.Instance.ClearTheme(); 
     }
 
     // Start is called before the first frame update
@@ -148,7 +149,7 @@ public class StageThree : MonoBehaviour
 
         yield return new WaitForSeconds(drumstickDetachmentTime);
 
-        //AudioManager.Instance.StartStageTheme(3);
+        AudioManager.Instance.StartStageTheme(3);
         loss_left_controller.GetComponent<HandController>().EnableHands();
         loss_right_controller.GetComponent<HandController>().EnableHands();
     }

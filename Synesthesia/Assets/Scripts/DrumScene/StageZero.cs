@@ -85,12 +85,13 @@ public class StageZero : MonoBehaviour
         // -- ensure other objects are hidden 
         // progressBar.transform.parent.gameObject.SetActive(false);
         // drumsticks.SetActive(false);
-
-        AudioManager.Instance.StartStageTheme(0);
     }
 
     IEnumerator StartScene()
     {
+        // -- don't play music till drumsticks are picked up 
+        AudioManager.Instance.StartStageTheme(0);
+
         yield return new WaitForSeconds(timingOne);
 
         firstImage.SetActive(true);
@@ -112,7 +113,8 @@ public class StageZero : MonoBehaviour
         yield return new WaitForSeconds(timingThreePause);
 
         thirdImage.SetActive(true);
-        fishSpawner.SetActive(true); 
+        fishSpawner.SetActive(true);
+        AudioManager.Instance.PlaySoundEffect(2, .5f, .25f);
 
         yield return new WaitForSeconds(timingFour);
         
@@ -144,33 +146,5 @@ public class StageZero : MonoBehaviour
 
     }
 
-    public void ProgressLevel(Gradient drumColor)
-    {
-        //if(endOfStage)
-        //{
-        //    return; 
-        //}
-        //curLevelProgression += 1;
-        //progressBar.value = curLevelProgression; 
-        //Debug.Log(curLevelProgression);
-
-        //if(curLevelProgression == levelProgressions[GetLevel()])
-        //{
-        //    Debug.Log("Progressed!");
-        //    // End of stage hit begin next stage 
-        //    if(level+1 == levelProgressions.Length)
-        //    {
-        //        progressBar.transform.parent.gameObject.SetActive(false);
-        //        endOfStage = true;
-        //        GameManager.Instance.NextStage();
-        //        return;
-        //    }
-        //    // Continue stage with text manager   
-        //    else
-        //    {
-        //        TextManager.Instance.Activate();
-        //    }
-        //}
-    }
 
 }
