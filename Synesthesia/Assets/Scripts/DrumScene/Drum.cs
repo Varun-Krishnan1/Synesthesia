@@ -207,7 +207,7 @@ public class Drum : MonoBehaviour
 
         if(spawnNote)
         {
-            SpawnNote(false, false);
+            SpawnNote(false, false, -1);
             spawnNote = false; 
         }
     }
@@ -266,15 +266,31 @@ public class Drum : MonoBehaviour
         
     }
 
-    public void SpawnNote(bool isComboNote, bool isLastComboNote)
+    public void SpawnNote(bool isComboNote, bool isLastComboNote, int doubleNoteSymbol)
     {
-        GameObject tempNote = Instantiate(note, transform.position + noteSpawnOffset, note.transform.rotation);
-        //GameObject tempNote = Instantiate(note, new Vector3(transform.localPosition.x, transform.localPosition.y + yOffset, transform.localPosition.z + zOffset), note.transform.rotation, this.transform.parent);
-        tempNote.GetComponent<Renderer>().material.SetColor("Base_Color", Color.HSVToRGB(originalH, originalS, originalV));
+        Quaternion rotation = note.transform.rotation; 
 
+        if(GameManager.Instance.gameStage == 2)
+        {
+            rotation = Quaternion.Euler(0f, 50f, 0f); 
+        }
+
+        GameObject tempNote = Instantiate(note, transform.position + noteSpawnOffset, rotation);
+        Color noteColor = Color.HSVToRGB(originalH, originalS, originalV);
+        noteColor.a = .69f;
         Note tempNoteComponent = tempNote.GetComponent<Note>();
+
+        tempNote.GetComponent<Renderer>().material.SetColor("_BaseColor", noteColor);
+
         tempNoteComponent.isComboNote = isComboNote;
         tempNoteComponent.isLastComboNote = isLastComboNote;
+
+        if(doubleNoteSymbol != -1)
+        {
+            GameObject symbol = tempNote.transform.GetChild(doubleNoteSymbol).gameObject;
+            symbol.SetActive(true);
+            symbol.GetComponent<Renderer>().material.SetColor("Base_Color", tempNoteComponent.doubleNoteColors[doubleNoteSymbol]);
+        }
 
         //tempNote.transform.parent = this.transform.parent; 
         tempNote.transform.DOMove(this.transform.position, 2f).SetEase(Ease.Linear);
