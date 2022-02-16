@@ -11,6 +11,7 @@ public class Treasure : MonoBehaviour
         {
             StageThree.Instance.treasureKeyDrawings.SetActive(false);
             chestLid.gameObject.GetComponent<Animator>().enabled = true;
+            StageThree.Instance.EndingScene(); 
         }
     }
 

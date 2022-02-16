@@ -10,6 +10,7 @@ public class TeleportationManager : MonoBehaviour
     public Material incorrectMaterial; 
     [SerializeField] private InputActionAsset actionAsset;
     [SerializeField] private XRRayInteractor rayInteractor;
+    [SerializeField] private XRInteractorLineVisual lineVisual;
     [SerializeField] private LineRenderer lr;
     [SerializeField] private TeleportationProvider provider;
     private InputAction _thumbstick;
@@ -17,6 +18,7 @@ public class TeleportationManager : MonoBehaviour
 
     private XRRig rig; 
     private TeleportationAnchor currentAnchor;
+    private bool onOrca; 
 
     void Awake()
     {
@@ -47,7 +49,7 @@ public class TeleportationManager : MonoBehaviour
         bool hittingObject = rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit);
         if (hittingObject)
         {
-
+            Debug.Log(hit.transform.gameObject); 
             if (hit.transform.GetComponent<TeleportationArea>() || hit.transform.GetComponent<TeleportationAnchor>())
             {
                 lr.material = correctMaterial;
@@ -80,14 +82,23 @@ public class TeleportationManager : MonoBehaviour
         if (currentAnchor)
         {
             currentAnchor.GetComponent<Collider>().enabled = true;
+
+            if(onOrca)
+            {
+                rig.transform.parent = null;
+                lineVisual.lineLength = 98f;
+                onOrca = false; 
+            }
         }
 
         TeleportationAnchor anchor = hit.transform.GetComponent<TeleportationAnchor>();
         rig.gameObject.transform.position = anchor.teleportAnchorTransform.position;
 
+        AudioManager.Instance.PlayTeleportationSoundEffect(1f, 0f);
+
         // -- disable collider on new anchor 
         anchor.GetComponent<Collider>().enabled = false;
-        currentAnchor = anchor; 
+        currentAnchor = anchor;
 
         //TeleportRequest request = new TeleportRequest()
         //{
@@ -96,6 +107,24 @@ public class TeleportationManager : MonoBehaviour
         //};
 
         //provider.QueueTeleportRequest(request);
+        TeleportationBottle bottle = hit.transform.GetComponent<TeleportationBottle>();
+        if(bottle)
+        {
+            AudioManager.Instance.StartStageTheme(3);
+            AudioManager.Instance.PlaySoundEffect(18, .5f, .22f);
+        }
+
+
+        Orca orca = hit.transform.GetComponent<Orca>();
+        if(orca)
+        {
+            rig.gameObject.transform.position = anchor.teleportAnchorTransform.position;
+            rig.transform.parent = orca.transform;
+
+            lineVisual.lineLength = 200f; 
+
+            onOrca = true; 
+        }
 
         Treasure treasure = hit.transform.GetComponent<Treasure>();
         if (treasure)

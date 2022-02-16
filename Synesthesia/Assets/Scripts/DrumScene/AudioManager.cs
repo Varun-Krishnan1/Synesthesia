@@ -18,7 +18,9 @@ public class AudioManager : MonoBehaviour
     public float songBpm;
     public float secPerBeat;
     public float numBeats;
-    
+
+    private Dictionary<int, AudioSource> clipNumToAudioSource = new Dictionary<int, AudioSource>(); 
+
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -105,10 +107,33 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayDissolveSoundEffect(float volume, float startTime)
+    {
+        int clipNum = Random.Range(3, 8); // -- pick random dissolve sound
+        PlaySoundEffect(clipNum, volume, startTime); 
+    }
+
+    public void PlayTeleportationSoundEffect(float volume, float startTime)
+    {
+        int clipNum = Random.Range(11, 17); // -- pick random dissolve sound
+        PlaySoundEffect(clipNum, volume, startTime);
+    }
+
     public void PlaySoundEffect(int clipNum, float volume, float startTime)
     {
-        AudioSource audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.clip = soundEffectClips[clipNum];
+        AudioSource audioSource; 
+        if(clipNumToAudioSource.ContainsKey(clipNum))
+        {
+            audioSource = clipNumToAudioSource[clipNum];
+        }
+        else
+        {
+           audioSource = gameObject.AddComponent<AudioSource>();
+           clipNumToAudioSource[clipNum] = audioSource; 
+
+           audioSource.clip = soundEffectClips[clipNum];
+        }
+
         audioSource.time = startTime;
         audioSource.volume = volume; 
         audioSource.Play(); 

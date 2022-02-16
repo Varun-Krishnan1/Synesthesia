@@ -10,6 +10,9 @@ abstract public class Ship : MonoBehaviour
     public Slider healthBar;
     public float health;
     public GameObject[] cannons;
+    public AudioClip[] cannonSounds;
+    public AudioClip[] impactSounds;
+
 
     public float cannonDamage;
     public float sinkDepth;

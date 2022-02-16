@@ -12,6 +12,9 @@ public class CannonBall : MonoBehaviour
     public Color UserShipCannonColor;
     public Color EnemyShipCannonColor;
 
+    private bool activated;
+    public AudioSource source;
+
     public void SetBallForce(float force)
     {
         ballForce = force; 
@@ -22,7 +25,7 @@ public class CannonBall : MonoBehaviour
         if(other.tag == "CannonCollision")
         {
             // -- ensure it doesn't hit collider of same ship it came from 
-            if(other.gameObject.transform.parent.gameObject != ship)
+            if(!activated && other.gameObject.transform.parent.gameObject != ship)
             {
                 Color colorCloudColor; 
                 // -- if enemy ball hitting user ship 
@@ -47,8 +50,14 @@ public class CannonBall : MonoBehaviour
                     other.gameObject.transform.parent.GetComponent<Ship>().HitEffect(damage);
                 }
 
+                source.time = .3f; 
+                source.Play();
 
-                Destroy(this.gameObject);
+                // -- destroy object after 5 seconds so impact sound can still play 
+                this.GetComponent<MeshRenderer>().enabled = false; 
+                Destroy(this.gameObject, 5f);
+
+                activated = true; 
             }
 
         }

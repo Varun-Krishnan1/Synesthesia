@@ -105,6 +105,9 @@ public class StageThree : MonoBehaviour
 
     public void RetrySecondStage()
     {
+        // -- Whoosh for grabbing cannon
+        AudioManager.Instance.PlaySoundEffect(0, .5f, .12f);
+
         DOTween.Kill(GameManager.Instance.rig.gameObject); // -- remove tween on XRRig 
 
         loss_left_controller.GetComponent<HandController>().DestroySelfAndDrumstick(); 
@@ -144,18 +147,25 @@ public class StageThree : MonoBehaviour
 
     IEnumerator UnderwaterEffects()
     {
+        AudioManager.Instance.StartStageTheme(3);
+
         oldWater.SetActive(false);
         newWater.SetActive(true);
 
         yield return new WaitForSeconds(drumstickDetachmentTime);
 
-        AudioManager.Instance.StartStageTheme(3);
         loss_left_controller.GetComponent<HandController>().EnableHands();
         loss_right_controller.GetComponent<HandController>().EnableHands();
+
+        // Orca Sound 
+        yield return new WaitForSeconds(8f);
+        AudioManager.Instance.PlaySoundEffect(9, .5f, .7f);
+
+
     }
 
     ///// WIN SCENE //// 
-    
+
     public void CollectKey(int keyNumber, Color keyColor)
     {
         numKeysCollected += 1;
@@ -168,7 +178,10 @@ public class StageThree : MonoBehaviour
         treasureKey.GetComponent<Renderer>().material.SetColor("BaseColor", keyColor);
     }
 
-
+    public void EndingScene()
+    {
+        AudioManager.Instance.PlaySoundEffect(20, .5f, .65f);
+    }
     void StartWinScene()
     {
         enemyShip.gameObject.SetActive(false);

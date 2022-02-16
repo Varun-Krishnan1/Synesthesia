@@ -131,9 +131,9 @@ MonoBehaviour:
   firePoint: {fileID: 813482340823967643}
   cannonBall: {fileID: 6613739083047349668, guid: 5d1ffad8e4ce3f241984a1b05b1e1bb4, type: 3}
   cannonSounds:
-  - {fileID: 8300000, guid: eb81951c4d5d6524eb02b273c9c4ae23, type: 3}
-  - {fileID: 8300000, guid: 1694d6973c0e0a840ac646bf02e2f784, type: 3}
-  - {fileID: 8300000, guid: 59ca2b15e83b0984c99a0d4e8807c8d6, type: 3}
+  - {fileID: 8300000, guid: 60174c1c721dc8645aa618eedea1077a, type: 3}
+  - {fileID: 8300000, guid: 36d0b2cce2f9d9544a280ebaa9e79d89, type: 3}
+  - {fileID: 8300000, guid: b856b56ab51d19d4889956697f1d738c, type: 3}
   cannonBallForce: 100
   damage: 2
   colorCloudScale: 10

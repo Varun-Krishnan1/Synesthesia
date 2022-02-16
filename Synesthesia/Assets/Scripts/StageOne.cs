@@ -50,7 +50,8 @@ public class StageOne : MonoBehaviour
     private bool beatVisualizer = false;
     private bool approachingEnemy = false;
     private float slowTime;
-    private float slowSpeedIntervalTime; 
+    private float slowSpeedIntervalTime;
+    private bool startingNextStage; 
 
     private void Awake()
     {
@@ -90,6 +91,7 @@ public class StageOne : MonoBehaviour
 
         foreach (GameObject s in shipParts)
         {
+            AudioManager.Instance.PlayDissolveSoundEffect(.5f, 0f);
             s.SetActive(true);
             yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
         }
@@ -162,11 +164,12 @@ public class StageOne : MonoBehaviour
             
         }
 
-        // -- end of stage 1 
-        if(approachingEnemy && moveSpeed == 0)
+        // -- ensure it's not called multiple times 
+        if (approachingEnemy && moveSpeed == 0 && !startingNextStage)
         {
             Debug.Log("Stage One Over!");
             StartCoroutine(NextStage());
+            startingNextStage = true;
         }
     }
 
@@ -174,6 +177,7 @@ public class StageOne : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         GameManager.Instance.NextStage();
+        
     }
 
     void FixedUpdate()

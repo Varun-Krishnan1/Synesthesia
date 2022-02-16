@@ -25,6 +25,7 @@ public class DissolveIn : MonoBehaviour
 
     IEnumerator Lerp()
     {
+
         float timeElapsed = 0;
 
         while (timeElapsed < lerpDuration)

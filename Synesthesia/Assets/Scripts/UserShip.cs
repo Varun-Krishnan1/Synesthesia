@@ -30,7 +30,7 @@ public class UserShip : Ship
         foreach (Transform child in cannons[randNum].transform)
         {
             child.GetComponent<Cannon>().damage = cannonDamage;
-            child.GetComponent<Cannon>().Fire();
+            child.GetComponent<Cannon>().Fire(cannonSounds[Random.Range(0, cannonSounds.Length - 1)], impactSounds[Random.Range(0, impactSounds.Length - 1)]);
         }
     }
 
@@ -40,7 +40,7 @@ public class UserShip : Ship
         foreach (Transform child in cannons[randNum].transform)
         {
             child.GetComponent<Cannon>().damage = comboCannonDamage;
-            child.GetComponent<Cannon>().Fire();
+            child.GetComponent<Cannon>().Fire(cannonSounds[Random.Range(0, cannonSounds.Length - 1)], impactSounds[Random.Range(0, impactSounds.Length - 1)]);
         }
     }
 
@@ -67,13 +67,14 @@ public class UserShip : Ship
     }
     protected override void Sink()
     {
+        AudioManager.Instance.PlaySoundEffect(8, .5f, .2f);
         StartCoroutine(SinkCoroutine());
     }
 
     IEnumerator SinkCoroutine()
     {
         // -- give some time after user health goes down to
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         StageTwo.Instance.StageOver(win: false);
     }
 }

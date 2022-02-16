@@ -13,6 +13,7 @@ public class EnemyShip : Ship
 
     public bool activated;
 
+
     private float startDelayInBeats;
     void Start()
     {
@@ -64,12 +65,13 @@ public class EnemyShip : Ship
         foreach (Transform child in cannons[randNum].transform)
         {
             child.GetComponent<Cannon>().damage = cannonDamage; 
-            child.GetComponent<Cannon>().Fire(); 
+            child.GetComponent<Cannon>().Fire(cannonSounds[Random.Range(0, cannonSounds.Length - 1)], impactSounds[Random.Range(0, impactSounds.Length - 1)]); 
         }
     }
 
     protected override void Sink()
     {
+        AudioManager.Instance.PlaySoundEffect(8, .5f, .2f);
         StartCoroutine(SinkCoroutine()); 
     }
 

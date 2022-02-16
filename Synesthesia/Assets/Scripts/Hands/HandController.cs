@@ -89,7 +89,10 @@ public class HandController : MonoBehaviour
             hand.gameObject.SetActive(false);
 
             drumstickAttachedOnce = true;
+
+            AudioManager.Instance.PlaySoundEffect(0, 0.5f, .12f);
         }
+
     }
 
     public void DestroySelfAndDrumstick()
@@ -109,18 +112,6 @@ public class HandController : MonoBehaviour
         }
     }
 
-    //public void ResetDrumsticks()
-    //{
-    //    drumstick.transform.parent = this.transform; // -- reparent to this controller 
-
-
-    //    // -- reset variables so hands can be enabled again later 
-    //    hand.gameObject.SetActive(false);
-    //    this.GetComponent<XRDirectInteractor>().enabled = false;
-    //    this.isActive = false; 
-
-    //    drumstickDropped = false; 
-    //}
 
     public void EnableHands()
     {
