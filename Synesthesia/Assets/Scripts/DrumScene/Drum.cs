@@ -36,7 +36,7 @@ public class Drum : MonoBehaviour
     private bool drumIsActive;
     private bool scaleInProgress = false; 
 
-    private float originalH, originalS, originalV; 
+    private float originalH, originalS, originalV;
 
     // Start is called before the first frame update
     void Start()
@@ -207,7 +207,7 @@ public class Drum : MonoBehaviour
 
         if(spawnNote)
         {
-            SpawnNote(false, false, -1);
+            SpawnNote(false, false, -1, -1);
             spawnNote = false; 
         }
     }
@@ -266,7 +266,7 @@ public class Drum : MonoBehaviour
         
     }
 
-    public void SpawnNote(bool isComboNote, bool isLastComboNote, int doubleNoteSymbol)
+    public void SpawnNote(bool isComboNote, bool isLastComboNote, int curNumberInCombo, int doubleNoteSymbol)
     {
         Quaternion rotation = note.transform.rotation; 
 
@@ -276,20 +276,22 @@ public class Drum : MonoBehaviour
         }
 
         GameObject tempNote = Instantiate(note, transform.position + noteSpawnOffset, rotation);
-        Color noteColor = Color.HSVToRGB(originalH, originalS, originalV);
-        noteColor.a = .69f;
         Note tempNoteComponent = tempNote.GetComponent<Note>();
 
-        tempNote.GetComponent<Renderer>().material.SetColor("_BaseColor", noteColor);
+        Color noteColor = Color.HSVToRGB(originalH, originalS, originalV);
+        noteColor.a = .69f;
+        tempNoteComponent.noteColor = noteColor; 
 
         tempNoteComponent.isComboNote = isComboNote;
         tempNoteComponent.isLastComboNote = isLastComboNote;
 
-        if(doubleNoteSymbol != -1)
+        if(isComboNote)
         {
-            GameObject symbol = tempNote.transform.GetChild(doubleNoteSymbol).gameObject;
-            symbol.SetActive(true);
-            symbol.GetComponent<Renderer>().material.SetColor("Base_Color", tempNoteComponent.doubleNoteColors[doubleNoteSymbol]);
+            tempNoteComponent.curNumberInCombo = curNumberInCombo;
+        }
+        if (doubleNoteSymbol != -1)
+        {
+            tempNoteComponent.doubleNoteSymbol = doubleNoteSymbol; 
         }
 
         //tempNote.transform.parent = this.transform.parent; 

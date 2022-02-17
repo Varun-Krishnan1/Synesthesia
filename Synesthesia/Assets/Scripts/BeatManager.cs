@@ -30,6 +30,7 @@ public class BeatManager : MonoBehaviour
     public float secPerBeat;
 
     private float nextBeat;
+    private int curNumberInCombo = 1; 
     private int curDoubleNoteSymbol; 
 
     private static BeatManager _instance;
@@ -82,7 +83,7 @@ public class BeatManager : MonoBehaviour
                 //if (songPosition > nextPlayTime)
                 if(numBeats % normalBeatPlayedOn == 0)
                 {
-                    curDrum.SpawnNote(isComboNote: false, isLastComboNote: false, doubleNoteSymbol: -1);
+                    curDrum.SpawnNote(isComboNote: false, isLastComboNote: false, curNumberInCombo: -1, doubleNoteSymbol: -1);
 
                     if (curDrum == snare)
                     {
@@ -122,11 +123,12 @@ public class BeatManager : MonoBehaviour
                             // -- Index of last note 
                             if(curIndexInCombo == stageTwoCombos[curComboIndex].Length - 1)
                             {
-                                stringToDrumType[curDrumChar].SpawnNote(isComboNote: true, isLastComboNote: true, doubleNoteSymbol: doubleNoteSymbol);
+                                stringToDrumType[curDrumChar].SpawnNote(isComboNote: true, isLastComboNote: true, curNumberInCombo: curNumberInCombo, doubleNoteSymbol: doubleNoteSymbol);
                                 inCombo = false;
                                 curComboIndex += 1;
                                 curComboTimeIndex += 1;
                                 curIndexInCombo = 0;
+                                curNumberInCombo = 1; 
                                 break;
                             }
                             // -- Not last note 
@@ -144,7 +146,7 @@ public class BeatManager : MonoBehaviour
                                 }
 
                                 // -- this will automatically set second double note symbol as well 
-                                stringToDrumType[curDrumChar].SpawnNote(isComboNote: true, isLastComboNote: false, doubleNoteSymbol: doubleNoteSymbol);
+                                stringToDrumType[curDrumChar].SpawnNote(isComboNote: true, isLastComboNote: false, curNumberInCombo: curNumberInCombo, doubleNoteSymbol: doubleNoteSymbol);
                                 curIndexInCombo += 1;
                             }
                             curDrumChar = stageTwoCombos[curComboIndex][curIndexInCombo];
@@ -154,13 +156,14 @@ public class BeatManager : MonoBehaviour
                         if(inCombo)
                         {
                             curIndexInCombo += 1; // -- so doesn't start on ' ' next beat 
+                            curNumberInCombo += 1; 
                         }  
                     }
                 }
 
                 else if(numBeats % normalBeatPlayedOn == 0)
                 {
-                    curDrum.SpawnNote(isComboNote: false, isLastComboNote: false, doubleNoteSymbol: -1);
+                    curDrum.SpawnNote(isComboNote: false, isLastComboNote: false, curNumberInCombo: -1, doubleNoteSymbol: -1);
 
                     if (curDrum == snare)
                     {
