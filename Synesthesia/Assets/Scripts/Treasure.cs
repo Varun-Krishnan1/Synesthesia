@@ -5,13 +5,15 @@ using UnityEngine;
 public class Treasure : MonoBehaviour
 {
     public ChestLid chestLid;
+    public GameObject rewardDrumsticks; 
+
     public void CheckKeys()
     {
         if(StageThree.Instance.numKeysCollected == 3)
         {
             StageThree.Instance.treasureKeyDrawings.SetActive(false);
             chestLid.gameObject.GetComponent<Animator>().enabled = true;
-            StageThree.Instance.EndingScene(); 
+            StageThree.Instance.EndingScene();
         }
     }
 
@@ -19,8 +21,6 @@ public class Treasure : MonoBehaviour
     public void OpeningAnimationFinished()
     {
         chestLid.gameObject.GetComponent<Animator>().enabled = false;
-
-        // -- Win! 
-
+        rewardDrumsticks.SetActive(true);
     }
 }

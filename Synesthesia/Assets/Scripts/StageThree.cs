@@ -26,13 +26,18 @@ public class StageThree : MonoBehaviour
     public float sinkTime;
     public float drumstickDetachmentTime;
     [Header("Win Scenario")]
+    public GameObject orca; 
+    public GameObject bottleFishSpawner; 
     public GameObject keyDrawings;
     public GameObject treasureKeyDrawings; 
     public int numKeysCollected;
     public GameObject win_left_controller;
     public GameObject win_right_controller;
     public GameObject loss_left_controller;
-    public GameObject loss_right_controller; 
+    public GameObject loss_right_controller;    
+    public GameObject reward_left_controller;
+    public GameObject reward_right_controller;
+    public int numDrumsticksPickedUp; 
 
     private Camera camera;
 
@@ -178,12 +183,45 @@ public class StageThree : MonoBehaviour
         treasureKey.GetComponent<Renderer>().material.SetColor("BaseColor", keyColor);
     }
 
-    public void EndingScene()
-    {
-        AudioManager.Instance.PlaySoundEffect(20, .5f, .65f);
-    }
     void StartWinScene()
     {
         enemyShip.gameObject.SetActive(false);
+    }
+
+    public void EndingScene()
+    {
+        AudioManager.Instance.PlaySoundEffect(20, .5f, .65f); // -- sparkle effect
+        
+        // -- compass to hands 
+        win_left_controller.SetActive(false);
+        win_right_controller.SetActive(false);
+
+        //loss_left_controller.SetActive(true);
+        //loss_left_controller.GetComponent<HandController>().EnableHandsReward(); 
+
+        //loss_right_controller.SetActive(true);
+        //loss_right_controller.GetComponent<HandController>().EnableHandsReward(); 
+
+        reward_left_controller.SetActive(true);
+        reward_right_controller.SetActive(true);
+
+        reward_left_controller.transform.parent = rig.transform;
+        reward_right_controller.transform.parent = rig.transform;
+
+        //loss_left_controller.transform.parent = rig.transform;
+        //loss_right_controller.transform.parent = rig.transform;
+
+    }
+    public void DrumsticksGrabbed()
+    {
+        // -- transition to credits 
+        Debug.Log("CREDITS!");
+
+        // -- orca is on dontdestroyonload scene so player transform change 
+        // -- still allows rig to be in dontdestroyonload hence, the orca 
+        // -- must be turned inactive for credits 
+        orca.SetActive(false); 
+
+        GameManager.Instance.NextStage(); 
     }
 }

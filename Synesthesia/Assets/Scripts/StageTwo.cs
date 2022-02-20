@@ -21,6 +21,8 @@ public class StageTwo : MonoBehaviour
     public Transform newDrumPosition; 
     public float drumLerpDuration;
     public float drumPauseTimeOffset;
+    public GameObject tutorialImage; 
+    public float tutorialShowDuration; 
     public float maxWave1Scale;
     public float wave1ScaleProgression; 
     public float maxWave1Speed;
@@ -87,6 +89,13 @@ public class StageTwo : MonoBehaviour
             d.Dissolve(); 
         }
 
+        yield return new WaitForSeconds(drumLerpDuration);
+
+        tutorialImage.SetActive(true);
+
+        yield return new WaitForSeconds(tutorialShowDuration);
+
+        tutorialImage.SetActive(false); 
     }
 
     public void StartGameplayLoop()

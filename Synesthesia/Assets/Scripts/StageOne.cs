@@ -89,17 +89,26 @@ public class StageOne : MonoBehaviour
 
         SpawnWaterAndTerrain();
 
+        int objectToStartBeat = 3;
+        int counter = 0; 
         foreach (GameObject s in shipParts)
         {
             AudioManager.Instance.PlayDissolveSoundEffect(.5f, 0f);
             s.SetActive(true);
             yield return new WaitForSeconds(s.GetComponent<DissolveIn>().lerpDuration);
+
+            counter += 1; 
+            if(counter == objectToStartBeat)
+            {
+                beatVisualizer = true;
+                BeatManager.Instance.Activate();
+            }
         }
 
         yield return new WaitForSeconds(2f);
 
-        beatVisualizer = true;
-        BeatManager.Instance.Activate();
+        //beatVisualizer = true;
+        //BeatManager.Instance.Activate();
     }
 
     void SpawnWaterAndTerrain()
@@ -217,11 +226,19 @@ public class StageOne : MonoBehaviour
         // -- give boat speed required to come to stop after certain distance 
         MoveShip(boatTargetSpeed);
 
-        ship.Shake(); 
         slowTime = Time.time;
         slowSpeedIntervalTime = slowSpeedInterval; 
         approachingEnemy = true;
-        BeatManager.Instance.normalBeatPlayedOn = BeatManager.Instance.normalBeatPlayedOn * 2f; 
+        BeatManager.Instance.normalBeatPlayedOn = BeatManager.Instance.normalBeatPlayedOn * 2f;
+
+        StartCoroutine(TurnOffBeatManager());
+    }
+
+    IEnumerator TurnOffBeatManager()
+    {
+        yield return new WaitForSeconds(15f);
+
+        BeatManager.Instance.activated = false; 
     }
 
     // -- to ensure it doesn't overshoot target 

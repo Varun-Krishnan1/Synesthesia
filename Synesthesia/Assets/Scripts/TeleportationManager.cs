@@ -112,6 +112,7 @@ public class TeleportationManager : MonoBehaviour
         {
             AudioManager.Instance.StartStageTheme(3);
             AudioManager.Instance.PlaySoundEffect(18, .5f, .22f);
+            StageThree.Instance.bottleFishSpawner.SetActive(true); 
         }
 
 

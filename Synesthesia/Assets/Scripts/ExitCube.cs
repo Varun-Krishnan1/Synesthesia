@@ -7,7 +7,6 @@ public class ExitCube : ActionItem
 
     public override void DoAction()
     {
-        Debug.Log("User has quit!");
-        Application.Quit();
+        GameManager.Instance.QuitGame(); 
     }
 }

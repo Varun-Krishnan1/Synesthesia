@@ -53,14 +53,14 @@ public class DrumStick : MonoBehaviour
 
     public void AttachToParent()
     {
-        Debug.Log("AttachToParent()");
-        waitFor = 0.01f;
-        attaching = true;
+        //Debug.Log("AttachToParent()");
+        //waitFor = 0.01f;
+        //attaching = true;
 
-        Destroy(this.transform.parent.gameObject.GetComponent<XRGrabInteractable>());
-        // Lose stuff added to it by Interactor in SelectEntered
-        Destroy(this.transform.parent.gameObject.GetComponent<Rigidbody>());
-        Destroy(this.transform.parent.gameObject.GetComponent<BoxCollider>());
+        //Destroy(this.transform.parent.gameObject.GetComponent<XRGrabInteractable>());
+        //// Lose stuff added to it by Interactor in SelectEntered
+        //Destroy(this.transform.parent.gameObject.GetComponent<Rigidbody>());
+        //Destroy(this.transform.parent.gameObject.GetComponent<BoxCollider>());
 
     }
 }

@@ -24,6 +24,19 @@ public class TextManager : MonoBehaviour
         }
     }
 
+    public void DisplayImage(int imageNum, float showDuration)
+    {
+        StartCoroutine(DisplayImageCoroutine(imageNum, showDuration));
+    }
+
+    IEnumerator DisplayImageCoroutine(int imageNum, float showDuration)
+    {
+        this.transform.GetChild(imageNum).gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(showDuration);
+
+        this.transform.GetChild(imageNum).gameObject.SetActive(false);
+    }
     public void ClearText()
     {
         textDisplay.text = ""; 

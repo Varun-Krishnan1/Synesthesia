@@ -78,6 +78,10 @@ public class VisualManager : MonoBehaviour
         {
             StageTwo.Instance.DrumHit(drum);
         }
+        if(gameStage == 4)
+        {
+            DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumType);
+        }
     }
 
     public Gradient drumTypeToColor(Drum.drumTypes drumType)

@@ -12,7 +12,7 @@ public class StageZero : MonoBehaviour
 
     public bool testing = false; 
 
-    [Header("Stage 0 Locations")]
+    [Header("Stage 0 and 4 Locations")]
     public Transform blueLocation;
     public Transform greenLocation;
     public Transform orangeLocation;
@@ -20,12 +20,9 @@ public class StageZero : MonoBehaviour
     public Transform pinkLocation;
     public Transform yellowLocation;
 
-    public int[] levelProgressions;
-
     [Header("Stage 0 Objects")]
     public GameObject drumset; 
     public GameObject drumsticks;
-    public Slider progressBar;
     public GameObject turnAroundObjects;
 
     public GameObject firstImage;
@@ -43,6 +40,19 @@ public class StageZero : MonoBehaviour
     public float timingFour;
 
     public int numDrumsticksPickedUp;
+
+    [Header("Stage 4 Objects")]
+    public GameObject firstCreditsImage;
+    public GameObject secondCreditsImage;
+    public GameObject thirdCreditsImage;
+    public GameObject exitDrum; 
+
+    public float creditsTimingOne;
+    public float creditsTimingTwo;
+    public float creditsTimingTwoPause;
+    public float creditsTimingThreePause;
+    public float creditsTimingThree;
+    public float creditsTimingFour;
 
     private Dictionary<Drum.drumTypes, Transform> drumTypeToLocationDict = new Dictionary<Drum.drumTypes, Transform>();
 
@@ -77,16 +87,21 @@ public class StageZero : MonoBehaviour
         drumTypeToLocationDict.Add(Drum.drumTypes.Kick, redLocation);
         drumTypeToLocationDict.Add(Drum.drumTypes.HiHat, yellowLocation);
 
-        progressBar.maxValue = levelProgressions[0];
+        if(GameManager.Instance.gameStage == 0)
+        {
+            turnAroundObjects.SetActive(true);
+            drumset.SetActive(false);
+        }
+        else if(GameManager.Instance.gameStage == 4)
+        {
+            // -- Reset position from treasure chest to back in front of drums
+            GameManager.Instance.rig.transform.position = GameManager.Instance.stageTwoRigPosition;
 
-        turnAroundObjects.SetActive(true);
-        drumset.SetActive(false); 
-
-        // -- ensure other objects are hidden 
-        // progressBar.transform.parent.gameObject.SetActive(false);
-        // drumsticks.SetActive(false);
+            StartCoroutine(StartCreditsScene());
+        }
     }
 
+    // -- called by drumsticks grabbed function below 
     IEnumerator StartScene()
     {
         // -- don't play music till drumsticks are picked up 
@@ -94,35 +109,60 @@ public class StageZero : MonoBehaviour
 
         yield return new WaitForSeconds(timingOne);
 
-        firstImage.SetActive(true);
+        TextManager.Instance.DisplayImage(0, timingTwo);
 
-        yield return new WaitForSeconds(timingTwo);
-
-        firstImage.SetActive(false);
+        yield return new WaitForSeconds(timingTwo); 
 
         yield return new WaitForSeconds(timingTwoPause);
 
-        secondImage.SetActive(true);
-        letters.SetActive(true); 
+        TextManager.Instance.DisplayImage(1, timingThree);
+
+        letters.SetActive(true);
 
         yield return new WaitForSeconds(timingThree);
 
-        secondImage.SetActive(false);
-        letters.SetActive(false); 
+        letters.SetActive(false);
 
         yield return new WaitForSeconds(timingThreePause);
 
-        thirdImage.SetActive(true);
+        TextManager.Instance.DisplayImage(2, timingFour);
+
         fishSpawner.SetActive(true);
         AudioManager.Instance.PlaySoundEffect(2, .5f, .25f);
 
         yield return new WaitForSeconds(timingFour);
-        
-        thirdImage.SetActive(false);
+
         Destroy(fishSpawner); // -- this destroys all fish as well since the fish are children
-        
+
         GameManager.Instance.NextStage();
     }
+
+    IEnumerator StartCreditsScene()
+    {
+        AudioManager.Instance.StartStageTheme(0);
+        fishSpawner.SetActive(true);
+        AudioManager.Instance.PlaySoundEffect(2, .5f, .25f); // -- fish splash
+
+        yield return new WaitForSeconds(creditsTimingOne);
+
+        TextManager.Instance.DisplayImage(3, creditsTimingTwo);
+
+        yield return new WaitForSeconds(creditsTimingTwo); 
+        yield return new WaitForSeconds(creditsTimingTwoPause);
+
+        TextManager.Instance.DisplayImage(4, creditsTimingThree);
+
+        yield return new WaitForSeconds(creditsTimingThree);
+        yield return new WaitForSeconds(timingThreePause);
+
+        TextManager.Instance.DisplayImage(5, creditsTimingFour);
+
+        yield return new WaitForSeconds(creditsTimingFour);
+
+        exitDrum.SetActive(true); 
+
+    }
+
 
     public int GetLevel()
     {
@@ -137,6 +177,8 @@ public class StageZero : MonoBehaviour
             testing = false; 
         }
     }
+
+    // -- called by hand controller when both drumsticks are picked up 
     public void DrumsticksGrabbed()
     {
         drumset.SetActive(true); 

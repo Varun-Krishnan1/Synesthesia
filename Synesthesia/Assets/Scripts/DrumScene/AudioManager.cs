@@ -80,6 +80,7 @@ public class AudioManager : MonoBehaviour
         else if(stage == 3)
         {
             mainThemeEffects.clip = mainThemeEffectsClips[1];
+            mainThemeEffects.volume = .3f;
             mainThemeEffects.Play();
 
             mainTheme.clip = mainThemeClips[2];
@@ -87,6 +88,15 @@ public class AudioManager : MonoBehaviour
 
             //Calculate the number of seconds in each beat
             secPerBeat = 60f / songBpm;
+        }
+        else if (stage == 4)
+        {
+            mainThemeEffects.Stop();
+
+            mainTheme.clip = mainThemeClips[0];
+            // mainTheme.time = 20f;
+
+            mainTheme.Play();
         }
 
 

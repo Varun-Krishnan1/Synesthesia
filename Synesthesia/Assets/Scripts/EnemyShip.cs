@@ -77,6 +77,8 @@ public class EnemyShip : Ship
 
     IEnumerator SinkCoroutine()
     {
+        BeatManager.Instance.activated = false;
+
         this.transform.DOMoveY(transform.position.y - sinkDepth, sinkTime);
 
         yield return new WaitForSeconds(sinkTime);

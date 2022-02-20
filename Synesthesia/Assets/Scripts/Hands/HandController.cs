@@ -12,8 +12,6 @@ public class HandController : MonoBehaviour
 
     public bool enableHands; 
 
-    public bool drumstickAttachedOnce;
-    public bool interactorDestroyedOnce;
     public bool drumstickDropped; 
     private bool isActive = true;
 
@@ -44,15 +42,40 @@ public class HandController : MonoBehaviour
 
         if(attachDrumstickBool)
         {
-            attachDrumstickBool = false;
-            TestAttachDrumstick(); 
+            StageZero.Instance.numDrumsticksPickedUp += 1;
+
+            if (StageZero.Instance.numDrumsticksPickedUp == 2)
+            {
+                kick.playOnButtonPress = true;
+                StageZero.Instance.DrumsticksGrabbed();
+            }
         }
     }
 
-    // -- TEMPORARY FUNCTION FOR TESTING ONLY!! 
-    void TestAttachDrumstick()
+    IEnumerator AttachAfterDelay(DrumStick drumstick)
     {
-        if (!drumstickAttachedOnce)
+        yield return new WaitForSeconds(.1f);
+        drumstick.transform.parent.parent = this.transform;
+        Destroy(drumstick.transform.parent.gameObject.GetComponent<XRGrabInteractable>());
+        DisableInteractor(); 
+
+    }
+    public void AttachDrumstick(DrumStick drumstick)
+    {
+        AudioManager.Instance.PlaySoundEffect(0, 0.5f, .12f);
+
+        drumstick.GetComponentInChildren<DrumStick>().controller = controller;
+
+        // Lose stuff added to it by Interactor in SelectEntered
+        Destroy(drumstick.transform.parent.gameObject.GetComponent<Rigidbody>());
+        Destroy(drumstick.transform.parent.gameObject.GetComponent<BoxCollider>());
+
+        // -- have to actually parent it after delay so it stays on grab target first 
+        StartCoroutine(AttachAfterDelay(drumstick));
+
+        hand.gameObject.SetActive(false);
+
+        if (GameManager.Instance.gameStage == 0)
         {
             StageZero.Instance.numDrumsticksPickedUp += 1;
 
@@ -62,37 +85,19 @@ public class HandController : MonoBehaviour
                 kick.playOnButtonPress = true;
                 StageZero.Instance.DrumsticksGrabbed();
             }
-
-            hand.gameObject.SetActive(false);
-
-            drumstickAttachedOnce = true;
         }
-
-        AudioManager.Instance.PlaySoundEffect(0, 0.5f, .12f);
-    }
-    public void AttachDrumstick()
-    {
-        if(!drumstickAttachedOnce)
+        else if(GameManager.Instance.gameStage == 3)
         {
-            StageZero.Instance.numDrumsticksPickedUp += 1;
+            //this.GetComponent<XRDirectInteractor>().enabled = false;
+            //this.isActive = false;
 
-            drumstick = this.GetComponent<XRDirectInteractor>().selectTarget.gameObject; // -- sets class variable too
-            drumstick.GetComponentInChildren<DrumStick>().controller = controller;
-
+            StageThree.Instance.numDrumsticksPickedUp += 1;
             // ensure both drumsticks are picked up
-            if (StageZero.Instance.numDrumsticksPickedUp == 2)
+            if (StageThree.Instance.numDrumsticksPickedUp == 2)
             {
-                kick.playOnButtonPress = true;
-                StageZero.Instance.DrumsticksGrabbed(); 
+                StageThree.Instance.DrumsticksGrabbed();
             }
-
-            hand.gameObject.SetActive(false);
-
-            drumstickAttachedOnce = true;
-
-            AudioManager.Instance.PlaySoundEffect(0, 0.5f, .12f);
         }
-
     }
 
     public void DestroySelfAndDrumstick()
@@ -101,15 +106,10 @@ public class HandController : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public void DestroyInteractor()
+    public void DisableInteractor()
     {
-        if(!interactorDestroyedOnce)
-        {
-            this.GetComponent<XRDirectInteractor>().enabled = false;
-            this.isActive = false;
-
-            interactorDestroyedOnce = true;
-        }
+        this.GetComponent<XRDirectInteractor>().enabled = false;
+        this.isActive = false;
     }
 
 
@@ -124,6 +124,15 @@ public class HandController : MonoBehaviour
         this.isActive = true;
 
         drumstickDropped = true; 
+    }
+
+    public void EnableHandsReward()
+    {
+        Destroy(drumstick); 
+
+        hand.gameObject.SetActive(true);
+        this.GetComponent<XRDirectInteractor>().enabled = true;
+        this.isActive = true;
     }
 
     public void ToggleVisibility()
@@ -145,6 +154,14 @@ public class HandController : MonoBehaviour
             {
                 actionItem.DoAction();
             }
+
+            DrumStick drumstick = selectTarget.gameObject.GetComponentInChildren<DrumStick>(); 
+            if(drumstick)
+            {
+                AttachDrumstick(drumstick); 
+            }
+
+
             //else
             //{
             //    Rigidbody r = selectTarget.gameObject.GetComponent<Rigidbody>(); 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using DG.Tweening;
-
+using System.Collections;
 
 public class Drum : MonoBehaviour
 {
@@ -13,12 +13,13 @@ public class Drum : MonoBehaviour
     public ActionBasedController right_controller;
     public float saturationChangeOnCorrectHit;
     public GameObject note;
+    public bool isExitDrum;
 
     [Header("Notes")]
     public Vector3 noteSpawnOffset; 
     public float leewayTime;
     public bool hit;
-    public bool spawnNote; 
+    public bool spawnNote;
 
     private bool hasNote;
     private Note noteComponent; 
@@ -86,6 +87,7 @@ public class Drum : MonoBehaviour
             float vibrationIntensity = drumstick.GetSpeed() / 25;
             drumstick.SendHapticImpulse(vibrationIntensity, .25f);
         }
+
         // make sure drumstick hitting from above only for all drums besides kick
         else if ((drumstick.gameObject.transform.position.y > this.transform.position.y))
         {
@@ -94,9 +96,16 @@ public class Drum : MonoBehaviour
 
             // VISUAL 
             ScaleDrum();
+
+            // -- No visual change for exit drum 
+            if (isExitDrum)
+            {
+                StartCoroutine(ExitScene()); 
+            }
+
             RequestVisualChange();
 
-            if(hasNote)
+            if (hasNote)
             {
                 StartCoroutine(CorrectHitEffect(.15f));
                 drumstick.SendHapticImpulse(.75f, .25f);
@@ -111,6 +120,18 @@ public class Drum : MonoBehaviour
 
 
         }
+    }
+
+    public IEnumerator ExitScene()
+    {
+        foreach (drumTypes drumType in (drumTypes[]) System.Enum.GetValues(typeof(drumTypes)))
+        {
+            VisualManager.Instance.DrawColorSplash(StageZero.Instance.drumTypeToLocation(drumType), drumType);
+        }
+
+        yield return new WaitForSeconds(.5f);
+
+        GameManager.Instance.QuitGame(); 
     }
 
     void ScaleDrum()

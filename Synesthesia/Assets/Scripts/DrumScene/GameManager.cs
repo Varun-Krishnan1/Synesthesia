@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     
     private enum Scene
     {
-        Stage0_1, Stage2, Stage3
+        Stage0_1, Stage2, Stage3, Stage4
     }
 
     public void RetrySecondStage()
@@ -111,6 +111,10 @@ public class GameManager : MonoBehaviour
         {
             NextScene(); 
         }
+        else if(gameStage == 4)
+        {
+            NextScene();
+        }
     }
 
     public void ThirdStage(bool win)
@@ -130,5 +134,21 @@ public class GameManager : MonoBehaviour
             NextStage();
             nextStage = false; 
         }
+    }
+
+    public void QuitGame()
+    {
+        StartCoroutine(QuitGameCoroutine()); 
+
+    }
+
+    IEnumerator QuitGameCoroutine()
+    {
+        Debug.Log("User has quit!");
+
+        crossFade.StartAnimation();
+        yield return new WaitForSeconds(crossFade.transitionAnimationTime);
+
+        Application.Quit();
     }
 }
