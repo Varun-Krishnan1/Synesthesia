@@ -57,6 +57,8 @@ abstract public class Ship : MonoBehaviour
         if(health <= 0 && !isSinking)
         {
             Debug.Log("SINK!");
+            BeatManager.Instance.activated = false;
+
             Sink();
             isSinking = true; 
         }

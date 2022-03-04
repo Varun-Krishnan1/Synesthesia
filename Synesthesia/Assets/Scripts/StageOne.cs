@@ -22,6 +22,7 @@ public class StageOne : MonoBehaviour
     [Header("Scene Transition")]
     public Material newSkybox;
     public Light directionalLight;
+    public Transform newDirectionalLightRotation; 
     public GameObject oldFloor; 
 
     [Header("General")]
@@ -74,6 +75,7 @@ public class StageOne : MonoBehaviour
 
         RenderSettings.skybox = newSkybox;
         directionalLight.gameObject.SetActive(true);
+        directionalLight.transform.rotation = newDirectionalLightRotation.rotation; 
         RenderSettings.sun = directionalLight;
 
         oldFloor.GetComponent<DissolveIn>().Dissolve(); 

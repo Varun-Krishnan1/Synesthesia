@@ -18,7 +18,8 @@ public class TeleportationManager : MonoBehaviour
 
     private XRRig rig; 
     private TeleportationAnchor currentAnchor;
-    private bool onOrca; 
+    private bool onOrca;
+    private bool beenAtBottle = false; 
 
     void Awake()
     {
@@ -107,12 +108,19 @@ public class TeleportationManager : MonoBehaviour
         //};
 
         //provider.QueueTeleportRequest(request);
+        TeleportationCannon cannon = hit.transform.GetComponent<TeleportationCannon>();
+        if(cannon)
+        {
+            cannon.HideArrow(); 
+        }
+
         TeleportationBottle bottle = hit.transform.GetComponent<TeleportationBottle>();
-        if(bottle)
+        if(bottle && !beenAtBottle)
         {
             AudioManager.Instance.StartStageTheme(3);
             AudioManager.Instance.PlaySoundEffect(18, .5f, .22f);
-            StageThree.Instance.bottleFishSpawner.SetActive(true); 
+            StageThree.Instance.bottleFishSpawner.SetActive(true);
+            beenAtBottle = true; 
         }
 
 
