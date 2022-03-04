@@ -17,7 +17,7 @@ MonoBehaviour:
   SharedDepthBuffer: 1
   DashSupport: 1
   V2Signing: 1
-  LowOverheadMode: 0
+  LowOverheadMode: 1
   ProtectedContext: 0
   FocusAware: 1
   OptimizeBufferDiscards: 1
@@ -25,4 +25,4 @@ MonoBehaviour:
   SubsampledLayout: 0
   TargetQuest: 1
   TargetQuest2: 1
-  SystemSplashScreen: {fileID: 0}
+  SystemSplashScreen: {fileID: 2800000, guid: 3711c2bddaa407043b0441c592551e80, type: 3}
