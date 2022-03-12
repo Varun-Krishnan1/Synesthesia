@@ -107,6 +107,12 @@ public class TeleportationManager : MonoBehaviour
         //};
 
         //provider.QueueTeleportRequest(request);
+        TeleportationCannon cannon = hit.transform.GetComponent<TeleportationCannon>();
+        if (cannon)
+        {
+            cannon.HideArrow();
+        }
+
         TeleportationBottle bottle = hit.transform.GetComponent<TeleportationBottle>();
         if(bottle)
         {
